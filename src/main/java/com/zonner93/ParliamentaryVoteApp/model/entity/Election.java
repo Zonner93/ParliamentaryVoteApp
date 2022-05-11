@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -18,8 +19,8 @@ public class Election {
     @ManyToMany(targetEntity = Candidate.class,
                 fetch = FetchType.LAZY)
     private List<Candidate> candidateList;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private String startDate;
+    private String endDate;
     @OneToMany(fetch = FetchType.LAZY)
-    private List<VoteResults> voteResults;
+    private List<VoteResults> voteResults = new ArrayList<>();
 }
