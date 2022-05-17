@@ -30,7 +30,7 @@ public class ElectionController {
 
     @GetMapping
     public List<Election> getElectionListByNameContaining(@RequestParam String name) {
-        return electionService.getAllElectionByName(name);
+        return electionService.getElectionListByName(name);
     }
 
     @DeleteMapping(path = "/{id}")

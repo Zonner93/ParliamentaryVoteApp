@@ -25,7 +25,7 @@ public class ElectionServiceImpl implements ElectionService {
     }
 
     @Override
-    public List<Election> getAllElectionByName(String name) {
+    public List<Election> getElectionListByName(String name) {
         return electionRepository.findAllByNameContaining(name);
     }
 
