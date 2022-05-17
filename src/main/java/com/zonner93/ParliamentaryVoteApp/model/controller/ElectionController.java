@@ -35,6 +35,6 @@ public class ElectionController {
 
     @DeleteMapping(path = "/{id}")
     public void deleteElectionById(@PathVariable long id) {
-
+        electionService.deleteElectionById(id);
     }
 }

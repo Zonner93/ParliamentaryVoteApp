@@ -1,6 +1,8 @@
 package com.zonner93.ParliamentaryVoteApp.model.service.election;
 
 import com.zonner93.ParliamentaryVoteApp.model.entity.Election;
+import com.zonner93.ParliamentaryVoteApp.model.exception.ElectionError;
+import com.zonner93.ParliamentaryVoteApp.model.exception.ElectionException;
 import com.zonner93.ParliamentaryVoteApp.model.repository.ElectionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,10 +36,9 @@ public class ElectionServiceImpl implements ElectionService {
 
     @Override
     public void deleteElectionById(long id) {
-        if (electionRepository.existsById(id)) {
-            electionRepository.deleteById(id);
+        if (!electionRepository.existsById(id)) {
+            throw new ElectionException(ElectionError.ELECTION_DOES_NOT_EXISTS);
         }
-
-//        TODO: obsługa wyjątku że election o takim id nie istnieje
+        electionRepository.deleteById(id);
     }
 }
