@@ -1,5 +1,6 @@
 package com.zonner93.ParliamentaryVoteApp.model.service.election;
 
+import com.zonner93.ParliamentaryVoteApp.model.entity.Candidate;
 import com.zonner93.ParliamentaryVoteApp.model.entity.Election;
 
 import java.util.List;
@@ -10,4 +11,5 @@ public interface ElectionService {
     public List<Election> getElectionListByName(String name);
     public Election getElectionById(long id);
     public void deleteElectionById(long id);
+    void patchElection(long id, String name, String description, String startDate, String endDate, List<Candidate> candidateList);
 }
