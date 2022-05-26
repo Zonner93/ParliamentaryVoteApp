@@ -46,6 +46,9 @@ public class ElectionServiceImpl implements ElectionService {
 
     @Override
     public void patchElection(long id, String name, String description, String startDate, String endDate, List<Candidate> candidateList) {
+        if (!electionRepository.existsById(id)) {
+            throw new ElectionException(ElectionError.ELECTION_DOES_NOT_EXISTS);
+        }
         Election election = electionRepository.findById(id);
         if (Objects.nonNull(name)) {
             election.setName(name);

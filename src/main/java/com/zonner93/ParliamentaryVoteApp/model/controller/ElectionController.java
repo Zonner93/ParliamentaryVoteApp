@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/election")
+@RequestMapping("/api/elections")
 public class ElectionController {
     private final ElectionService electionService;
 
