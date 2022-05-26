@@ -15,7 +15,12 @@ public class Candidate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String politicalGroup;
-    @ManyToMany(targetEntity = Election.class,
-    fetch = FetchType.LAZY)
-    private List<Election> electionList;
+    private int listPosition;
+    @ManyToOne
+    private Election election;
+    private String firstName;
+    private String lastName;
+    private String personalIdNumber;
+    @OneToMany
+    private List<VoteResults> voteResultsList;
 }

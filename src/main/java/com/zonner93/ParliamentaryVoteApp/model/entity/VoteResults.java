@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -13,8 +14,10 @@ public class VoteResults {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private long counter;
-    @OneToOne(targetEntity = Candidate.class,
-            fetch = FetchType.LAZY)
+
+    @ManyToOne
+    private User user;
+    @ManyToOne
     private Candidate candidate;
+    private LocalDateTime timestamp;
 }
