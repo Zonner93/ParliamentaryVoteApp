@@ -15,4 +15,6 @@ public interface CandidateService {
 
     void patchCandidate(long id, String politicalGroup, Integer listPosition, Election election,
                         String firstName, String lastName, String personalIdNumber, List<VoteResults> voteResultsList);
+
+    long getVoteCount(long id);
 }

@@ -2,8 +2,8 @@ package com.zonner93.ParliamentaryVoteApp.model.service.election;
 
 import com.zonner93.ParliamentaryVoteApp.model.entity.Candidate;
 import com.zonner93.ParliamentaryVoteApp.model.entity.Election;
-import com.zonner93.ParliamentaryVoteApp.model.exception.ElectionError;
-import com.zonner93.ParliamentaryVoteApp.model.exception.ElectionException;
+import com.zonner93.ParliamentaryVoteApp.model.exception.election.ElectionError;
+import com.zonner93.ParliamentaryVoteApp.model.exception.election.ElectionException;
 import com.zonner93.ParliamentaryVoteApp.model.repository.ElectionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

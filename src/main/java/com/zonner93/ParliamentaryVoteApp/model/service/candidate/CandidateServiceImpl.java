@@ -3,10 +3,10 @@ package com.zonner93.ParliamentaryVoteApp.model.service.candidate;
 import com.zonner93.ParliamentaryVoteApp.model.entity.Candidate;
 import com.zonner93.ParliamentaryVoteApp.model.entity.Election;
 import com.zonner93.ParliamentaryVoteApp.model.entity.VoteResults;
-import com.zonner93.ParliamentaryVoteApp.model.exception.ElectionError;
-import com.zonner93.ParliamentaryVoteApp.model.exception.ElectionException;
 import com.zonner93.ParliamentaryVoteApp.model.exception.candidate.CandidateError;
 import com.zonner93.ParliamentaryVoteApp.model.exception.candidate.CandidateException;
+import com.zonner93.ParliamentaryVoteApp.model.exception.election.ElectionError;
+import com.zonner93.ParliamentaryVoteApp.model.exception.election.ElectionException;
 import com.zonner93.ParliamentaryVoteApp.model.repository.CandidateRepository;
 import com.zonner93.ParliamentaryVoteApp.model.repository.ElectionRepository;
 import lombok.RequiredArgsConstructor;
@@ -73,5 +73,13 @@ public class CandidateServiceImpl implements CandidateService {
         if (Objects.nonNull(voteResultsList)) {
             candidate.setVoteResultsList(voteResultsList);
         }
+    }
+
+    @Override
+    public long getVoteCount(long id) {
+        if (!candidateRepository.existsById(id)) {
+            throw new CandidateException(CandidateError.CANDIDATE_DOES_NOT_EXISTS);
+        }
+        return candidateRepository.findById(id).getVoteResultsList().size();
     }
 }

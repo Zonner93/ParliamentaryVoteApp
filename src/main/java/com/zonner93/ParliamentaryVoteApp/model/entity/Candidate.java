@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -22,5 +23,5 @@ public class Candidate {
     private String lastName;
     private String personalIdNumber;
     @OneToMany
-    private List<VoteResults> voteResultsList;
+    private List<VoteResults> voteResultsList = new ArrayList<>();
 }

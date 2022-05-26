@@ -42,4 +42,9 @@ public class CandidateController {
         candidateService.patchCandidate(id, politicalGroup, listPosition, election, firstName, lastName,
                 personalIdNumber, voteResultsList);
     }
+
+    @GetMapping(path = "/{id}/votes")
+    public long getVoteCount(@PathVariable long id) {
+        return candidateService.getVoteCount(id);
+    }
 }
