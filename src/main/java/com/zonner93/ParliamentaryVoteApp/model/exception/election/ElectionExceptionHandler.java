@@ -1,4 +1,4 @@
-package com.zonner93.ParliamentaryVoteApp.model.exception;
+package com.zonner93.ParliamentaryVoteApp.model.exception.election;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

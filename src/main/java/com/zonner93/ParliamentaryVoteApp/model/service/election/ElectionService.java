@@ -6,10 +6,10 @@ import com.zonner93.ParliamentaryVoteApp.model.entity.Election;
 import java.util.List;
 
 public interface ElectionService {
-    public void createElection(Election election);
-    public List<Election> getAllElectionList();
-    public List<Election> getElectionListByName(String name);
-    public Election getElectionById(long id);
-    public void deleteElectionById(long id);
+    void createElection(Election election);
+    List<Election> getAllElectionList();
+    List<Election> getElectionListByName(String name);
+    Election getElectionById(long id);
+    void deleteElectionById(long id);
     void patchElection(long id, String name, String description, String startDate, String endDate, List<Candidate> candidateList);
 }

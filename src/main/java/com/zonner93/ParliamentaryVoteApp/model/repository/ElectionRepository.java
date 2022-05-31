@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface ElectionRepository extends JpaRepository<Election, Long> {
-    public List<Election> findAllByNameContaining(String name);
-    public Election findById(long id);
+    List<Election> findAllByNameContaining(String name);
+    Election findById(long id);
 }
