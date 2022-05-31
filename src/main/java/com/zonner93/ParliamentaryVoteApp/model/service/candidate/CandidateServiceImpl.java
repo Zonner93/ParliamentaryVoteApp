@@ -58,9 +58,9 @@ public class CandidateServiceImpl implements CandidateService {
         if (Objects.nonNull(listPosition)) {
             candidate.setListPosition(listPosition);
         }
-        if (Objects.nonNull(election)) {
-            candidate.setElection(election);
-        }
+//        if (Objects.nonNull(election)) {
+//            candidate.setElection(election);
+//        }
         if (Objects.nonNull(firstName)) {
             candidate.setFirstName(firstName);
         }

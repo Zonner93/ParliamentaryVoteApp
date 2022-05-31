@@ -1,5 +1,6 @@
 package com.zonner93.ParliamentaryVoteApp.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,8 +18,8 @@ public class Candidate {
     private long id;
     private String politicalGroup;
     private Integer listPosition;
-    @ManyToOne
-    private Election election;
+//    @ManyToOne(cascade=CascadeType.ALL)
+//    private Election election;
     private String firstName;
     private String lastName;
     private String personalIdNumber;

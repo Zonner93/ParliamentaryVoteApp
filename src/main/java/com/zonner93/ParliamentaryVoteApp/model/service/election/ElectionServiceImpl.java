@@ -8,6 +8,7 @@ import com.zonner93.ParliamentaryVoteApp.model.repository.ElectionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -63,7 +64,8 @@ public class ElectionServiceImpl implements ElectionService {
             election.setEndDate(endDate);
         }
         if (Objects.nonNull(candidateList) && !candidateList.isEmpty()) {
-            List<Candidate> currentCandidateList = election.getCandidateList();
+//            List<Candidate> currentCandidateList = election.getCandidateList();
+            List<Candidate> currentCandidateList = new ArrayList<>();
             currentCandidateList.addAll(candidateList);
             election.setCandidateList(currentCandidateList);
         }
