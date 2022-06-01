@@ -35,6 +35,14 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
+    public Candidate getCandidate(long id) {
+        if (!candidateRepository.existsById(id)) {
+            throw new CandidateException(CandidateError.CANDIDATE_DOES_NOT_EXISTS);
+        }
+        return candidateRepository.findById(id);
+    }
+
+    @Override
     public List<Candidate> getElectionCandidates(long electionId) {
         if (!electionRepository.existsById(electionId)) {
             throw new ElectionException(ElectionError.ELECTION_DOES_NOT_EXISTS);
@@ -58,9 +66,6 @@ public class CandidateServiceImpl implements CandidateService {
         if (Objects.nonNull(listPosition)) {
             candidate.setListPosition(listPosition);
         }
-//        if (Objects.nonNull(election)) {
-//            candidate.setElection(election);
-//        }
         if (Objects.nonNull(firstName)) {
             candidate.setFirstName(firstName);
         }
@@ -73,6 +78,7 @@ public class CandidateServiceImpl implements CandidateService {
         if (Objects.nonNull(voteResultsList)) {
             candidate.setVoteResultsList(voteResultsList);
         }
+        candidateRepository.save(candidate);
     }
 
     @Override

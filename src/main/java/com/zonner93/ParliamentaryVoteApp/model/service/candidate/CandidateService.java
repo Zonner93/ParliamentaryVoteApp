@@ -11,6 +11,8 @@ public interface CandidateService {
 
     void deleteCandidate(long id);
 
+    Candidate getCandidate(long id);
+
     List<Candidate> getElectionCandidates(long electionId);
 
     void patchCandidate(long id, String politicalGroup, Integer listPosition, Election election,
