@@ -20,12 +20,17 @@ public class CandidateController {
         candidateService.createCandidate(candidate);
     }
 
+    @GetMapping(path = "/{id}")
+    public Candidate getCandidateById(@PathVariable long id) {
+        return candidateService.getCandidate(id);
+    }
+
     @DeleteMapping(path = "/{id}")
     public void deleteCandidateById(@PathVariable long id) {
         candidateService.deleteCandidate(id);
     }
 
-    @GetMapping(path = "/{electionId}")
+    @GetMapping(path = "/from-election/{electionId}")
     public List<Candidate> getElectionCandidates(@PathVariable long electionId) {
         return candidateService.getElectionCandidates(electionId);
     }
