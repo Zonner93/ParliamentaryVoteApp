@@ -64,7 +64,6 @@ public class ElectionServiceImpl implements ElectionService {
             election.setEndDate(endDate);
         }
         if (Objects.nonNull(candidateList) && !candidateList.isEmpty()) {
-//            List<Candidate> currentCandidateList = election.getCandidateList();
             List<Candidate> currentCandidateList = new ArrayList<>();
             currentCandidateList.addAll(candidateList);
             election.setCandidateList(currentCandidateList);

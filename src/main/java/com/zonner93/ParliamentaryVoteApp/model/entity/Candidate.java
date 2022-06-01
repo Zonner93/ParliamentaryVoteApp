@@ -18,8 +18,6 @@ public class Candidate {
     private long id;
     private String politicalGroup;
     private Integer listPosition;
-//    @ManyToOne(cascade=CascadeType.ALL)
-//    private Election election;
     private String firstName;
     private String lastName;
     private String personalIdNumber;
