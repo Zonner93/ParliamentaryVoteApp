@@ -28,25 +28,22 @@ public class CandidateServiceImpl implements CandidateService {
 
     @Override
     public void deleteCandidate(long id) {
-        if (!candidateRepository.existsById(id)) {
-            throw new CandidateException(CandidateError.CANDIDATE_DOES_NOT_EXISTS);
-        }
+        validateIfCandidateExists(id);
         candidateRepository.deleteById(id);
     }
 
     @Override
     public Candidate getCandidate(long id) {
-        if (!candidateRepository.existsById(id)) {
-            throw new CandidateException(CandidateError.CANDIDATE_DOES_NOT_EXISTS);
-        }
+        validateIfCandidateExists(id);
         return candidateRepository.findById(id);
     }
 
     @Override
     public List<Candidate> getElectionCandidates(long electionId) {
-        if (!electionRepository.existsById(electionId)) {
-            throw new ElectionException(ElectionError.ELECTION_DOES_NOT_EXISTS);
-        }
+//        if (!electionRepository.existsById(electionId)) {
+//            throw new ElectionException(ElectionError.ELECTION_DOES_NOT_EXISTS);
+//        }
+        validateIfElectionExists(electionId);
         Election election = electionRepository.findById(electionId);
         return election.getCandidateList();
     }
@@ -56,9 +53,10 @@ public class CandidateServiceImpl implements CandidateService {
                                String firstName, String lastName, String personalIdNumber,
                                List<VoteResults> voteResultsList) {
 
-        if (!candidateRepository.existsById(id)) {
-            throw new CandidateException(CandidateError.CANDIDATE_DOES_NOT_EXISTS);
-        }
+//        if (!candidateRepository.existsById(id)) {
+//            throw new CandidateException(CandidateError.CANDIDATE_DOES_NOT_EXISTS);
+//        }
+        validateIfCandidateExists(id);
         Candidate candidate = candidateRepository.findById(id);
         if (Objects.nonNull(politicalGroup)) {
             candidate.setPoliticalGroup(politicalGroup);
@@ -87,5 +85,16 @@ public class CandidateServiceImpl implements CandidateService {
             throw new CandidateException(CandidateError.CANDIDATE_DOES_NOT_EXISTS);
         }
         return candidateRepository.findById(id).getVoteResultsList().size();
+    }
+
+    protected void validateIfCandidateExists(long id) {
+        if (!candidateRepository.existsById(id)) {
+            throw new CandidateException(CandidateError.CANDIDATE_DOES_NOT_EXISTS);
+        }
+    }
+    protected void validateIfElectionExists(long electionId) {
+        if (!electionRepository.existsById(electionId)) {
+            throw new ElectionException(ElectionError.ELECTION_DOES_NOT_EXISTS);
+        }
     }
 }
