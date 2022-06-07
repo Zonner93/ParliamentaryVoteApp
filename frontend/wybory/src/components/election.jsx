@@ -12,7 +12,9 @@ function Election(props) {
             <p>Data rozpoczęcia : {props.startDate}</p>
             <p>Data zakończenia : {props.endDate}</p>
             {/* <p>Opis : {props.description}</p> */}
-            <button onClick={function(){
+            <button onClick={function(event){
+                props.details(props.id);
+                event.preventDefault();
             }
             }> Wyświetl szczegóły...</button>
         </div>

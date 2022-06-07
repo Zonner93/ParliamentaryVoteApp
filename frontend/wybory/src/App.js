@@ -10,10 +10,12 @@ import AddCandidate from "./components/pages/addCandidate"
 import DeleteCandidate from "./components/pages/deleteCandidate"
 import CreateElection from "./components/pages/createElection"
 import AllElections from "./components/pages/allElections"
+import GetOneElection from './components/pages/getOneElection';
 
 
 
 function App() {
+
   return (
     <Router>
     <div className="App">
@@ -23,9 +25,9 @@ function App() {
         <Route path='/start'  element={<Start/>} />
         <Route path='/getallcandidates' element={<GetAllCandidates/>} />
         <Route path='/addcandidate' element={<AddCandidate/>} />
-        {/* <Route path='/deletecandidate' element={<DeleteCandidate/>} /> */}
         <Route path='/createelection' element={<CreateElection/>} />
         <Route path='/allelections' element={<AllElections/>} />
+        <Route path='/elections/5' element={<GetOneElection/>} />
       </Routes>
       </div>
     </Router>

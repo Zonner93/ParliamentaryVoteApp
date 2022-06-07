@@ -1,11 +1,12 @@
 import axios from "axios";
 import React, {useState, useEffect} from "react";
+import Election from "../election.jsx"
 import OneElection from "./oneElection.jsx";
-import {useNavigate } from "react-router-dom"
+import {useNavigate} from "react-router-dom"
 
 
 
-function AllElections(){
+function GetOneElection(){
 
 const navigate = useNavigate();
 
@@ -41,4 +42,4 @@ function showDetails(electionId){
 }
 
 
-export default AllElections;
+export default GetOneElection;
