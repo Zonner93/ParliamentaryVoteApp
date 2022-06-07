@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
@@ -93,9 +94,12 @@ public class CandidateServiceImpl implements CandidateService {
         validateIfCandidateExists(id);
         Candidate currentCandidate =  candidateRepository.findById(id);
         VoteResults voteResults = new VoteResults();
-        voteResults.setCandidate(currentCandidate);
         voteResults.setTimestamp(LocalDateTime.now());
-//        TODO:
+        voteResults.setCandidateId(currentCandidate.getId());
+//        TODO: ustawić który user zagłosował
+
+        currentCandidate.getVoteResultsList().add(voteResults);
+        candidateRepository.save(currentCandidate);
     }
 
     protected void validateIfCandidateExists(long id) {

@@ -1,5 +1,6 @@
 package com.zonner93.ParliamentaryVoteApp.model.controller;
 
+import com.sun.xml.bind.v2.TODO;
 import com.zonner93.ParliamentaryVoteApp.model.entity.Candidate;
 import com.zonner93.ParliamentaryVoteApp.model.entity.Election;
 import com.zonner93.ParliamentaryVoteApp.model.entity.VoteResults;
@@ -56,9 +57,9 @@ public class CandidateController {
     public long getVoteCount(@PathVariable long id) {
         return candidateService.getVoteCount(id);
     }
-
+//TODO: validacja i autentykacja
     @PostMapping(path = "/vote/{id}")
     public void voteForCandidate(@PathVariable long id) {
-
+        candidateService.voteForCandidate(id);
     }
 }
