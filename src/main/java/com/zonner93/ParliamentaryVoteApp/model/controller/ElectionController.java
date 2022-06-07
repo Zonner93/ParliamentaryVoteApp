@@ -6,6 +6,7 @@ import com.zonner93.ParliamentaryVoteApp.model.service.election.ElectionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -46,5 +47,10 @@ public class ElectionController {
     @DeleteMapping(path = "/{id}")
     public void deleteElectionById(@PathVariable long id) {
         electionService.deleteElectionById(id);
+    }
+
+    @GetMapping(path = "/vote-results/{id}")
+    public HashMap<Long, Long> getElectionVoteResults(@PathVariable long id) {
+        return electionService.getElectionVoteResults(id);
     }
 }

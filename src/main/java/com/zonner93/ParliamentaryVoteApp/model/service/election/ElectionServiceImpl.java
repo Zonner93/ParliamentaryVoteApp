@@ -9,9 +9,7 @@ import com.zonner93.ParliamentaryVoteApp.model.repository.ElectionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -49,17 +47,19 @@ public class ElectionServiceImpl implements ElectionService {
 
     @Override
     public void deleteElectionById(long id) {
-        if (!electionRepository.existsById(id)) {
-            throw new ElectionException(ElectionError.ELECTION_DOES_NOT_EXISTS);
-        }
+//        if (!electionRepository.existsById(id)) {
+//            throw new ElectionException(ElectionError.ELECTION_DOES_NOT_EXISTS);
+//        }
+        validateIfElectionExists(id);
         electionRepository.deleteById(id);
     }
 
     @Override
     public void patchElection(long id, String name, String description, String startDate, String endDate, List<Candidate> candidateList) {
-        if (!electionRepository.existsById(id)) {
-            throw new ElectionException(ElectionError.ELECTION_DOES_NOT_EXISTS);
-        }
+//        if (!electionRepository.existsById(id)) {
+//            throw new ElectionException(ElectionError.ELECTION_DOES_NOT_EXISTS);
+//        }
+        validateIfElectionExists(id);
         Election election = electionRepository.findById(id);
         if (Objects.nonNull(name)) {
             election.setName(name);
@@ -93,5 +93,22 @@ public class ElectionServiceImpl implements ElectionService {
             election.setCandidateList(currentCandidateList);
         }
         electionRepository.save(election);
+    }
+
+    @Override
+    public HashMap<Long, Long> getElectionVoteResults(long id) {
+        validateIfElectionExists(id);
+        Election election = electionRepository.findById(id);
+        List<Candidate> candidateList = election.getCandidateList();
+        HashMap<Long, Long> electionVoteResults = new HashMap<>();
+        for (Candidate candidate : candidateList) {
+            electionVoteResults.put(candidate.getId(), (long) candidate.getVoteResultsList().size());
+        }
+        return electionVoteResults;
+    }
+    protected void validateIfElectionExists(long id) {
+        if (!electionRepository.existsById(id)) {
+            throw new ElectionException(ElectionError.ELECTION_DOES_NOT_EXISTS);
+        }
     }
 }
