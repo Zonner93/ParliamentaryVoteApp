@@ -4,6 +4,7 @@ import com.zonner93.ParliamentaryVoteApp.model.entity.Candidate;
 import com.zonner93.ParliamentaryVoteApp.model.entity.Election;
 import com.zonner93.ParliamentaryVoteApp.model.exception.election.ElectionError;
 import com.zonner93.ParliamentaryVoteApp.model.exception.election.ElectionException;
+import com.zonner93.ParliamentaryVoteApp.model.repository.CandidateRepository;
 import com.zonner93.ParliamentaryVoteApp.model.repository.ElectionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class ElectionServiceImpl implements ElectionService {
     private final ElectionRepository electionRepository;
+    private final CandidateRepository candidateRepository;
 
     @Override
     public void createElection(Election election) {
@@ -71,8 +73,22 @@ public class ElectionServiceImpl implements ElectionService {
         if (Objects.nonNull(endDate)) {
             election.setEndDate(endDate);
         }
+
+
         if (Objects.nonNull(candidateList) && !candidateList.isEmpty()) {
+            List<Candidate> oldCandidatesList = election.getCandidateList();
+            if (Objects.nonNull(oldCandidatesList) && !oldCandidatesList.isEmpty()) {
+                for (Candidate candidate : oldCandidatesList) {
+                    candidate.setElectionId(0);
+                    candidateRepository.save(candidate);
+                }
+            }
+            for (Candidate candidate : candidateList) {
+                candidate.setElectionId(id);
+            }
+
             List<Candidate> currentCandidateList = new ArrayList<>();
+
             currentCandidateList.addAll(candidateList);
             election.setCandidateList(currentCandidateList);
         }

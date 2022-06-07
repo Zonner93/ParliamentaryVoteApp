@@ -111,7 +111,7 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     protected void validateId(long id) {
-        if (id <= 0) {
+        if (id < 0) {
             throw new CandidateException(CandidateError.INVALID_ID);
         }
     }
