@@ -1,5 +1,6 @@
 package com.zonner93.ParliamentaryVoteApp.model.controller;
 
+import com.sun.xml.bind.v2.TODO;
 import com.zonner93.ParliamentaryVoteApp.model.entity.Candidate;
 import com.zonner93.ParliamentaryVoteApp.model.entity.Election;
 import com.zonner93.ParliamentaryVoteApp.model.entity.VoteResults;
@@ -18,6 +19,10 @@ public class CandidateController {
     @PostMapping()
     public void createCandidate(@RequestBody Candidate candidate) {
         candidateService.createCandidate(candidate);
+    }
+    @GetMapping(value = "/all")
+    public List<Candidate> getAllCandidates() {
+        return candidateService.getAllCandidates();
     }
 
     @GetMapping(path = "/{id}")
@@ -51,5 +56,10 @@ public class CandidateController {
     @GetMapping(path = "/{id}/votes")
     public long getVoteCount(@PathVariable long id) {
         return candidateService.getVoteCount(id);
+    }
+//TODO: validacja i autentykacja
+    @PostMapping(path = "/vote/{id}")
+    public void voteForCandidate(@PathVariable long id) {
+        candidateService.voteForCandidate(id);
     }
 }

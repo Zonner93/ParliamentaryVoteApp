@@ -15,11 +15,12 @@ public class Candidate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    private long electionId;
     private String politicalGroup;
     private Integer listPosition;
     private String firstName;
     private String lastName;
     private String personalIdNumber;
-    @OneToMany
+    @OneToMany(cascade=CascadeType.ALL)
     private List<VoteResults> voteResultsList = new ArrayList<>();
 }
