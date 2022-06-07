@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, {useState, useEffect} from "react";
-import Election from "../election.jsx"
 import OneElection from "./oneElection.jsx";
 import {useNavigate} from "react-router-dom"
 
@@ -29,14 +28,6 @@ function showDetails(electionId){
     return(
             allElections.map(function(singleElection){
                 return(OneElection(singleElection,function(){showDetails(singleElection.id)}))
-                // return <Election
-                //     key={singleElection.id}
-                //     id={singleElection.id}
-                //     startDate={singleElection.startDate}
-                //     endDate={singleElection.endDate}
-                //     name={singleElection.name}
-                //     details={showDetails}
-                // />
             })
     )
 }
