@@ -8,6 +8,8 @@ import Start from "./components/pages/start"
 import GetAllCandidates from "./components/pages/getAllCandidates"
 import AddCandidate from "./components/pages/addCandidate"
 import DeleteCandidate from "./components/pages/deleteCandidate"
+import CreateElection from "./components/pages/createElection"
+import AllElections from "./components/pages/allElections"
 
 
 
@@ -21,7 +23,9 @@ function App() {
         <Route path='/start'  element={<Start/>} />
         <Route path='/getallcandidates' element={<GetAllCandidates/>} />
         <Route path='/addcandidate' element={<AddCandidate/>} />
-        <Route path='/deletecandidate' element={<DeleteCandidate/>} />
+        {/* <Route path='/deletecandidate' element={<DeleteCandidate/>} /> */}
+        <Route path='/createelection' element={<CreateElection/>} />
+        <Route path='/allelections' element={<AllElections/>} />
       </Routes>
       </div>
     </Router>

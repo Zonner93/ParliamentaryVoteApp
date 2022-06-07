@@ -10,6 +10,10 @@ return (
             <p>Nazwisko : {props.surname}</p>
             <p>Email : {props.email}</p>
             <p>Partia : {props.politicalGroup}</p>
+            <button onClick={function(){
+                props.delete(props.id)
+            }
+            }> Usuń Kandydata</button>
         </div>
     </>
 )

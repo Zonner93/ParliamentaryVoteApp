@@ -7,7 +7,8 @@ import { BrowserRouter as Router, Routes, Route, Link, Navigate, useNavigate } f
 function Login(){
     const navigate = useNavigate();
 
-    function login(loginData){
+function login(loginData){
+    //POST
     console.log(loginData)
     navigate('/start');
 }

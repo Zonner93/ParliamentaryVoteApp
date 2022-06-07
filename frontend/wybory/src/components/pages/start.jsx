@@ -25,26 +25,26 @@ return (
 			route="/addcandidate"
 			goTo={goToPath}
 		/>
-		<MenuItem
+		{/* <MenuItem
 			name="Usuń kandata"
 			route="/deletecandidate"
 			goTo={goToPath}
-		/>
+		/> */}
 		<MenuItem
 			name="Wyświetl wszystkie głosowania"
-			route="/"
+			route="/allelections"
 			goTo={goToPath}
 		/>
 		<MenuItem
 			name="Utwórz głosowanie"
-			route="/"
+			route="/createelection"
 			goTo={goToPath}
 		/>
-		<MenuItem
+		{/* <MenuItem
 			name="Usuń głosowanie"
 			route="/"
 			goTo={goToPath}
-		/>
+		/> */}
 
 
 	</div>
