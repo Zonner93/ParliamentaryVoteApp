@@ -15,6 +15,7 @@ public class Candidate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    private long electionId;
     private String politicalGroup;
     private Integer listPosition;
     private String firstName;

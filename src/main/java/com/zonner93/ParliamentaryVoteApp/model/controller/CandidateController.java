@@ -19,6 +19,10 @@ public class CandidateController {
     public void createCandidate(@RequestBody Candidate candidate) {
         candidateService.createCandidate(candidate);
     }
+    @GetMapping(value = "/all")
+    public List<Candidate> getAllCandidates() {
+        return candidateService.getAllCandidates();
+    }
 
     @GetMapping(path = "/{id}")
     public Candidate getCandidateById(@PathVariable long id) {
@@ -51,5 +55,10 @@ public class CandidateController {
     @GetMapping(path = "/{id}/votes")
     public long getVoteCount(@PathVariable long id) {
         return candidateService.getVoteCount(id);
+    }
+
+    @PostMapping(path = "/vote/{id}")
+    public void voteForCandidate(@PathVariable long id) {
+
     }
 }

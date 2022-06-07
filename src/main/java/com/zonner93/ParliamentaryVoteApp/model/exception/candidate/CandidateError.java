@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum CandidateError {
-    CANDIDATE_DOES_NOT_EXISTS("Candidate does not exists");
+    CANDIDATE_DOES_NOT_EXISTS("Candidate does not exists"),
+    INVALID_ID("Id should be greater than zero.");
     private final String message;
 }

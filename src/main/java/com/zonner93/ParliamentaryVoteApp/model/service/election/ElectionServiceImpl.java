@@ -19,7 +19,15 @@ public class ElectionServiceImpl implements ElectionService {
 
     @Override
     public void createElection(Election election) {
-        electionRepository.save(election);
+        Election savedElection = electionRepository.save(election);
+        long electionId = savedElection.getId();
+        List<Candidate> candidateList = election.getCandidateList();
+        if (Objects.nonNull(candidateList)) {
+            for (Candidate candidate : candidateList) {
+                candidate.setElectionId(electionId);
+            }
+        }
+        electionRepository.save(savedElection);
     }
 
     @Override

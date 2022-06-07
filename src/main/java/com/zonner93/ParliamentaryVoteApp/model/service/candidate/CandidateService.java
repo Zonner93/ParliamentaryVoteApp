@@ -19,4 +19,8 @@ public interface CandidateService {
                         String firstName, String lastName, String personalIdNumber, List<VoteResults> voteResultsList);
 
     long getVoteCount(long id);
+
+    List<Candidate> getAllCandidates();
+
+    void voteForCandidate(long id);
 }
