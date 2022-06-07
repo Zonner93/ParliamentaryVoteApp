@@ -9,7 +9,7 @@ services:
       - POSTGRES_DB=voting-app-db
       - POSTGRES_PORT=5432
     restart: always
-  currency-app:
+  vote-app:
     container_name: pariamentary-vote-app
     image: 'zonnerdocker93/parliamentary-vote-app'
     ports:
