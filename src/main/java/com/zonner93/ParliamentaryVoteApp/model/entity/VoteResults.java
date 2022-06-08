@@ -17,7 +17,6 @@ public class VoteResults {
 
     @ManyToOne
     private User user;
-    @ManyToOne
-    private Candidate candidate;
+    private long candidateId;
     private LocalDateTime timestamp;
 }

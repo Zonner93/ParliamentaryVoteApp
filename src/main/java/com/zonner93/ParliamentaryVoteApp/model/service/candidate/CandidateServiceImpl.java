@@ -12,6 +12,8 @@ import com.zonner93.ParliamentaryVoteApp.model.repository.ElectionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
@@ -81,6 +83,25 @@ public class CandidateServiceImpl implements CandidateService {
         return candidateRepository.findById(id).getVoteResultsList().size();
     }
 
+    @Override
+    public List<Candidate> getAllCandidates() {
+        return candidateRepository.findAll();
+    }
+
+    @Override
+    public void voteForCandidate(long id) {
+        validateId(id);
+        validateIfCandidateExists(id);
+        Candidate currentCandidate =  candidateRepository.findById(id);
+        VoteResults voteResults = new VoteResults();
+        voteResults.setTimestamp(LocalDateTime.now());
+        voteResults.setCandidateId(currentCandidate.getId());
+//        TODO: ustawić który user zagłosował
+
+        currentCandidate.getVoteResultsList().add(voteResults);
+        candidateRepository.save(currentCandidate);
+    }
+
     protected void validateIfCandidateExists(long id) {
         if (!candidateRepository.existsById(id)) {
             throw new CandidateException(CandidateError.CANDIDATE_DOES_NOT_EXISTS);
@@ -90,6 +111,12 @@ public class CandidateServiceImpl implements CandidateService {
     protected void validateIfElectionExists(long electionId) {
         if (!electionRepository.existsById(electionId)) {
             throw new ElectionException(ElectionError.ELECTION_DOES_NOT_EXISTS);
+        }
+    }
+
+    protected void validateId(long id) {
+        if (id < 0) {
+            throw new CandidateException(CandidateError.INVALID_ID);
         }
     }
 }
