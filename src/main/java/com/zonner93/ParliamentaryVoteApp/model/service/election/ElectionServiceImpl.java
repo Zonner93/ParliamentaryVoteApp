@@ -2,6 +2,8 @@ package com.zonner93.ParliamentaryVoteApp.model.service.election;
 
 import com.zonner93.ParliamentaryVoteApp.model.entity.Candidate;
 import com.zonner93.ParliamentaryVoteApp.model.entity.Election;
+import com.zonner93.ParliamentaryVoteApp.model.exception.candidate.CandidateError;
+import com.zonner93.ParliamentaryVoteApp.model.exception.candidate.CandidateException;
 import com.zonner93.ParliamentaryVoteApp.model.exception.election.ElectionError;
 import com.zonner93.ParliamentaryVoteApp.model.exception.election.ElectionException;
 import com.zonner93.ParliamentaryVoteApp.model.repository.CandidateRepository;
@@ -47,18 +49,12 @@ public class ElectionServiceImpl implements ElectionService {
 
     @Override
     public void deleteElectionById(long id) {
-//        if (!electionRepository.existsById(id)) {
-//            throw new ElectionException(ElectionError.ELECTION_DOES_NOT_EXISTS);
-//        }
         validateIfElectionExists(id);
         electionRepository.deleteById(id);
     }
 
     @Override
     public void patchElection(long id, String name, String description, String startDate, String endDate, List<Candidate> candidateList) {
-//        if (!electionRepository.existsById(id)) {
-//            throw new ElectionException(ElectionError.ELECTION_DOES_NOT_EXISTS);
-//        }
         validateIfElectionExists(id);
         Election election = electionRepository.findById(id);
         if (Objects.nonNull(name)) {
@@ -106,9 +102,38 @@ public class ElectionServiceImpl implements ElectionService {
         }
         return electionVoteResults;
     }
+
+    @Override
+    public void addCandidate(long electionId, long candidateId) {
+        validateIfCandidateExists(candidateId);
+        Candidate candidate = candidateRepository.findById(candidateId);
+        validateIfElectionExists(electionId);
+        Election election = electionRepository.findById(electionId);
+        election.getCandidateList().add(candidate);
+        candidate.setElectionId(electionId);
+        electionRepository.save(election);
+    }
+
+    @Override
+    public void removeCandidate(long electionId, long candidateId) {
+        validateIfCandidateExists(candidateId);
+        Candidate candidate = candidateRepository.findById(candidateId);
+        validateIfElectionExists(electionId);
+        Election election = electionRepository.findById(electionId);
+        election.getCandidateList().remove(candidate);
+        candidate.setElectionId(0);
+        electionRepository.save(election);
+    }
+
     protected void validateIfElectionExists(long id) {
         if (!electionRepository.existsById(id)) {
             throw new ElectionException(ElectionError.ELECTION_DOES_NOT_EXISTS);
+        }
+    }
+
+    protected void validateIfCandidateExists(long id) {
+        if (!candidateRepository.existsById(id)) {
+            throw new CandidateException(CandidateError.CANDIDATE_DOES_NOT_EXISTS);
         }
     }
 }

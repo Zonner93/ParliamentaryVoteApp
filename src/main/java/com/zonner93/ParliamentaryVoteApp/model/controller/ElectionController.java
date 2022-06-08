@@ -53,4 +53,15 @@ public class ElectionController {
     public HashMap<Long, Long> getElectionVoteResults(@PathVariable long id) {
         return electionService.getElectionVoteResults(id);
     }
+    @PostMapping(path = "/{electionId}/add-candidate")
+    public void addCandidate(@PathVariable long electionId,
+                            @RequestParam long candidateId) {
+        electionService.addCandidate(electionId, candidateId);
+    }
+
+    @PatchMapping(path = "/{electionId}/remove-candidate")
+    public void removeCandidate(@PathVariable long electionId,
+                             @RequestParam long candidateId) {
+        electionService.removeCandidate(electionId, candidateId);
+    }
 }
