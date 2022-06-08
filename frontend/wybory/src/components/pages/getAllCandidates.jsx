@@ -13,9 +13,10 @@ const[allCandidates, setAllCandidates] = useState([])
 function getAllCandidates(){
 	axios({
 		method:'get',
-		url: 'http://localhost:8080/api/candidates/4'
+		url: 'http://localhost:8080/api/candidates/all'
 	}).then(function(response) {
-			setAllCandidates([response.data])
+			setAllCandidates(response.data)
+			console.log(response.data)
 			}
 		);
 }
@@ -46,6 +47,7 @@ return (
 			surname={singleCandidate.lastName}
 			email={singleCandidate.email}
 			politicalGroup={singleCandidate.politicalGroup}
+			buttonName='usuń kandydata'
 			delete={deleteCandidate}
 		/>
 	})

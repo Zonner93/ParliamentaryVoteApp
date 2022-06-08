@@ -13,7 +13,7 @@ return (
             <button onClick={function(){
                 props.delete(props.id)
             }
-            }> Usuń Kandydata</button>
+            }> {props.buttonName}</button>
         </div>
     </>
 )

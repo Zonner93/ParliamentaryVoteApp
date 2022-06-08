@@ -1,5 +1,8 @@
 import React, {useState} from "react";
 import ReactDOM from "react-dom";
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+
 
 function LoginInput(props) {
 
@@ -20,11 +23,9 @@ function LoginInput(props) {
 
     return (
         <form>
-        <label>Login</label>
-        <input name="login" value={currentInput.login} onChange={handleChange} placeholder="Wprowadź login"/>
-        <label>Hasło</label>
-        <input name="password" value={currentInput.password} onChange={handleChange} placeholder="Wprowadź hasło"/>
-        <button type="submit" onClick ={function(event){
+        <TextField id="outlined-basic" label="Login" name="login" value={currentInput.login} onChange={handleChange} placeholder="Wprowadź login" />
+        <TextField id="outlined-basic" label="Hasło" name="password" value={currentInput.password} onChange={handleChange} placeholder="Wprowadź hasło"/>
+        <Button variant="outlined" onClick ={function(event){
             props.login(currentInput)
             setInput({
                 login: "",
@@ -32,7 +33,7 @@ function LoginInput(props) {
             });
             event.preventDefault()
            }
-           }> Zaloguj</button>
+           }> Zaloguj</Button>
         </form> 
     )
 }

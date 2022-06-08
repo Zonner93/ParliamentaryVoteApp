@@ -1,16 +1,16 @@
 import React, {useState} from 'react';
+import axios from 'axios';
 
 const AddCandidate = () => {
 
-function addCandidate(candidateData){
-console.log(candidateData)  /// object Object!
-}
+
 
 const[newCandidateData, setNewCandidateData] = useState({
 	firstName : "",
 	lastName : "",
 	politicalGroup : ""
 })
+
 
 
 function handleChange(event) {
@@ -22,6 +22,18 @@ setNewCandidateData(function(prevValue){
 	}
 })
 }
+
+
+function addCandidate(newCandidateData){
+	console.log(newCandidateData)  /// object Object!
+	axios({
+		method:'post',
+		url:'http://localhost:8080/api/candidates',
+		data: newCandidateData
+	})
+	console.log(newCandidateData)  /// object Object!
+	}
+
 
 
 

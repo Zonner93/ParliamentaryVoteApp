@@ -13,8 +13,14 @@ import AllElections from "./components/pages/allElections"
 import GetOneElection from './components/pages/getOneElection';
 
 
-
 function App() {
+
+
+function grabId(id){
+  return id
+
+}
+
 
   return (
     <Router>
@@ -26,8 +32,11 @@ function App() {
         <Route path='/getallcandidates' element={<GetAllCandidates/>} />
         <Route path='/addcandidate' element={<AddCandidate/>} />
         <Route path='/createelection' element={<CreateElection/>} />
-        <Route path='/allelections' element={<AllElections/>} />
-        <Route path='/elections/5' element={<GetOneElection/>} />
+        <Route path='/allelections' element={<AllElections details={grabId}/>} />
+        <Route path='/elections/1' element={<GetOneElection id ={1}/>} />
+        <Route path='/elections/2' element={<GetOneElection id ={2}/>} />
+        <Route path='/elections/3' element={<GetOneElection id ={3}/>} />
+        <Route path='/elections/4' element={<GetOneElection id ={4}/>} />
       </Routes>
       </div>
     </Router>

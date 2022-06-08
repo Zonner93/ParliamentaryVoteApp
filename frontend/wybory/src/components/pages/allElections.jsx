@@ -2,10 +2,11 @@ import axios from "axios";
 import React, {useState, useEffect} from "react";
 import OneElection from "./oneElection.jsx";
 import {useNavigate } from "react-router-dom"
+import Election from "../election.jsx";
 
 
 
-function AllElections(){
+function AllElections(props){
 
 const navigate = useNavigate();
 
@@ -21,21 +22,23 @@ const[allElections, setAllElections] = useState([])
 useEffect(function(){getAllElections()},[])
 
 function showDetails(electionId){
+
+    // props.details(electionId)
     navigate('/elections/'+electionId)
     // getAllElections('http://localhost:8080/api/elections/'+electionId)
 }
 
     return(
             allElections.map(function(singleElection){
-                return(OneElection(singleElection,function(){showDetails(singleElection.id)}))
-                // return <Election
-                //     key={singleElection.id}
-                //     id={singleElection.id}
-                //     startDate={singleElection.startDate}
-                //     endDate={singleElection.endDate}
-                //     name={singleElection.name}
-                //     details={showDetails}
-                // />
+
+                return <Election
+                    key={singleElection.id}
+                    id={singleElection.id}
+                    startDate={singleElection.startDate}
+                    endDate={singleElection.endDate}
+                    name={singleElection.name}
+                    details={showDetails}
+                />
             })
     )
 }
