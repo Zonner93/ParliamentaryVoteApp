@@ -25,7 +25,7 @@ function showDetails(electionId){
 
     // props.details(electionId)
     navigate('/elections/'+electionId)
-    // getAllElections('http://localhost:8080/api/elections/'+electionId)
+
 }
 
     return(

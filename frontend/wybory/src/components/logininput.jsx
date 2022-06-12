@@ -23,9 +23,29 @@ function LoginInput(props) {
 
     return (
         <form>
-        <TextField id="outlined-basic" label="Login" name="login" value={currentInput.login} onChange={handleChange} placeholder="Wprowadź login" />
-        <TextField id="outlined-basic" label="Hasło" name="password" value={currentInput.password} onChange={handleChange} placeholder="Wprowadź hasło"/>
-        <Button variant="outlined" onClick ={function(event){
+        {/* <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+            /> */}
+        <TextField   
+                margin="normal"
+              required
+              fullWidth 
+              id="outlined-basic" label="Login" name="login" value={currentInput.login} onChange={handleChange} placeholder="Wprowadź login" />
+        <TextField margin="normal"
+              required
+              fullWidth  id="outlined-basic" label="Hasło" name="password" value={currentInput.password} onChange={handleChange} placeholder="Wprowadź hasło"/>
+        <Button  type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+              onClick ={function(event){
             props.login(currentInput)
             setInput({
                 login: "",

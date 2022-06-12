@@ -14,7 +14,7 @@ function goToPath(route) {
 }
 
 return (
-	<div>
+	<div className="start">
 		<MenuItem
 			name="Wyświetl wszystkich kandydatów"
 			route="/getallcandidates"

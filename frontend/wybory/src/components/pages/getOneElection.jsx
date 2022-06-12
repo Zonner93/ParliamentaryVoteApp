@@ -4,6 +4,7 @@ import OneElection from "./oneElection.jsx";
 import {useNavigate} from "react-router-dom"
 import Candidate from "../candidate.jsx";
 import Modal from  "react-modal"
+import { useParams } from 'react-router-dom';
 
 
 
@@ -14,6 +15,7 @@ const navigate = useNavigate();
 const[oneElection, setOneElection] = useState([])
 const[candList,setCandList] = useState([])
 const[modal, setModal]=useState(true)
+let {userID} = useParams();
 
 function toggleModal () {
     setModal(function(prevValue){
@@ -28,7 +30,7 @@ function getOneElection(){
 
     axios({
         method:'get',
-        url:'http://localhost:8080/api/elections/'+props.id
+        url:'http://localhost:8080/api/elections/'+userID
     }).then(function(response){
         setOneElection(response.data)
         setCandList(response.data.candidateList)
@@ -41,7 +43,7 @@ function deleteElection(electionId){
 
     axios({
         method:'delete',
-        url:'http://localhost:8080/api/elections/'+props.id
+        url:'http://localhost:8080/api/elections/'+userID
     }).then(
         navigate('/allelections')
     )
@@ -63,6 +65,8 @@ function editElection(id){
     // czy ponowić getOneElection?
 
 }
+
+
 
 
 function assignCandidate(){

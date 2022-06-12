@@ -26,3 +26,16 @@
     transform: rotate(360deg);
   }
 }
+
+.start {
+  display: flex;
+  justify-content: space-around;
+ 
+}
+
+.menuItem {
+  display: block;
+  flex-grow: 1;
+  
+}
+
