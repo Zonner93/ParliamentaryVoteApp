@@ -75,9 +75,37 @@ function assignCandidate(){
 
 function deleteFromList (id){
 
+
+   async function filterCandList(id) {
+     const filtered = await candList.filter(function(singleCandidateFromList){
+            return(singleCandidateFromList.id!=id)
+            })
+
+            return filtered
+    }
+
+    async function newElectionData() {
+        return {
+            ...oneElection,
+            candidateList : await filterCandList()
+        }
+    }
+
+    axios({
+        method: 'patch',
+        url:'http://localhost:8080/api/elections/'+id,
+        data: newElectionData()
+
+    })
+
+
+
+
     //utworzyć nowy useState z listą .... jeden do wyświetlania, drugi tylko do usuwania
 
-    setCandList( candList.filter(function(singleCandidateFromList){
+    // getOneElection?
+
+    setCandList(candList.filter(function(singleCandidateFromList){
         return(singleCandidateFromList.id!=id)
         })
     )
