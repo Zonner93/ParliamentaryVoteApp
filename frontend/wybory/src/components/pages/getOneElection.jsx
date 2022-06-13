@@ -13,7 +13,7 @@ import 'react-notifications/lib/notifications.css';
 
 
 
-function GetOneElection(props){
+function GetOneElection(){
 
 const navigate = useNavigate();
 
@@ -140,10 +140,10 @@ function handleChange(event) {
                     }
                     }> Dodaj kandydata do głosowania</button> */}
 
-                    <AddCandidateModal id={props.id}/>
+                    <AddCandidateModal id={oneElection.id} candList={candList}/>
 
                     <p>Lista kandydatów:</p>
-                    
+
                     <div className="container">
                         <ul className="responsive-table">
                         <li className="table-header">

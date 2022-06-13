@@ -3,6 +3,7 @@ import Candidate from "../candidate.jsx"
 import axios from "axios"
 import DeleteCandidate from './deleteCandidate.js';
 import './listCandidates.css'
+import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 
 
@@ -26,15 +27,24 @@ useEffect(function(){getAllCandidates()}, [])
 
 
 // Delete Candidate -----------------------------------------
-function deleteCandidate(id){
+function deleteCandidate(id, candidateProps){
 	axios({
 		method:'delete',
 		url: 'http://localhost:8080/api/candidates/'+id
 		}).then(function(response) {
 			console.log("Usunięto kandydata")
+			NotificationManager.success( "Pomyślnie usunięto kandydata")
 			getAllCandidates()
 			}
-		);
+		).catch(function(err){
+			if(err.response.status === 0){
+			NotificationManager.error("Błąd sieci. " + err.message)
+		} else if(candidateProps.electionId !== 0){
+			NotificationManager.error(err.message +"\nNie można usunąć - kandydat przypisany do elekcji")
+		}else{
+			NotificationManager.error(err.message)
+		}
+		})
 }
 // Delete Candidate -----------------------------------------
 
@@ -55,6 +65,7 @@ return (
 			<Candidate
 			key={singleCandidate.id}
 			id={singleCandidate.id}
+			electionId={singleCandidate.electionId}
 			name={singleCandidate.firstName}
 			surname={singleCandidate.lastName}
 			email={singleCandidate.email}

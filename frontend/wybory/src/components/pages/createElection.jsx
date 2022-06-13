@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import axios from "axios";
 import {Navigate, useNavigate } from "react-router-dom"
 
+
 function CreateElection() {
 const navigate = useNavigate();
 
@@ -26,7 +27,7 @@ function createElection(newElection) {
         url: 'http://localhost:8080/api/elections',
         data: newElection
     }).then(
-        navigate('/start')
+        navigate('/allelections')
     )
 }
 

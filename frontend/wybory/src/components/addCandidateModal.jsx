@@ -1,4 +1,5 @@
 import React,{useState, useEffect} from 'react';
+import {useNavigate} from "react-router-dom"
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -7,13 +8,28 @@ import GetAllCandidates from './pages/getAllCandidates';
 import axios from 'axios';
 import Candidate from './candidate';
 import "./pages/listCandidates.css"
+import {NotificationContainer, NotificationManager} from 'react-notifications';
+
 
 
 function AddCandidateModal(props) {
 
+    const navigate = useNavigate();
+
+    const candList = props.candList
+    const electionIDD = props.id
+    // console.log("addcanditaemodal")
+    // console.log(candList)
+
     const[allCandidates, setAllCandidates] = useState([])
-    const[candList,setCandList] = useState([])
+    // const[candList,setCandList] = useState([])
     const[unallocatedCandidates, setUnallocatatedCandidates] = useState([])
+    const[addList, setAddList] = useState([])
+    const [open, setOpen] = React.useState(false);
+
+    function filterCandidates(){
+        return allCandidates.filter((elem) => !candList.find(({ id }) => elem.id === id))
+    }
 
     function getAllCandidates(){
         axios({
@@ -21,14 +37,26 @@ function AddCandidateModal(props) {
             url: 'http://localhost:8080/api/candidates/all'
         }).then(function(response) {
                 setAllCandidates(response.data)
-                setCandList(response.data.candidateList)
+                console.log("getAllCandidateswww")
                 console.log(response.data)
                 }
             );
     }
-    
-    useEffect(function(){getAllCandidates()}, [])
-    
+
+   useEffect(function(){
+        console.log("elo1")
+        getAllCandidates()
+        console.log("elo2")
+        setUnallocatatedCandidates(filterCandidates())
+        console.log("elo3")
+        setAddList(unallocatedCandidates)
+        console.log("elo4")
+    }, [open])
+
+    // useEffect(function(){
+    //     setUnallocatatedCandidates(filterCandidates())
+    // },[addList])
+
 
 
 
@@ -46,17 +74,39 @@ function AddCandidateModal(props) {
       };
 
 
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  
+   async function handleOpen() {
+            // await getAllCandidates()
+            await setUnallocatatedCandidates( await filterCandidates())
+            await setAddList(unallocatedCandidates)
+       setOpen(true)
+
+        }
+  const handleClose = () => {
+      setOpen(false)
+    //   navigate('/elections/'+electionIDD)
+    // use state zamiast reload
+      window.location.reload(false);
+    };
 
   function addCandidateToElection(id, candidateProps) {
 
-    const electionID = props.id
     axios({
         method: 'post',
-        url: 'http://localhost:8080/api/elections/5/add-candidate?candidateId='+id
-  })
+        url: 'http://localhost:8080/api/elections/'+electionIDD+'/add-candidate?candidateId='+id
+        // zamienic 5 na election ID!
+  }).then(function(response){
+    NotificationManager.success(response.status + "Pomyślnie dodano kandydata do głosowania")
+ 
+      setAddList(addList.filter(function(x){
+          return id != x.id
+
+      }))}
+
+      ).catch(function(err){
+        NotificationManager.error("Wystąpił błąd: " + err.message)
+      }
+      )
 }
 
   return (
@@ -84,11 +134,12 @@ function AddCandidateModal(props) {
 	  </li>
       
 	{
-		allCandidates.map(function (singleCandidate) {
+		addList.map(function (singleCandidate) {
 		return (
 			<Candidate
 			key={singleCandidate.id}
 			id={singleCandidate.id}
+            electionId={singleCandidate.electionId}
 			name={singleCandidate.firstName}
 			surname={singleCandidate.lastName}
 			email={singleCandidate.email}
