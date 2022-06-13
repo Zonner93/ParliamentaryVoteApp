@@ -1,10 +1,15 @@
 import axios from "axios";
 import React, {useState, useEffect} from "react";
-import OneElection from "./oneElection.jsx";
+import Button from '@mui/material/Button';
+
 import {useNavigate} from "react-router-dom"
 import Candidate from "../candidate.jsx";
 import Modal from  "react-modal"
 import { useParams } from 'react-router-dom';
+import './listCandidates.css'
+import AddCandidateModal from "../addCandidateModal.jsx";
+import {NotificationContainer, NotificationManager} from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
 
 
 
@@ -14,11 +19,11 @@ const navigate = useNavigate();
 
 const[oneElection, setOneElection] = useState([])
 const[candList,setCandList] = useState([])
-const[modal, setModal]=useState(true)
-let {userID} = useParams();
+const[editMode, setEditMode]=useState(true)
+let {electionID} = useParams();
 
-function toggleModal () {
-    setModal(function(prevValue){
+function toggleEditMode () {
+    setEditMode(function(prevValue){
         return !prevValue
     })
 }
@@ -26,27 +31,29 @@ function toggleModal () {
 useEffect(function(){getOneElection()},[])
 
 
-function getOneElection(){
+async function getOneElection(){
 
-    axios({
+   const response = await axios({
         method:'get',
-        url:'http://localhost:8080/api/elections/'+userID
+        url:'http://localhost:8080/api/elections/'+electionID
     }).then(function(response){
         setOneElection(response.data)
         setCandList(response.data.candidateList)
     })
+    console.log(response)
+
 }
 
 
-function deleteElection(electionId){
+async function deleteElection(electionId){
     console.log("id usun "+  electionId)
 
-    axios({
+   await axios({
         method:'delete',
-        url:'http://localhost:8080/api/elections/'+userID
-    }).then(
-        navigate('/allelections')
-    )
+        url:'http://localhost:8080/api/elections/'+electionID
+    })
+    navigate('/allelections')
+    
 }
 
 
@@ -59,7 +66,7 @@ function editElection(id){
         data: oneElection
 
     })
-    toggleModal()
+    toggleEditMode()
     console.log("edited")
 
     // czy ponowić getOneElection?
@@ -76,54 +83,20 @@ function assignCandidate(){
 function deleteFromList (id){
 
 
-   async function filterCandList(id) {
-     const filtered = await candList.filter(function(singleCandidateFromList){
-            return(singleCandidateFromList.id!=id)
-            })
-
-            return filtered
-    }
-
-    async function newElectionData() {
-        return {
-            ...oneElection,
-            candidateList : await filterCandList()
-        }
-    }
-
     axios({
-        method: 'patch',
-        url:'http://localhost:8080/api/elections/'+id,
-        data: newElectionData()
-
+        method:'patch',
+        url: 'http://localhost:8080/api/elections/'+electionID+'/remove-candidate?candidateId='+id
+    })
+   .then(function(response){
+    NotificationManager.success(response.status + "Pomyślnie usunięto kandydata")
+    getOneElection();
+    })
+    .catch(function(err){
+        console.log("weqwe" + err.message)
+            NotificationManager.error(err.message)
     })
 
-
-
-
-    //utworzyć nowy useState z listą .... jeden do wyświetlania, drugi tylko do usuwania
-
-    // getOneElection?
-
-    setCandList(candList.filter(function(singleCandidateFromList){
-        return(singleCandidateFromList.id!=id)
-        })
-    )
-
-    setOneElection(function(prevValue){
-        return{
-            ...prevValue,
-            candidateList : candList
-        }
-    })
-
-    axios({
-        method: 'patch',
-        url:'http://localhost:8080/api/elections/'+id,
-        data: oneElection
-
-    })
-
+    // window.location.reload(false);
 }
 
 function handleChange(event) {
@@ -139,9 +112,8 @@ function handleChange(event) {
 
     return  (
 
-                modal ?
+                editMode ?
                 (<>
-
                     <p>ID:{oneElection.id}</p>
                     <p>Nazwa : {oneElection.name}</p>
                     <p>Data rozpoczęcia : {oneElection.startDate}</p>
@@ -149,27 +121,38 @@ function handleChange(event) {
                     <p>Opis : {oneElection.description}</p>
 
 
-                    <button onClick={function(event){
-                        toggleModal()
+                    <Button variant='outlined'onClick={function(event){
+                        toggleEditMode()
                         event.preventDefault();
                     }
-                    }> Edytuj głosowanie</button>
+                    }> Edytuj głosowanie</Button>
 
-                    <button onClick={function(event){
+                    <Button variant='outlined' onClick={function(event){
                         deleteElection(oneElection.id)
                         event.preventDefault();
                     }
-                    }> Usuń głosowanie</button>
+                    }> Usuń głosowanie</Button>
 
 
-                    <button onClick={function(event){
+                    {/* <button onClick={function(event){
                         assignCandidate(oneElection.id)
                         event.preventDefault();
                     }
-                    }> Dodaj kandydata do głosowania</button>
+                    }> Dodaj kandydata do głosowania</button> */}
+
+                    <AddCandidateModal id={props.id}/>
 
                     <p>Lista kandydatów:</p>
-
+                    
+                    <div className="container">
+                        <ul className="responsive-table">
+                        <li className="table-header">
+                            <div className="col col-1">ID</div>
+                            <div className="col col-2">Imię</div>
+                            <div className="col col-3">Nazwisko</div>
+                            <div className="col col-4">Partia</div>
+                            <div className="col col-5"></div>
+                        </li>
 
                  {
                      candList.map(function (singleCandidate) {
@@ -185,6 +168,9 @@ function handleChange(event) {
                             />
                         })
                  }
+
+                 </ul>
+                    </div>
 
                     </>)
                     :
@@ -212,15 +198,44 @@ function handleChange(event) {
                     }}> Zapisz Zmiany</button>
 
                      <button onClick={function(event){
-                       toggleModal()
+                       toggleEditMode()
                         event.preventDefault();
                         }}> Anuluj</button>
 
 
                     <p>Lista kandydatów:</p>
 
+                    <div className="container">
+                        <ul className="responsive-table">
+                        <li className="table-header">
+                            <div className="col col-1">ID</div>
+                            <div className="col col-2">Imię</div>
+                            <div className="col col-3">Nazwisko</div>
+                            <div className="col col-4">Partia</div>
+                            <div className="col col-5"></div>
+                        </li>
+                        {
+                            candList.map(function (singleCandidate) {
+                            return (
+                                <Candidate
+                                key={singleCandidate.id}
+                                id={singleCandidate.id}
+                                name={singleCandidate.firstName}
+                                surname={singleCandidate.lastName}
+                                email={singleCandidate.email}
+                                politicalGroup={singleCandidate.politicalGroup}
+                                buttonName='Usuń kandydata z listy'
+                                delete={deleteFromList}
+                            />)})
+                        }
 
-                 {
+                        </ul>
+                    </div>
+
+
+
+
+                 {/* {
                      candList.map(function (singleCandidate) {
                         return <Candidate
 
@@ -233,10 +248,10 @@ function handleChange(event) {
                             buttonName='Usuń kandydata z listy'
                             />
                         })
-                 }
+                 } */}
 
                 </>)
-
+                
                         )
 
 }

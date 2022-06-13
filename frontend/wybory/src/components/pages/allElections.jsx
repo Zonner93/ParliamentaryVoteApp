@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, {useState, useEffect} from "react";
-import OneElection from "./oneElection.jsx";
+
 import {useNavigate } from "react-router-dom"
 import Election from "../election.jsx";
 
@@ -23,7 +23,7 @@ useEffect(function(){getAllElections()},[])
 
 function showDetails(electionId){
 
-    // props.details(electionId)
+  
     navigate('/elections/'+electionId)
 
 }

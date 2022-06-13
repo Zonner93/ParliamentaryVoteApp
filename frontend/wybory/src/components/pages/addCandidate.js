@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import axios from 'axios';
+import './addCandidate.css'
 
 const AddCandidate = () => {
 
@@ -38,7 +39,8 @@ function addCandidate(newCandidateData){
 
 
 return (
-	<div>
+	<div className='wrapper'>
+	<div className='addCandidate'>
 	<h1>Dodaj kandydata</h1>
 		<form>
 			<label>Imię:</label>
@@ -58,6 +60,7 @@ return (
 				event.preventDefault()
 			}}>Dodaj kandydata </button>
 		</form>
+	</div>
 
 	</div>
 );
