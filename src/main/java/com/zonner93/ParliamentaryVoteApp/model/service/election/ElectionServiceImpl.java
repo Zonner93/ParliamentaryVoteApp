@@ -54,23 +54,26 @@ public class ElectionServiceImpl implements ElectionService {
     }
 
     @Override
-    public void patchElection(long id, String name, String description, String startDate, String endDate, List<Candidate> candidateList) {
+    public void patchElection(long id, Election election) {
         validateIfElectionExists(id);
-        Election election = electionRepository.findById(id);
+        String name = election.getName();
         if (Objects.nonNull(name)) {
             election.setName(name);
         }
+        String description = election.getDescription();
         if (Objects.nonNull(description)) {
             election.setDescription(description);
         }
+        String startDate = election.getStartDate();
         if (Objects.nonNull(startDate)) {
             election.setStartDate(startDate);
         }
+        String endDate = election.getEndDate();
         if (Objects.nonNull(endDate)) {
             election.setEndDate(endDate);
         }
 
-
+        List<Candidate>  candidateList = election.getCandidateList();
         if (Objects.nonNull(candidateList) && !candidateList.isEmpty()) {
             List<Candidate> oldCandidatesList = election.getCandidateList();
             if (Objects.nonNull(oldCandidatesList) && !oldCandidatesList.isEmpty()) {

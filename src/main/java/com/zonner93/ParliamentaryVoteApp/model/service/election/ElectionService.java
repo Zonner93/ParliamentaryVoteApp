@@ -1,6 +1,5 @@
 package com.zonner93.ParliamentaryVoteApp.model.service.election;
 
-import com.zonner93.ParliamentaryVoteApp.model.entity.Candidate;
 import com.zonner93.ParliamentaryVoteApp.model.entity.Election;
 
 import java.util.HashMap;
@@ -17,7 +16,7 @@ public interface ElectionService {
 
     void deleteElectionById(long id);
 
-    void patchElection(long id, String name, String description, String startDate, String endDate, List<Candidate> candidateList);
+    void patchElection(long id, Election election);
 
     HashMap<Long, Long> getElectionVoteResults(long id);
 
