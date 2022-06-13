@@ -80,6 +80,16 @@ function assignCandidate(){
 
 }
 
+function changeCandList(candidate) {
+    setCandList(function(prevValue) {
+        if(candidate)
+        return [
+            ...prevValue,
+            candidate
+    ]
+    })
+}
+
 function deleteFromList (id){
 
 
@@ -107,8 +117,10 @@ function handleChange(event) {
             ...prevValue,
             [name] : value
         }
-})
+    })
 }
+
+
 
     return  (
 
@@ -140,7 +152,7 @@ function handleChange(event) {
                     }
                     }> Dodaj kandydata do głosowania</button> */}
 
-                    <AddCandidateModal id={oneElection.id} candList={candList}/>
+                    <AddCandidateModal id={oneElection.id} changeCandList={changeCandList}/>
 
                     <p>Lista kandydatów:</p>
 
@@ -163,7 +175,8 @@ function handleChange(event) {
                             name={singleCandidate.firstName}
                             surname={singleCandidate.lastName}
                             politicalGroup={singleCandidate.politicalGroup}
-                            delete={deleteFromList}
+                            icon='bin'
+                            action={deleteFromList}
                             buttonName='Usuń kandydata z listy'
                             />
                         })

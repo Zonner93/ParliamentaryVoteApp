@@ -16,20 +16,26 @@ function AddCandidateModal(props) {
 
     const navigate = useNavigate();
 
-    const candList = props.candList
     const electionIDD = props.id
-    // console.log("addcanditaemodal")
-    // console.log(candList)
+
+    const changeCandList = props.changeCandList;
 
     const[allCandidates, setAllCandidates] = useState([])
-    // const[candList,setCandList] = useState([])
-    const[unallocatedCandidates, setUnallocatatedCandidates] = useState([])
-    const[addList, setAddList] = useState([])
-    const [open, setOpen] = React.useState(false);
+    // const[unallocatedCandidates, setUnallocatatedCandidates] = useState([])
+    const[open, setOpen] = useState(false);
 
-    function filterCandidates(){
-        return allCandidates.filter((elem) => !candList.find(({ id }) => elem.id === id))
-    }
+    // function filterCandidates(){
+    //     return setUnallocatatedCandidates(function(){
+    //         allCandidates.filter(function(x){
+    //             return x.electionId === 0
+    //         })
+
+    //     })
+    // }
+
+    useEffect(function(){
+        getAllCandidates()
+    },[])
 
     function getAllCandidates(){
         axios({
@@ -42,22 +48,6 @@ function AddCandidateModal(props) {
                 }
             );
     }
-
-   useEffect(function(){
-        console.log("elo1")
-        getAllCandidates()
-        console.log("elo2")
-        setUnallocatatedCandidates(filterCandidates())
-        console.log("elo3")
-        setAddList(unallocatedCandidates)
-        console.log("elo4")
-    }, [open])
-
-    // useEffect(function(){
-    //     setUnallocatatedCandidates(filterCandidates())
-    // },[addList])
-
-
 
 
     const style = {
@@ -76,17 +66,16 @@ function AddCandidateModal(props) {
 
   
    async function handleOpen() {
-            // await getAllCandidates()
-            await setUnallocatatedCandidates( await filterCandidates())
-            await setAddList(unallocatedCandidates)
+            await getAllCandidates()
+            // await setUnallocatatedCandidates( await filterCandidates())
+            // await setAddList(unallocatedCandidates)
        setOpen(true)
-
-        }
+}
   const handleClose = () => {
       setOpen(false)
     //   navigate('/elections/'+electionIDD)
     // use state zamiast reload
-      window.location.reload(false);
+    //   window.location.reload(false);
     };
 
   function addCandidateToElection(id, candidateProps) {
@@ -94,19 +83,22 @@ function AddCandidateModal(props) {
     axios({
         method: 'post',
         url: 'http://localhost:8080/api/elections/'+electionIDD+'/add-candidate?candidateId='+id
-        // zamienic 5 na election ID!
   }).then(function(response){
     NotificationManager.success(response.status + "Pomyślnie dodano kandydata do głosowania")
- 
-      setAddList(addList.filter(function(x){
-          return id != x.id
+    
+    changeCandList( allCandidates.find((candidate) => candidate.id == id))
 
-      }))}
+    setAllCandidates(function(){
+        return allCandidates.filter(function(x){
+            console.log(x.id + "\\" + id);
+            return x.id  !== id
+        })
+    })
 
-      ).catch(function(err){
+    
+}).catch(function(err){
         NotificationManager.error("Wystąpił błąd: " + err.message)
-      }
-      )
+      })
 }
 
   return (
@@ -132,23 +124,23 @@ function AddCandidateModal(props) {
 		<div className="col col-4">Partia</div>
 		<div className="col col-5"></div>
 	  </li>
-      
 	{
-		addList.map(function (singleCandidate) {
-		return (
-			<Candidate
-			key={singleCandidate.id}
-			id={singleCandidate.id}
-            electionId={singleCandidate.electionId}
-			name={singleCandidate.firstName}
-			surname={singleCandidate.lastName}
-			email={singleCandidate.email}
-			politicalGroup={singleCandidate.politicalGroup}
-			buttonName='Dodaj do głosowania'
-			delete={addCandidateToElection}
-		/>)})
+		allCandidates.map(function (singleCandidate) {
+            if(singleCandidate.electionId == 0)
+		        return (
+                <Candidate
+                key={singleCandidate.id}
+                id={singleCandidate.id}
+                electionId={singleCandidate.electionId}
+                name={singleCandidate.firstName}
+                surname={singleCandidate.lastName}
+                email={singleCandidate.email}
+                politicalGroup={singleCandidate.politicalGroup}
+                icon="plus"
+                action={addCandidateToElection}
+            />)
+        })
 	}
-   
 
 	</ul>
 </div>

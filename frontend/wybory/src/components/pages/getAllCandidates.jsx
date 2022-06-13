@@ -7,7 +7,7 @@ import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 
 
-function GetAllCandidates() {
+function GetAllCandidates(props) {
 
 
 const[allCandidates, setAllCandidates] = useState([])
@@ -48,6 +48,9 @@ function deleteCandidate(id, candidateProps){
 }
 // Delete Candidate -----------------------------------------
 
+function editCandidate(){
+}
+
 return (
 
 	<div class="container">
@@ -70,9 +73,13 @@ return (
 			surname={singleCandidate.lastName}
 			email={singleCandidate.email}
 			politicalGroup={singleCandidate.politicalGroup}
-			buttonName='Usuń kandydata'
-			delete={deleteCandidate}
+			icon='bin'
+			action={deleteCandidate}
+			edit={props.edit}
+			
+
 		/>)})
+		
 	}
 
 	</ul>
@@ -82,38 +89,3 @@ return (
 };
 
 export default GetAllCandidates;
-
-
-
-
-// return (
-
-// 	<table>
-// 		<thead>
-// 			<tr>
-// 				<th> ID</th>
-// 				<th> Imię</th>
-// 				<th> Nazwisko</th>
-// 				<th> Partia Polityczna</th>
-// 				<th>button</th>
-// 			</tr>
-// 		</thead>
-// 		<tbody>
-// {
-// allCandidates.map(function (singleCandidate) {
-// return (
-// 	<Candidate
-// 	key={singleCandidate.id}
-// 	id={singleCandidate.id}
-// 	name={singleCandidate.firstName}
-// 	surname={singleCandidate.lastName}
-// 	email={singleCandidate.email}
-// 	politicalGroup={singleCandidate.politicalGroup}
-// 	buttonName='usuń kandydata'
-// 	delete={deleteCandidate}
-// />)})
-// }
-
-// 		</tbody>
-// 	</table>
-// )

@@ -24,7 +24,7 @@ function App() {
       <Routes>
         <Route exact path='/' element={<Login/>} />
         <Route path='/start'  element={<><Navbar/> <Start/></>} />
-        <Route path='/getallcandidates' element={<><Navbar/><GetAllCandidates/></>} />
+        <Route path='/getallcandidates' element={<><Navbar/><GetAllCandidates edit="true"/></>} />
         <Route path='/addcandidate' element={<><Navbar/><AddCandidate/></>} />
         <Route path='/createelection' element={<><Navbar/><CreateElection/></>} />
         <Route path='/allelections' element={<><Navbar/><AllElections/></>} />
