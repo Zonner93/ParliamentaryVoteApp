@@ -19,7 +19,7 @@ const navigate = useNavigate();
 
 const[oneElection, setOneElection] = useState([])
 const[candList,setCandList] = useState([])
-const[editMode, setEditMode]=useState(true)
+const[editMode, setEditMode]=useState(false)
 let {electionID} = useParams();
 
 function toggleEditMode () {
@@ -58,8 +58,6 @@ async function deleteElection(electionId){
 
 
 function editElection(id){
-    //post na patch election by id
-
     axios({
         method: 'patch',
         url:'http://localhost:8080/api/elections/'+id,
@@ -68,16 +66,6 @@ function editElection(id){
     })
     toggleEditMode()
     console.log("edited")
-
-    // czy ponowić getOneElection?
-
-}
-
-
-
-
-function assignCandidate(){
-
 }
 
 function changeCandList(candidate) {
@@ -85,14 +73,11 @@ function changeCandList(candidate) {
         if(candidate)
         return [
             ...prevValue,
-            candidate
-    ]
+            candidate]
     })
 }
 
 function deleteFromList (id){
-
-
     axios({
         method:'patch',
         url: 'http://localhost:8080/api/elections/'+electionID+'/remove-candidate?candidateId='+id
@@ -105,27 +90,22 @@ function deleteFromList (id){
         console.log("weqwe" + err.message)
             NotificationManager.error(err.message)
     })
-
     // window.location.reload(false);
 }
 
 function handleChange(event) {
     const{name,value}=event.target
-    //zmieniam ten sam useState - może lepiej zrobic osobny?
+
     setOneElection(function(prevValue){
-        return {
-            ...prevValue,
-            [name] : value
-        }
+        return {...prevValue,
+            [name] : value}
     })
 }
 
 
-
-    return  (
-
-                editMode ?
-                (<>
+function renderDisplayMode(){
+    return(
+        <>
                     <p>ID:{oneElection.id}</p>
                     <p>Nazwa : {oneElection.name}</p>
                     <p>Data rozpoczęcia : {oneElection.startDate}</p>
@@ -145,14 +125,50 @@ function handleChange(event) {
                     }
                     }> Usuń głosowanie</Button>
 
-
-                    {/* <button onClick={function(event){
-                        assignCandidate(oneElection.id)
-                        event.preventDefault();
-                    }
-                    }> Dodaj kandydata do głosowania</button> */}
-
                     <AddCandidateModal id={oneElection.id} changeCandList={changeCandList}/>
+        </>
+
+    )
+}
+
+function renderEditMode(){
+    return (
+        <>
+                     <p>ID:{oneElection.id}</p>
+
+                    <label>Nazwa : </label>
+                    <input name='name' value={oneElection.name} onChange={handleChange}/>
+
+                    <label>Nazwa : </label>
+                    <input name='startDate' type = 'date' value={oneElection.startDate} onChange={handleChange}/>
+
+                    <label>Nazwa : </label>
+                    <input name='endDate' type = 'date' value={oneElection.endDate} onChange={handleChange}/>
+
+                    <label>Opis </label>
+                    <input name='description' value={oneElection.description} onChange={handleChange}/>
+
+
+
+                    <button onClick={function(event){
+
+                        editElection(oneElection.id)
+                        event.preventDefault();
+                    }}> Zapisz Zmiany</button>
+
+                     <button onClick={function(event){
+                       toggleEditMode()
+                        event.preventDefault();
+                        }}> Anuluj</button>
+            </>
+
+    )
+}
+
+    return  (
+            <>
+                {editMode ? renderEditMode() : renderDisplayMode()}
+                
 
                     <p>Lista kandydatów:</p>
 
@@ -186,86 +202,8 @@ function handleChange(event) {
                     </div>
 
                     </>)
-                    :
-                (<>
-                     <p>ID:{oneElection.id}</p>
+                    
 
-                    <label>Nazwa : </label>
-                    <input name='name' value={oneElection.name} onChange={handleChange}/>
-
-                    <label>Nazwa : </label>
-                    <input name='startDate' type = 'date' value={oneElection.startDate} onChange={handleChange}/>
-
-                    <label>Nazwa : </label>
-                    <input name='endDate' type = 'date' value={oneElection.endDate} onChange={handleChange}/>
-
-                    <label>Opis </label>
-                    <input name='description' value={oneElection.description} onChange={handleChange}/>
-
-
-
-                    <button onClick={function(event){
-
-                        editElection(oneElection.id)
-                        event.preventDefault();
-                    }}> Zapisz Zmiany</button>
-
-                     <button onClick={function(event){
-                       toggleEditMode()
-                        event.preventDefault();
-                        }}> Anuluj</button>
-
-
-                    <p>Lista kandydatów:</p>
-
-                    <div className="container">
-                        <ul className="responsive-table">
-                        <li className="table-header">
-                            <div className="col col-1">ID</div>
-                            <div className="col col-2">Imię</div>
-                            <div className="col col-3">Nazwisko</div>
-                            <div className="col col-4">Partia</div>
-                            <div className="col col-5"></div>
-                        </li>
-                        {
-                            candList.map(function (singleCandidate) {
-                            return (
-                                <Candidate
-                                key={singleCandidate.id}
-                                id={singleCandidate.id}
-                                name={singleCandidate.firstName}
-                                surname={singleCandidate.lastName}
-                                email={singleCandidate.email}
-                                politicalGroup={singleCandidate.politicalGroup}
-                                buttonName='Usuń kandydata z listy'
-                                delete={deleteFromList}
-                            />)})
-                        }
-
-                        </ul>
-                    </div>
-
-
-
-
-                 {/* {
-                     candList.map(function (singleCandidate) {
-                        return <Candidate
-
-                            key={singleCandidate.id}
-                            id={singleCandidate.id}
-                            name={singleCandidate.firstName}
-                            surname={singleCandidate.lastName}
-                            politicalGroup={singleCandidate.politicalGroup}
-                            delete={deleteFromList}
-                            buttonName='Usuń kandydata z listy'
-                            />
-                        })
-                 } */}
-
-                </>)
-                
-                        )
 
 }
 
