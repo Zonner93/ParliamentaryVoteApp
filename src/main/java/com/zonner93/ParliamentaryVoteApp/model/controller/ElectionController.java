@@ -1,6 +1,5 @@
 package com.zonner93.ParliamentaryVoteApp.model.controller;
 
-import com.zonner93.ParliamentaryVoteApp.model.entity.Candidate;
 import com.zonner93.ParliamentaryVoteApp.model.entity.Election;
 import com.zonner93.ParliamentaryVoteApp.model.service.election.ElectionService;
 import lombok.RequiredArgsConstructor;
@@ -34,14 +33,11 @@ public class ElectionController {
     public List<Election> getElectionListByNameContaining(@RequestParam String name) {
         return electionService.getElectionListByName(name);
     }
+
     @PatchMapping(path = "/{id}")
     public void patchElection(@PathVariable long id,
-                              @RequestParam(required = false) String name,
-                              @RequestParam(required = false) String description,
-                              @RequestParam(required = false) String startDate,
-                              @RequestParam(required = false) String endDate,
-                              @RequestBody(required = false) List<Candidate> candidateList) {
-        electionService.patchElection(id, name, description, startDate, endDate, candidateList);
+                              @RequestBody Election election) {
+        electionService.patchElection(id, election);
     }
 
     @DeleteMapping(path = "/{id}")
@@ -53,15 +49,16 @@ public class ElectionController {
     public HashMap<Long, Long> getElectionVoteResults(@PathVariable long id) {
         return electionService.getElectionVoteResults(id);
     }
+
     @PostMapping(path = "/{electionId}/add-candidate")
     public void addCandidate(@PathVariable long electionId,
-                            @RequestParam long candidateId) {
+                             @RequestParam long candidateId) {
         electionService.addCandidate(electionId, candidateId);
     }
 
     @PatchMapping(path = "/{electionId}/remove-candidate")
     public void removeCandidate(@PathVariable long electionId,
-                             @RequestParam long candidateId) {
+                                @RequestParam long candidateId) {
         electionService.removeCandidate(electionId, candidateId);
     }
 }
