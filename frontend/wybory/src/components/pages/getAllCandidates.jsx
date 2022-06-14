@@ -48,7 +48,14 @@ function deleteCandidate(id, candidateProps){
 }
 // Delete Candidate -----------------------------------------
 
-function editCandidate(){
+
+
+function updateCandidate(data){
+	// setAllCandidates(function(prevValue){
+	// 	prevValue.findIndex
+	// })
+	getAllCandidates();
+
 }
 
 return (
@@ -69,17 +76,16 @@ return (
 			key={singleCandidate.id}
 			id={singleCandidate.id}
 			electionId={singleCandidate.electionId}
-			name={singleCandidate.firstName}
-			surname={singleCandidate.lastName}
+			firstName={singleCandidate.firstName}
+			lastName={singleCandidate.lastName}
 			email={singleCandidate.email}
 			politicalGroup={singleCandidate.politicalGroup}
 			icon='bin'
 			action={deleteCandidate}
-			edit={props.edit}
-			
-
+			editPossibility={props.editPossibility}
+			updateCandidate={updateCandidate}
 		/>)})
-		
+
 	}
 
 	</ul>

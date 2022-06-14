@@ -4,7 +4,6 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import GetAllCandidates from './pages/getAllCandidates';
 import axios from 'axios';
 import Candidate from './candidate';
 import "./pages/listCandidates.css"
@@ -64,18 +63,13 @@ function AddCandidateModal(props) {
       };
 
 
-  
-   async function handleOpen() {
-            await getAllCandidates()
-            // await setUnallocatatedCandidates( await filterCandidates())
-            // await setAddList(unallocatedCandidates)
+
+    function handleOpen() {
+            getAllCandidates()
        setOpen(true)
 }
-  const handleClose = () => {
-      setOpen(false)
-    //   navigate('/elections/'+electionIDD)
-    // use state zamiast reload
-    //   window.location.reload(false);
+    function handleClose() {
+        setOpen(false)
     };
 
   function addCandidateToElection(id, candidateProps) {
@@ -85,7 +79,7 @@ function AddCandidateModal(props) {
         url: 'http://localhost:8080/api/elections/'+electionIDD+'/add-candidate?candidateId='+id
   }).then(function(response){
     NotificationManager.success(response.status + "Pomyślnie dodano kandydata do głosowania")
-    
+
     changeCandList( allCandidates.find((candidate) => candidate.id == id))
 
     setAllCandidates(function(){
@@ -94,8 +88,6 @@ function AddCandidateModal(props) {
             return x.id  !== id
         })
     })
-
-    
 }).catch(function(err){
         NotificationManager.error("Wystąpił błąd: " + err.message)
       })
@@ -132,8 +124,8 @@ function AddCandidateModal(props) {
                 key={singleCandidate.id}
                 id={singleCandidate.id}
                 electionId={singleCandidate.electionId}
-                name={singleCandidate.firstName}
-                surname={singleCandidate.lastName}
+                firstName={singleCandidate.firstName}
+                lastName={singleCandidate.lastName}
                 email={singleCandidate.email}
                 politicalGroup={singleCandidate.politicalGroup}
                 icon="plus"

@@ -188,8 +188,8 @@ function renderEditMode(){
 
                             key={singleCandidate.id}
                             id={singleCandidate.id}
-                            name={singleCandidate.firstName}
-                            surname={singleCandidate.lastName}
+                            firstName={singleCandidate.firstName}
+                            lastName={singleCandidate.lastName}
                             politicalGroup={singleCandidate.politicalGroup}
                             icon='bin'
                             action={deleteFromList}
