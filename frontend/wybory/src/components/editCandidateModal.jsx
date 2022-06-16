@@ -58,7 +58,7 @@ function EditCandidateModal(props){
                 handleClose()
                 NotificationManager.success("Pomyślnie edytowano dane kandydata")
             }).catch({
-
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         })
 
 
@@ -75,7 +75,7 @@ return(
     <EditIcon onClick={handleOpen}></EditIcon>
       <Modal
         open={open}
-        // onClose={handleClose}
+        onClose={cancelChanges}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
