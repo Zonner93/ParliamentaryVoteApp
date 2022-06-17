@@ -9,14 +9,16 @@ import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 
 
+
  function EditElectionModal(props) {
+
 
     const style = {
         position: 'absolute',
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 400,
+        width: 800,
         bgcolor: 'background.paper',
         border: '2px solid #000',
         boxShadow: 24,
@@ -45,7 +47,6 @@ import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 
     function patchElection(id){
-       console.log(editedElectionInfo)
      console.log(id)
         axios({
             method:'patch',
@@ -55,11 +56,9 @@ import {NotificationContainer, NotificationManager} from 'react-notifications';
             props.updateElectionInfo()
             handleClose()
             NotificationManager.success("Pomyślnie edytowano dane głoswania")
-        }
-        ).catch(
-
-        )
-
+        }).catch(function(err){
+            NotificationManager.error(err.message)
+        })
     }
 
     function cancelChanges(){
@@ -69,7 +68,8 @@ import {NotificationContainer, NotificationManager} from 'react-notifications';
     }
 
   const handleOpen = () => {setOpen(true)
-     console.log(editedElectionInfo)};
+    setEditedElectionInfo(data)}
+
   const handleClose = () => setOpen(false);
 
   return (
@@ -83,14 +83,13 @@ import {NotificationContainer, NotificationManager} from 'react-notifications';
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             Edycja głosowania
           </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          </Typography>
             <TextField name ="name" id="standard-basic" label="Nazwa" variant="standard" value={editedElectionInfo.name} onChange={handleChange} />
-            <TextField name ="startDate" id="standard-basic" label="Data rozpoczęcia" variant="standard" value={editedElectionInfo.startDate} onChange={handleChange}/>
-            <TextField name ="endDate" id="standard-basic" label="Data zakończenia" variant="standard" value={editedElectionInfo.endDate} onChange={handleChange}/>
+            <TextField type="date" name ="startDate" id="standard-basic" label="Data rozpoczęcia" variant="standard" value={editedElectionInfo.startDate} onChange={handleChange}/>
+            <TextField type="date" name ="endDate" id="standard-basic" label="Data zakończenia" variant="standard" value={editedElectionInfo.endDate} onChange={handleChange}/>
             <TextField name ="description" id="standard-basic" label="Opis" variant="standard" value={editedElectionInfo.description} onChange={handleChange}/>
 
             <Button variant="text" onClick={function(event){patchElection(props.electionInfoData.id); event.preventDefault()}}>Zapisz zmiany</Button>

@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Routes, Route, Link, Navigate, useParams } fro
 import Start from "./components/pages/start"
 import GetAllCandidates from "./components/pages/getAllCandidates"
 import AddCandidate from "./components/pages/addCandidate"
-import DeleteCandidate from "./components/pages/deleteCandidate"
 import CreateElection from "./components/pages/createElection"
 import AllElections from "./components/pages/allElections"
 import GetOneElection from './components/pages/getOneElection';

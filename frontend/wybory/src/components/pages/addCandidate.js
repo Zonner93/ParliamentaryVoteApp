@@ -1,6 +1,10 @@
 import React, {useState} from 'react';
 import axios from 'axios';
 import './addCandidate.css'
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
+
 
 const AddCandidate = () => {
 
@@ -26,13 +30,16 @@ setNewCandidateData(function(prevValue){
 
 
 function addCandidate(newCandidateData){
-	console.log(newCandidateData)  /// object Object!
 	axios({
 		method:'post',
 		url:'http://localhost:8080/api/candidates',
 		data: newCandidateData
-	})
-	console.log(newCandidateData)  /// object Object!
+	}).then(function(response){
+		NotificationManager.success("Pomyślnie dodano nowego kandydata")
+	}).catch(
+		function(err){
+			NotificationManager.error(err.message)
+		})
 	}
 
 
@@ -42,24 +49,19 @@ return (
 	<div className='wrapper'>
 	<div className='addCandidate'>
 	<h1>Dodaj kandydata</h1>
-		<form>
-			<label>Imię:</label>
-  			<input name="firstName" value={newCandidateData.firstName} onChange={handleChange} />
-			<label>Nazwisko:</label>
-  			<input name="lastName" value={newCandidateData.lastName} onChange={handleChange}/>
-			<label>Partia:</label>
-  			<input name="politicalGroup" value={newCandidateData.politicalGroup} onChange={handleChange}/>
+		<TextField  type="text" name ="firstName" id="standard-basic" label="Imię" variant="standard" value={newCandidateData.firstName} onChange={handleChange}/>
+		<TextField  name ="lastName" id="standard-basic" label="Nazwisko" variant="standard" value={newCandidateData.lastName} onChange={handleChange}/>
+		<TextField  name ="politicalGroup" id="standard-basic" label="Partia " variant="standard" value={newCandidateData.politicalGroup} onChange={handleChange}/>
+		<Button variant="contained" onClick={function(event){
+			addCandidate(newCandidateData)
+			setNewCandidateData({
+				firstName : "",
+				lastName : "",
+				politicalGroup : ""
+			})
+			event.preventDefault()
+		}}>Dodaj kandydata </Button>
 
-			<button type="submit" onClick={function(event){
-				addCandidate(newCandidateData)
-				setNewCandidateData({
-					firstName : "",
-					lastName : "",
-					politicalGroup : ""
-				})
-				event.preventDefault()
-			}}>Dodaj kandydata </button>
-		</form>
 	</div>
 
 	</div>

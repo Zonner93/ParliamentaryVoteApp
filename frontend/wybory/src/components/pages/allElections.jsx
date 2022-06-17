@@ -26,6 +26,17 @@ function showDetails(electionId){
 }
 
     return(
+
+        <div class="container">
+        <ul class="responsive-table">
+          <li class="table-header">
+            <div class="col col-1">ID</div>
+            <div class="col col-2">Nazwa</div>
+            <div class="col col-3">Data rozpoczęcia</div>
+            <div class="col col-4">Data zakończenia</div>
+            <div class="col col-5"></div>
+          </li>
+          {
             allElections.map(function(singleElection){
 
                 return <Election
@@ -37,6 +48,9 @@ function showDetails(electionId){
                     details={showDetails}
                 />
             })
+        }
+        </ul>
+    </div>
     )
 }
 

@@ -17,56 +17,36 @@ import EditElectionModal from "../editElectionModal.jsx";
 function GetOneElection(){
 
 const navigate = useNavigate();
+let {electionID} = useParams();
 
 const[oneElection, setOneElection] = useState([])
 const[candList,setCandList] = useState([])
-const[editMode, setEditMode]=useState(false)
-let {electionID} = useParams();
-
-// function toggleEditMode () {
-//     setEditMode(function(prevValue){
-//         return !prevValue
-//     })
-// }
 
 useEffect(function(){getOneElection()},[])
 
-
-async function getOneElection(){
-
-   const response = await axios({
+function getOneElection(){
+    axios({
         method:'get',
         url:'http://localhost:8080/api/elections/'+electionID
     }).then(function(response){
         setOneElection(response.data)
         setCandList(response.data.candidateList)
+    }).catch(function(err){
+        NotificationManager.error(err.message)
     })
-    console.log(response)
-
 }
 
 
-async function deleteElection(electionId){
-    console.log("id usun "+  electionId)
-
-   await axios({
+ function deleteElection(electionId){
+   axios({
         method:'delete',
         url:'http://localhost:8080/api/elections/'+electionID
+    }).then(function(response){
+        NotificationManager.success("Pomyślnie usunięto głosowanie")
+        navigate('/allelections')
+    }).catch(function(err){
+        NotificationManager.error(err.message)
     })
-    navigate('/allelections')
-    
-}
-
-
-function editElection(id){
-    axios({
-        method: 'patch',
-        url:'http://localhost:8080/api/elections/'+id,
-        data: oneElection
-
-    })
-    // toggleEditMode()
-    console.log("edited")
 }
 
 function changeCandList(candidate) {
@@ -78,50 +58,31 @@ function changeCandList(candidate) {
     })
 }
 
-function deleteFromList (id){
+function deleteFromList(id) {
     axios({
         method:'patch',
         url: 'http://localhost:8080/api/elections/'+electionID+'/remove-candidate?candidateId='+id
     })
-   .then(function(response){
-    NotificationManager.success(response.status + "Pomyślnie usunięto kandydata")
-    getOneElection();
+   .then(function(response) {
+        NotificationManager.success(response.status + "Pomyślnie usunięto kandydata")
+        getOneElection();
     })
     .catch(function(err){
-        console.log("weqwe" + err.message)
             NotificationManager.error(err.message)
     })
     // window.location.reload(false);
 }
 
 function updateElectionInfo(){
-    console.log("y)")
     getOneElection();
 }
 
-// function handleChange(event) {
-//     const{name,value}=event.target
-
-//     setOneElection(function(prevValue){
-//         return {...prevValue,
-//             [name] : value}
-//     })
-// }
-
     return  (<>
-{/* {editMode ? renderEditMode() : renderDisplayMode()} */}
-
     <p>ID:{oneElection.id}</p>
     <p>Nazwa : {oneElection.name}</p>
     <p>Data rozpoczęcia : {oneElection.startDate}</p>
     <p>Data zakończenia : {oneElection.endDate}</p>
     <p>Opis : {oneElection.description}</p>
-
-    {/* <Button variant='outlined'onClick={function(event){
-        toggleEditMode()
-        event.preventDefault();
-    }
-    }> Edytuj głosowanie</Button> */}
 
     <EditElectionModal electionInfoData ={oneElection} updateElectionInfo={updateElectionInfo}/>
     <Button variant='outlined' onClick={function(event){
@@ -156,7 +117,6 @@ function updateElectionInfo(){
                         />
                     })
             }
-
         </ul>
     </div>
     </>)

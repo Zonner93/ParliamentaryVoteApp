@@ -1,14 +1,22 @@
 import React, {useState} from "react";
 import axios from "axios";
 import {Navigate, useNavigate } from "react-router-dom"
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import { NotificationManager } from "react-notifications";
 
 
 function CreateElection() {
+
+var today = new Date();
+var date = today.toISOString().split('T')[0]
+
+
 const navigate = useNavigate();
 
 const[electionDataInput, setElectionDataInput] = useState({
-    "startDate":"",
-    "endDate": "",
+    "startDate":date,
+    "endDate": date,
     "name": "",
     "description": ""
 })
@@ -26,30 +34,26 @@ function createElection(newElection) {
         method:"post",
         url: 'http://localhost:8080/api/elections',
         data: newElection
-    }).then(
+    }).then(function(response){
+        NotificationManager.success("Pomyślnie utworzono głosowanie")
         navigate('/allelections')
-    )
+    }).catch(function(err){
+        NotificationManager.error(err.message)
+    })
 }
 
+    return(<>
 
-
-
-    return(
-        <form>
-           <label>Data rozpoczęcia:</label>
-           <input type="date" name = "startDate" value={electionDataInput.startDate} onChange={handleChange} />
-           <label>Data zakończenia:</label>
-           <input type="date" name = "endDate" value={electionDataInput.endDate} onChange={handleChange} />
-           <label>Nazwa:</label>
-           <input name = "name" value={electionDataInput.name} onChange={handleChange} />
-           <label>Opis:</label>
-           <input name = "description" value={electionDataInput.description} onChange={handleChange} />
-           <button onClick={function(event){
+            <TextField name ="name" id="standard-basic" label="Nazwa" variant="standard" value={electionDataInput.name} onChange={handleChange} />
+            <TextField type="date" name ="startDate" id="standard-basic" label="Data rozpoczęcia" variant="standard" value={electionDataInput.startDate} onChange={handleChange}/>
+            <TextField type="date" name ="endDate" id="standard-basic" label="Data zakończenia" variant="standard" value={electionDataInput.endDate} onChange={handleChange}/>
+            <TextField name ="description" id="standard-basic" label="Opis" variant="standard" value={electionDataInput.description} onChange={handleChange}/>
+            <Button onClick={function(event){
                createElection(electionDataInput)
                event.preventDefault()
                }
-               }> Utwórz głosowanie</button>
-        </form>
+               }> Utwórz głosowanie</Button>
+        </>
     )
 }
 

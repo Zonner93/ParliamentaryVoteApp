@@ -57,8 +57,8 @@ function EditCandidateModal(props){
                 candidate.updateCandidate()
                 handleClose()
                 NotificationManager.success("Pomyślnie edytowano dane kandydata")
-            }).catch({
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            }).catch(function(err){
+              NotificationManager.error(err.message)
         })
 
 
