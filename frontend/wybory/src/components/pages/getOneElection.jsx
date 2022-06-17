@@ -10,6 +10,7 @@ import './listCandidates.css'
 import AddCandidateModal from "../addCandidateModal.jsx";
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
+import EditElectionModal from "../editElectionModal.jsx";
 
 
 
