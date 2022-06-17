@@ -23,11 +23,11 @@ const[candList,setCandList] = useState([])
 const[editMode, setEditMode]=useState(false)
 let {electionID} = useParams();
 
-function toggleEditMode () {
-    setEditMode(function(prevValue){
-        return !prevValue
-    })
-}
+// function toggleEditMode () {
+//     setEditMode(function(prevValue){
+//         return !prevValue
+//     })
+// }
 
 useEffect(function(){getOneElection()},[])
 
@@ -65,7 +65,7 @@ function editElection(id){
         data: oneElection
 
     })
-    toggleEditMode()
+    // toggleEditMode()
     console.log("edited")
 }
 
@@ -94,119 +94,141 @@ function deleteFromList (id){
     // window.location.reload(false);
 }
 
-function handleChange(event) {
-    const{name,value}=event.target
-
-    setOneElection(function(prevValue){
-        return {...prevValue,
-            [name] : value}
-    })
+function updateElectionInfo(){
+    console.log("y)")
+    getOneElection();
 }
 
+// function handleChange(event) {
+//     const{name,value}=event.target
 
-function renderDisplayMode(){
-    return(
-        <>
-                    <p>ID:{oneElection.id}</p>
-                    <p>Nazwa : {oneElection.name}</p>
-                    <p>Data rozpoczęcia : {oneElection.startDate}</p>
-                    <p>Data zakończenia : {oneElection.endDate}</p>
-                    <p>Opis : {oneElection.description}</p>
+//     setOneElection(function(prevValue){
+//         return {...prevValue,
+//             [name] : value}
+//     })
+// }
 
+    return  (<>
+{/* {editMode ? renderEditMode() : renderDisplayMode()} */}
 
-                    <Button variant='outlined'onClick={function(event){
-                        toggleEditMode()
-                        event.preventDefault();
-                    }
-                    }> Edytuj głosowanie</Button>
+    <p>ID:{oneElection.id}</p>
+    <p>Nazwa : {oneElection.name}</p>
+    <p>Data rozpoczęcia : {oneElection.startDate}</p>
+    <p>Data zakończenia : {oneElection.endDate}</p>
+    <p>Opis : {oneElection.description}</p>
 
-                    <Button variant='outlined' onClick={function(event){
-                        deleteElection(oneElection.id)
-                        event.preventDefault();
-                    }
-                    }> Usuń głosowanie</Button>
+    {/* <Button variant='outlined'onClick={function(event){
+        toggleEditMode()
+        event.preventDefault();
+    }
+    }> Edytuj głosowanie</Button> */}
 
-                    <AddCandidateModal id={oneElection.id} changeCandList={changeCandList}/>
-        </>
+    <EditElectionModal electionInfoData ={oneElection} updateElectionInfo={updateElectionInfo}/>
+    <Button variant='outlined' onClick={function(event){
+        deleteElection(oneElection.id)
+        event.preventDefault();
+    }
+    }> Usuń głosowanie</Button>
+    <AddCandidateModal id={oneElection.id} changeCandList={changeCandList}/>
 
-    )
-}
+    <p>Lista kandydatów:</p>
+    <div className="container">
+        <ul className="responsive-table">
+            <li className="table-header">
+            <div className="col col-1">ID</div>
+            <div className="col col-2">Imię</div>
+            <div className="col col-3">Nazwisko</div>
+            <div className="col col-4">Partia</div>
+            <div className="col col-5"></div>
+        </li>
+            {
+                candList.map(function (singleCandidate) {
+                    return <Candidate
 
-function renderEditMode(){
-    return (
-        <>
-                     <p>ID:{oneElection.id}</p>
+                        key={singleCandidate.id}
+                        id={singleCandidate.id}
+                        firstName={singleCandidate.firstName}
+                        lastName={singleCandidate.lastName}
+                        politicalGroup={singleCandidate.politicalGroup}
+                        icon='bin'
+                        action={deleteFromList}
+                        buttonName='Usuń kandydata z listy'
+                        />
+                    })
+            }
 
-                    <label>Nazwa : </label>
-                    <input name='name' value={oneElection.name} onChange={handleChange}/>
-
-                    <label>Nazwa : </label>
-                    <input name='startDate' type = 'date' value={oneElection.startDate} onChange={handleChange}/>
-
-                    <label>Nazwa : </label>
-                    <input name='endDate' type = 'date' value={oneElection.endDate} onChange={handleChange}/>
-
-                    <label>Opis </label>
-                    <input name='description' value={oneElection.description} onChange={handleChange}/>
-
-
-
-                    <button onClick={function(event){
-
-                        editElection(oneElection.id)
-                        event.preventDefault();
-                    }}> Zapisz Zmiany</button>
-
-                     <button onClick={function(event){
-                       toggleEditMode()
-                        event.preventDefault();
-                        }}> Anuluj</button>
-            </>
-
-    )
-}
-
-    return  (
-            <>
-                {editMode ? renderEditMode() : renderDisplayMode()}
-                
-
-                    <p>Lista kandydatów:</p>
-
-                    <div className="container">
-                        <ul className="responsive-table">
-                        <li className="table-header">
-                            <div className="col col-1">ID</div>
-                            <div className="col col-2">Imię</div>
-                            <div className="col col-3">Nazwisko</div>
-                            <div className="col col-4">Partia</div>
-                            <div className="col col-5"></div>
-                        </li>
-
-                 {
-                     candList.map(function (singleCandidate) {
-                        return <Candidate
-
-                            key={singleCandidate.id}
-                            id={singleCandidate.id}
-                            firstName={singleCandidate.firstName}
-                            lastName={singleCandidate.lastName}
-                            politicalGroup={singleCandidate.politicalGroup}
-                            icon='bin'
-                            action={deleteFromList}
-                            buttonName='Usuń kandydata z listy'
-                            />
-                        })
-                 }
-
-                 </ul>
-                    </div>
-
-                    </>)
-                    
-
+        </ul>
+    </div>
+    </>)
 
 }
 
 
 export default GetOneElection;
+
+
+
+
+// function renderDisplayMode(){
+//     return(
+//         <>
+//                     <p>ID:{oneElection.id}</p>
+//                     <p>Nazwa : {oneElection.name}</p>
+//                     <p>Data rozpoczęcia : {oneElection.startDate}</p>
+//                     <p>Data zakończenia : {oneElection.endDate}</p>
+//                     <p>Opis : {oneElection.description}</p>
+
+
+//                     {/* <Button variant='outlined'onClick={function(event){
+//                         toggleEditMode()
+//                         event.preventDefault();
+//                     }
+//                     }> Edytuj głosowanie</Button> */}
+
+//                     <EditElectionModal />
+
+//                     <Button variant='outlined' onClick={function(event){
+//                         deleteElection(oneElection.id)
+//                         event.preventDefault();
+//                     }
+//                     }> Usuń głosowanie</Button>
+
+//                     <AddCandidateModal id={oneElection.id} changeCandList={changeCandList}/>
+//         </>
+
+//     )
+// }
+
+// function renderEditMode(){
+//     return (
+//         <>
+//                      <p>ID:{oneElection.id}</p>
+
+//                     <label>Nazwa : </label>
+//                     <input name='name' value={oneElection.name} onChange={handleChange}/>
+
+//                     <label>Nazwa : </label>
+//                     <input name='startDate' type = 'date' value={oneElection.startDate} onChange={handleChange}/>
+
+//                     <label>Nazwa : </label>
+//                     <input name='endDate' type = 'date' value={oneElection.endDate} onChange={handleChange}/>
+
+//                     <label>Opis </label>
+//                     <input name='description' value={oneElection.description} onChange={handleChange}/>
+
+
+
+//                     <button onClick={function(event){
+
+//                         editElection(oneElection.id)
+//                         event.preventDefault();
+//                     }}> Zapisz Zmiany</button>
+
+//                      <button onClick={function(event){
+//                        toggleEditMode()
+//                         event.preventDefault();
+//                         }}> Anuluj</button>
+//             </>
+
+//     )
+// }

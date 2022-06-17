@@ -51,11 +51,7 @@ function deleteCandidate(id, candidateProps){
 
 
 function updateCandidate(data){
-	// setAllCandidates(function(prevValue){
-	// 	prevValue.findIndex
-	// })
 	getAllCandidates();
-
 }
 
 return (

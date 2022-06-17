@@ -3,10 +3,13 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import TextField from '@mui/material/TextField';
+import axios from 'axios';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 
 
- function EditElectionModal() {
+ function EditElectionModal(props) {
 
     const style = {
         position: 'absolute',
@@ -19,12 +22,54 @@ import Modal from '@mui/material/Modal';
         boxShadow: 24,
         p: 4,
       };
+      
+      const data = props.electionInfoData
+
+  const[electionInfo, setElectionInfo] = useState(data)
+  const[editedElectionInfo, setEditedElectionInfo] = useState(data)
+  const[open, setOpen] = React.useState(false);
 
 
 
+    function handleChange(event){
+    const{name, value} = event.target
+    console.log(name + value)
+    setEditedElectionInfo(function(prevValue){
+        console.log()
+        return {
+            ...prevValue,
+            [name] : value
+        }
+    })
+    }
 
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
+
+    function patchElection(id){
+       console.log(editedElectionInfo)
+     console.log(id)
+        axios({
+            method:'patch',
+            url: 'http://localhost:8080/api/elections/'+id,
+            data: editedElectionInfo
+        }).then(function(response){
+            props.updateElectionInfo()
+            handleClose()
+            NotificationManager.success("Pomyślnie edytowano dane głoswania")
+        }
+        ).catch(
+
+        )
+
+    }
+
+    function cancelChanges(){
+        console.log(electionInfo)
+        setEditedElectionInfo(electionInfo);
+        handleClose()
+    }
+
+  const handleOpen = () => {setOpen(true)
+     console.log(editedElectionInfo)};
   const handleClose = () => setOpen(false);
 
   return (
@@ -41,8 +86,15 @@ import Modal from '@mui/material/Modal';
             Text in a modal
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+            Edycja głosowania
           </Typography>
+            <TextField name ="name" id="standard-basic" label="Nazwa" variant="standard" value={editedElectionInfo.name} onChange={handleChange} />
+            <TextField name ="startDate" id="standard-basic" label="Data rozpoczęcia" variant="standard" value={editedElectionInfo.startDate} onChange={handleChange}/>
+            <TextField name ="endDate" id="standard-basic" label="Data zakończenia" variant="standard" value={editedElectionInfo.endDate} onChange={handleChange}/>
+            <TextField name ="description" id="standard-basic" label="Opis" variant="standard" value={editedElectionInfo.description} onChange={handleChange}/>
+
+            <Button variant="text" onClick={function(event){patchElection(props.electionInfoData.id); event.preventDefault()}}>Zapisz zmiany</Button>
+            <Button variant="text" onClick={function(event){cancelChanges(); event.preventDefault()}}>Anuluj</Button>
         </Box>
       </Modal>
     </div>

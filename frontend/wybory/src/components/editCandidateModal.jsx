@@ -74,6 +74,7 @@ return(
 <>
     <EditIcon onClick={handleOpen}></EditIcon>
       <Modal
+        animation={false}
         open={open}
         onClose={cancelChanges}
         aria-labelledby="modal-modal-title"

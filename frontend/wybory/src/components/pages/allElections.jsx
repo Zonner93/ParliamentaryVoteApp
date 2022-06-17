@@ -22,10 +22,7 @@ const[allElections, setAllElections] = useState([])
 useEffect(function(){getAllElections()},[])
 
 function showDetails(electionId){
-
-  
     navigate('/elections/'+electionId)
-
 }
 
     return(
