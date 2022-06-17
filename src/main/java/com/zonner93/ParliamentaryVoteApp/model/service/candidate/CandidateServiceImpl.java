@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
@@ -48,27 +47,29 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
-    public void patchCandidate(long id, String politicalGroup, Integer listPosition, Election election,
-                               String firstName, String lastName, String personalIdNumber,
-                               List<VoteResults> voteResultsList) {
-
+    public void patchCandidate(long id, Candidate candidate) {
         validateIfCandidateExists(id);
-        Candidate candidate = candidateRepository.findById(id);
+        String politicalGroup = candidate.getPoliticalGroup();
         if (Objects.nonNull(politicalGroup)) {
             candidate.setPoliticalGroup(politicalGroup);
         }
+        Integer listPosition = candidate.getListPosition();
         if (Objects.nonNull(listPosition)) {
             candidate.setListPosition(listPosition);
         }
+        String firstName = candidate.getFirstName();
         if (Objects.nonNull(firstName)) {
             candidate.setFirstName(firstName);
         }
+        String lastName = candidate.getLastName();
         if (Objects.nonNull(lastName)) {
             candidate.setLastName(lastName);
         }
+        String personalIdNumber = candidate.getPersonalIdNumber();
         if (Objects.nonNull(personalIdNumber)) {
             candidate.setPersonalIdNumber(personalIdNumber);
         }
+        List<VoteResults> voteResultsList = candidate.getVoteResultsList();
         if (Objects.nonNull(voteResultsList)) {
             candidate.setVoteResultsList(voteResultsList);
         }
@@ -92,7 +93,7 @@ public class CandidateServiceImpl implements CandidateService {
     public void voteForCandidate(long id) {
         validateId(id);
         validateIfCandidateExists(id);
-        Candidate currentCandidate =  candidateRepository.findById(id);
+        Candidate currentCandidate = candidateRepository.findById(id);
         VoteResults voteResults = new VoteResults();
         voteResults.setTimestamp(LocalDateTime.now());
         voteResults.setCandidateId(currentCandidate.getId());
