@@ -56,6 +56,7 @@ public class ElectionServiceImpl implements ElectionService {
     @Override
     public void patchElection(long id, Election election) {
         validateIfElectionExists(id);
+        election.setId(id);
         String name = election.getName();
         if (Objects.nonNull(name)) {
             election.setName(name);
