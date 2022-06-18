@@ -112,6 +112,8 @@ public class CandidateServiceImpl implements CandidateService {
         voteResult.setUserId(user.getId());
 
 
+        user.getVoteResults().add(voteResult);
+        userRepository.save(user);
 
         currentCandidate.getVoteResultsList().add(voteResult);
         candidateRepository.save(currentCandidate);
