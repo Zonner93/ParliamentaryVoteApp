@@ -18,5 +18,5 @@ import java.util.List;
 public class User extends Person {
     private String personalIdNumber;
     @OneToMany(cascade = CascadeType.ALL)
-    private List<VoteResult> voteResults = new ArrayList<>();
+    private List<UserVotedCandidate> votedCandidatesList = new ArrayList<>();
 }

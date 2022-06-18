@@ -1,9 +1,6 @@
 package com.zonner93.ParliamentaryVoteApp.model.service.candidate;
 
-import com.zonner93.ParliamentaryVoteApp.model.entity.Candidate;
-import com.zonner93.ParliamentaryVoteApp.model.entity.Election;
-import com.zonner93.ParliamentaryVoteApp.model.entity.User;
-import com.zonner93.ParliamentaryVoteApp.model.entity.VoteResult;
+import com.zonner93.ParliamentaryVoteApp.model.entity.*;
 import com.zonner93.ParliamentaryVoteApp.model.exception.candidate.CandidateError;
 import com.zonner93.ParliamentaryVoteApp.model.exception.candidate.CandidateException;
 import com.zonner93.ParliamentaryVoteApp.model.exception.election.ElectionError;
@@ -104,7 +101,7 @@ public class CandidateServiceImpl implements CandidateService {
 //        TODO: Rzucić wyjątkiem gdy authentication jest nullem
         String userEmail = authentication.getName();
         User user = userRepository.findByEmail(userEmail).get(0);
-        validateIfUserAlreadyVotedForGivenCandidate(candidateId, user);
+        validateIfUserAlreadyVotedForGivenCandidate(currentCandidate.getElectionId(), user);
 
         VoteResult voteResult = new VoteResult();
         voteResult.setTimestamp(LocalDateTime.now());
@@ -112,11 +109,18 @@ public class CandidateServiceImpl implements CandidateService {
         voteResult.setUserId(user.getId());
 
 
-        user.getVoteResults().add(voteResult);
+        user.getVotedCandidatesList().add(createUserVotedCandidateFromVoteResult(voteResult, currentCandidate.getElectionId()));
         userRepository.save(user);
 
         currentCandidate.getVoteResultsList().add(voteResult);
         candidateRepository.save(currentCandidate);
+    }
+
+    protected UserVotedCandidate createUserVotedCandidateFromVoteResult(VoteResult voteResult, long electionId) {
+        UserVotedCandidate userVotedCandidate = new UserVotedCandidate();
+        userVotedCandidate.setElectionId(electionId);
+        userVotedCandidate.setTimestamp(voteResult.getTimestamp());
+        return  userVotedCandidate;
     }
 
     protected void validateIfCandidateExists(long id) {
@@ -137,10 +141,10 @@ public class CandidateServiceImpl implements CandidateService {
         }
     }
 
-    protected void validateIfUserAlreadyVotedForGivenCandidate(long candidateId, User user) {
-        for (VoteResult voteResult : user.getVoteResults()) {
-            if (voteResult.getCandidateId() == candidateId) {
-                throw new UserException(UserError.USER_HAS_ALREADY_VOTED_FOR_THIS_CANDIDATE);
+    protected void validateIfUserAlreadyVotedForGivenCandidate(long electionId, User user) {
+        for (UserVotedCandidate userVotedCandidate : user.getVotedCandidatesList()) {
+            if (userVotedCandidate.getElectionId() == electionId) {
+                throw new UserException(UserError.USER_HAS_ALREADY_VOTED_IN_CURRENT_ELECTION);
             }
         }
     }

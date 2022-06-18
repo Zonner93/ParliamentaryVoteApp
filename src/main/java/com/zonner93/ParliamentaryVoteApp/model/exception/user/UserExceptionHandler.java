@@ -13,7 +13,7 @@ public class UserExceptionHandler {
         HttpStatus httpStatus = HttpStatus.MULTI_STATUS;
         if (UserError.USER_WITH_EMAIL_PROVIDED_ALREADY_EXISTS.equals(exception.getUserError()) ||
                 UserError.PASSWORD_IS_TOO_SHORT.equals(exception.getUserError()) ||
-                UserError.USER_HAS_ALREADY_VOTED_FOR_THIS_CANDIDATE.equals(exception.getUserError())
+                UserError.USER_HAS_ALREADY_VOTED_IN_CURRENT_ELECTION.equals(exception.getUserError())
         ) {
             httpStatus = HttpStatus.BAD_REQUEST;
         }
