@@ -2,10 +2,13 @@ package com.zonner93.ParliamentaryVoteApp.model.exception.user;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class UserExceptionHandler {
+
+    @ExceptionHandler(value = UserException.class)
     public ResponseEntity<UserErrorInfo> handlerUserException(UserException exception) {
         HttpStatus httpStatus = HttpStatus.MULTI_STATUS;
         if (UserError.USER_WITH_EMAIL_PROVIDED_ALREADY_EXISTS.equals(exception.getUserError())) {
