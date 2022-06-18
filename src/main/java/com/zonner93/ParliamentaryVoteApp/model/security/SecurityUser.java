@@ -1,6 +1,7 @@
 package com.zonner93.ParliamentaryVoteApp.model.security;
 
 import com.zonner93.ParliamentaryVoteApp.model.abstracts.Person;
+import com.zonner93.ParliamentaryVoteApp.model.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,26 +12,26 @@ import java.util.Collection;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class SecurityPerson implements UserDetails {
+public class SecurityUser implements UserDetails {
 
     public static final long serialVersionUID = -6690946490872875352L;
-    private final Person person;
+    private final User user;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(person.getRole()));
+        authorities.add(new SimpleGrantedAuthority(user.getRole()));
         return null;
     }
 
     @Override
     public String getPassword() {
-        return person.getPassword();
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return person.getEmail();
+        return user.getEmail();
     }
 
     @Override

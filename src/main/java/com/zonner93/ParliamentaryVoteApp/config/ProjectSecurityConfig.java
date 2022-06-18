@@ -31,13 +31,14 @@ public class ProjectSecurityConfig {
                 return config;
             }
         }).and().csrf()
-                .ignoringAntMatchers("/api/elections")
-                .ignoringAntMatchers("/api/candidates")
+                .ignoringAntMatchers("/api/elections/**")
+                .ignoringAntMatchers("/api/candidates/**")
+                .ignoringAntMatchers("/api/users/**")
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .and().authorizeHttpRequests((auth) -> auth
-//                TODO: zmienić ant matchere na te z appki do głosowania
                 .antMatchers("/api/**").authenticated()
-//                .antMatchers("/notices", "/contact").permitAll()
+//                TODO: Zrobić widok logowania
+                .antMatchers("/login").permitAll()
         ).formLogin().and().httpBasic(Customizer.withDefaults());
         return http.build();
 

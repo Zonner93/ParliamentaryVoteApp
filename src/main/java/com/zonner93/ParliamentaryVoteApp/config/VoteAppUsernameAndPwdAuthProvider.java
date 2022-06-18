@@ -1,7 +1,7 @@
 package com.zonner93.ParliamentaryVoteApp.config;
 
-import com.zonner93.ParliamentaryVoteApp.model.abstracts.Person;
-import com.zonner93.ParliamentaryVoteApp.model.repository.PersonRepository;
+import com.zonner93.ParliamentaryVoteApp.model.entity.User;
+import com.zonner93.ParliamentaryVoteApp.model.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -19,19 +19,19 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class VoteAppUsernameAndPwdAuthProvider implements AuthenticationProvider {
-    private final PersonRepository personRepository;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
         String pwd = authentication.getCredentials().toString();
-        List<Person> persons = personRepository.findByEmail(username);
+        List<User> users = userRepository.findByEmail(username);
 
-        if (persons.size() > 0) {
-            if (passwordEncoder.matches(pwd, persons.get(0).getPassword())) {
+        if (users.size() > 0) {
+            if (passwordEncoder.matches(pwd, users.get(0).getPassword())) {
                 List<GrantedAuthority> authorities = new ArrayList<>();
-                authorities.add(new SimpleGrantedAuthority(persons.get(0).getRole()));
+                authorities.add(new SimpleGrantedAuthority(users.get(0).getRole()));
                 return new UsernamePasswordAuthenticationToken(username, pwd, authorities);
             } else {
                 throw new BadCredentialsException("Invalid password!");
