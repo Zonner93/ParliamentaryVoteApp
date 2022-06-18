@@ -3,11 +3,13 @@ package com.zonner93.ParliamentaryVoteApp.model.service.candidate;
 import com.zonner93.ParliamentaryVoteApp.model.entity.Candidate;
 import com.zonner93.ParliamentaryVoteApp.model.entity.Election;
 import com.zonner93.ParliamentaryVoteApp.model.entity.User;
-import com.zonner93.ParliamentaryVoteApp.model.entity.VoteResults;
+import com.zonner93.ParliamentaryVoteApp.model.entity.VoteResult;
 import com.zonner93.ParliamentaryVoteApp.model.exception.candidate.CandidateError;
 import com.zonner93.ParliamentaryVoteApp.model.exception.candidate.CandidateException;
 import com.zonner93.ParliamentaryVoteApp.model.exception.election.ElectionError;
 import com.zonner93.ParliamentaryVoteApp.model.exception.election.ElectionException;
+import com.zonner93.ParliamentaryVoteApp.model.exception.user.UserError;
+import com.zonner93.ParliamentaryVoteApp.model.exception.user.UserException;
 import com.zonner93.ParliamentaryVoteApp.model.repository.CandidateRepository;
 import com.zonner93.ParliamentaryVoteApp.model.repository.ElectionRepository;
 import com.zonner93.ParliamentaryVoteApp.model.repository.UserRepository;
@@ -74,7 +76,7 @@ public class CandidateServiceImpl implements CandidateService {
         if (Objects.nonNull(personalIdNumber)) {
             candidate.setPersonalIdNumber(personalIdNumber);
         }
-        List<VoteResults> voteResultsList = candidate.getVoteResultsList();
+        List<VoteResult> voteResultsList = candidate.getVoteResultsList();
         if (Objects.nonNull(voteResultsList)) {
             candidate.setVoteResultsList(voteResultsList);
         }
@@ -95,24 +97,23 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
-    public void voteForCandidate(long id, Authentication authentication) {
-        validateId(id);
-        validateIfCandidateExists(id);
-        Candidate currentCandidate = candidateRepository.findById(id);
-
+    public void voteForCandidate(long candidateId, Authentication authentication) {
+        validateId(candidateId);
+        validateIfCandidateExists(candidateId);
+        Candidate currentCandidate = candidateRepository.findById(candidateId);
 //        TODO: Rzucić wyjątkiem gdy authentication jest nullem
         String userEmail = authentication.getName();
         User user = userRepository.findByEmail(userEmail).get(0);
+        validateIfUserAlreadyVotedForGivenCandidate(candidateId, user);
 
-        VoteResults voteResults = new VoteResults();
-        voteResults.setTimestamp(LocalDateTime.now());
-        voteResults.setCandidateId(currentCandidate.getId());
-//        TODO: walidacja czy użytkownik o zadanym emailu już zagłosował jeśli tak to rzucić wyjątkiemgi
-        voteResults.setUser(user);
+        VoteResult voteResult = new VoteResult();
+        voteResult.setTimestamp(LocalDateTime.now());
+        voteResult.setCandidateId(currentCandidate.getId());
+        voteResult.setUserId(user.getId());
 
 
 
-        currentCandidate.getVoteResultsList().add(voteResults);
+        currentCandidate.getVoteResultsList().add(voteResult);
         candidateRepository.save(currentCandidate);
     }
 
@@ -131,6 +132,14 @@ public class CandidateServiceImpl implements CandidateService {
     protected void validateId(long id) {
         if (id < 0) {
             throw new CandidateException(CandidateError.INVALID_ID);
+        }
+    }
+
+    protected void validateIfUserAlreadyVotedForGivenCandidate(long candidateId, User user) {
+        for (VoteResult voteResult : user.getVoteResults()) {
+            if (voteResult.getCandidateId() == candidateId) {
+                throw new UserException(UserError.USER_HAS_ALREADY_VOTED_FOR_THIS_CANDIDATE);
+            }
         }
     }
 }

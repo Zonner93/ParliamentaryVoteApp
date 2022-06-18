@@ -22,5 +22,5 @@ public class Candidate {
     private String lastName;
     private String personalIdNumber;
     @OneToMany(cascade=CascadeType.ALL)
-    private List<VoteResults> voteResultsList = new ArrayList<>();
+    private List<VoteResult> voteResultsList = new ArrayList<>();
 }

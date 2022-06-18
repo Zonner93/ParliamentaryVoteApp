@@ -17,5 +17,5 @@ import java.util.List;
 public class User extends Person {
     private String personalIdNumber;
     @OneToMany
-    private List<VoteResults> voteResults = new ArrayList<>();
+    private List<VoteResult> voteResults = new ArrayList<>();
 }
