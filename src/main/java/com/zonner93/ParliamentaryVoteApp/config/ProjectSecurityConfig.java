@@ -36,11 +36,12 @@ public class ProjectSecurityConfig {
                 .ignoringAntMatchers("/api/users/**")
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .and().authorizeHttpRequests((auth) -> auth
-                .antMatchers("//api/elections/**").hasRole("ADMIN")
-                .antMatchers("//api/candidates/**").hasRole("ADMIN")
-                .antMatchers("/api/vote/candidates/**").hasRole("USER")
+                        .antMatchers("/api/elections/**").hasRole("ADMIN")
+                        .antMatchers("/api/candidates/vote/**").hasRole("ADMIN")
+                        .antMatchers("/api/candidates/**").hasRole("ADMIN")
+                        .antMatchers("/api/vote/candidates/**").hasRole("USER")
 //                        .authenticated()
-                .antMatchers("/login").permitAll()
+                        .antMatchers("/login").permitAll()
         ).formLogin().and().httpBasic(Customizer.withDefaults());
         return http.build();
 

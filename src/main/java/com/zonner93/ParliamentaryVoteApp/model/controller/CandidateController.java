@@ -3,6 +3,7 @@ package com.zonner93.ParliamentaryVoteApp.model.controller;
 import com.zonner93.ParliamentaryVoteApp.model.entity.Candidate;
 import com.zonner93.ParliamentaryVoteApp.model.service.candidate.CandidateService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -49,9 +50,8 @@ public class CandidateController {
         return candidateService.getVoteCount(id);
     }
 
-    //TODO: validacja i autentykacja
     @PostMapping(path = "/vote/{id}")
-    public void voteForCandidate(@PathVariable long id) {
-        candidateService.voteForCandidate(id);
+    public void voteForCandidate(Authentication authentication, @PathVariable long id) {
+        candidateService.voteForCandidate(id, authentication);
     }
 }

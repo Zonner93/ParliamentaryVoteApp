@@ -2,6 +2,7 @@ package com.zonner93.ParliamentaryVoteApp.model.service.candidate;
 
 import com.zonner93.ParliamentaryVoteApp.model.entity.Candidate;
 import com.zonner93.ParliamentaryVoteApp.model.entity.Election;
+import com.zonner93.ParliamentaryVoteApp.model.entity.User;
 import com.zonner93.ParliamentaryVoteApp.model.entity.VoteResults;
 import com.zonner93.ParliamentaryVoteApp.model.exception.candidate.CandidateError;
 import com.zonner93.ParliamentaryVoteApp.model.exception.candidate.CandidateException;
@@ -9,7 +10,9 @@ import com.zonner93.ParliamentaryVoteApp.model.exception.election.ElectionError;
 import com.zonner93.ParliamentaryVoteApp.model.exception.election.ElectionException;
 import com.zonner93.ParliamentaryVoteApp.model.repository.CandidateRepository;
 import com.zonner93.ParliamentaryVoteApp.model.repository.ElectionRepository;
+import com.zonner93.ParliamentaryVoteApp.model.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,8 +22,10 @@ import java.util.Objects;
 @Service
 @RequiredArgsConstructor
 public class CandidateServiceImpl implements CandidateService {
+
     private final CandidateRepository candidateRepository;
     private final ElectionRepository electionRepository;
+    private final UserRepository userRepository;
 
     @Override
     public void createCandidate(Candidate candidate) {
@@ -90,14 +95,22 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
-    public void voteForCandidate(long id) {
+    public void voteForCandidate(long id, Authentication authentication) {
         validateId(id);
         validateIfCandidateExists(id);
         Candidate currentCandidate = candidateRepository.findById(id);
+
+//        TODO: Rzucić wyjątkiem gdy authentication jest nullem
+        String userEmail = authentication.getName();
+        User user = userRepository.findByEmail(userEmail).get(0);
+
         VoteResults voteResults = new VoteResults();
         voteResults.setTimestamp(LocalDateTime.now());
         voteResults.setCandidateId(currentCandidate.getId());
-//        TODO: ustawić który user zagłosował
+//        TODO: walidacja czy użytkownik o zadanym emailu już zagłosował jeśli tak to rzucić wyjątkiemgi
+        voteResults.setUser(user);
+
+
 
         currentCandidate.getVoteResultsList().add(voteResults);
         candidateRepository.save(currentCandidate);
