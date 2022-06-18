@@ -36,8 +36,10 @@ public class ProjectSecurityConfig {
                 .ignoringAntMatchers("/api/users/**")
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .and().authorizeHttpRequests((auth) -> auth
-                .antMatchers("/api/**").authenticated()
-//                TODO: Zrobić widok logowania
+                .antMatchers("//api/elections/**").hasRole("ADMIN")
+                .antMatchers("//api/candidates/**").hasRole("ADMIN")
+                .antMatchers("/api/vote/candidates/**").hasRole("USER")
+//                        .authenticated()
                 .antMatchers("/login").permitAll()
         ).formLogin().and().httpBasic(Customizer.withDefaults());
         return http.build();
