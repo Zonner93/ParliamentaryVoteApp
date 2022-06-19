@@ -3,7 +3,7 @@ import MenuItem from "../menuItem";
 import {useNavigate } from "react-router-dom"
 
 
-const Start = () => {
+const StartAdmin = () => {
 
 const navigate = useNavigate();
 
@@ -25,11 +25,6 @@ return (
 			route="/addcandidate"
 			goTo={goToPath}
 		/>
-		{/* <MenuItem
-			name="Usuń kandata"
-			route="/deletecandidate"
-			goTo={goToPath}
-		/> */}
 		<MenuItem
 			name="Wyświetl wszystkie głosowania"
 			route="/allelections"
@@ -40,18 +35,11 @@ return (
 			route="/createelection"
 			goTo={goToPath}
 		/>
-		{/* <MenuItem
-			name="Usuń głosowanie"
-			route="/"
-			goTo={goToPath}
-		/> */}
-
-
 	</div>
 );
 };
 
-export default Start;
+export default StartAdmin;
 
 
 

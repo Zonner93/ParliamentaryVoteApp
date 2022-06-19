@@ -1,33 +1,3 @@
-// import React from "react";
-// import ReactDOM from "react-dom";
-// import LoginInput from "../logininput.jsx"
-// import { BrowserRouter as Router, Routes, Route, Link, Navigate, useNavigate } from "react-router-dom"
-
-
-// function Login(){
-//     const navigate = useNavigate();
-
-// function login(loginData){
-//     //POST
-//     console.log(loginData)
-//     navigate('/start');
-// }
-
-
-//     return (
-// <div >
-//       <LoginInput login={login}/>
-
-// </div>
-
-//     )
-// }
-
-
-
-
-
-// export default Login;
 
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
@@ -39,12 +9,9 @@ import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-// import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-
 import LoginInput from "../logininput.jsx"
 import { BrowserRouter as Router, Routes, Route,  Navigate, useNavigate } from "react-router-dom"
 
@@ -65,21 +32,22 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function Login() {
-
-
+export default function Login(props) {
 
     const navigate = useNavigate();
 
+
+
     function login(loginData){
-        //POST
-        console.log(loginData)
-        navigate('/start');
+        if(loginData.login === 'user') {
+          // props.getLogin(true)
+          // props.renderStart("user")
+          navigate('/start/user');
+        } else {
+          navigate('/start/admin');
+        }
+        props.getLogin(loginData.login)
     }
-
-
-
-
 
   const handleSubmit = (event) => {
     event.preventDefault();
