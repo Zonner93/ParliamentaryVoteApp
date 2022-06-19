@@ -10,6 +10,8 @@ import java.util.List;
 @Repository
 public interface ElectionRepository extends JpaRepository<Election, Long> {
     List<Election> findAllByNameContaining(String name);
+
     Election findById(long id);
+
     List<Election> findByEndDateGreaterThan(LocalDateTime dateCompareTo);
 }
