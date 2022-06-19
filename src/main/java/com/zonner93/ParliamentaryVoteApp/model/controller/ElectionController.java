@@ -1,5 +1,6 @@
 package com.zonner93.ParliamentaryVoteApp.model.controller;
 
+import com.zonner93.ParliamentaryVoteApp.model.dto.ElectionDtoInput;
 import com.zonner93.ParliamentaryVoteApp.model.entity.Election;
 import com.zonner93.ParliamentaryVoteApp.model.service.election.ElectionService;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +16,8 @@ public class ElectionController {
     private final ElectionService electionService;
 
     @PostMapping()
-    public void createElection(@RequestBody Election election) {
-        electionService.createElection(election);
+    public void createElection(@RequestBody ElectionDtoInput electionDtoInput) {
+        electionService.createElection(electionDtoInput);
     }
 
     @GetMapping(path = "/{id}")
@@ -36,8 +37,8 @@ public class ElectionController {
 
     @PatchMapping(path = "/{id}")
     public void patchElection(@PathVariable long id,
-                              @RequestBody Election election) {
-        electionService.patchElection(id, election);
+                              @RequestBody ElectionDtoInput electionDtoInput) {
+        electionService.patchElection(id, electionDtoInput);
     }
 
     @DeleteMapping(path = "/{id}")
