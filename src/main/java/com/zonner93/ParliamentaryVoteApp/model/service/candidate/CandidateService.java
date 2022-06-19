@@ -1,6 +1,7 @@
 package com.zonner93.ParliamentaryVoteApp.model.service.candidate;
 
 import com.zonner93.ParliamentaryVoteApp.model.entity.Candidate;
+import org.springframework.security.core.Authentication;
 
 import java.util.List;
 
@@ -19,5 +20,5 @@ public interface CandidateService {
 
     List<Candidate> getAllCandidates();
 
-    void voteForCandidate(long id);
+    void voteForCandidate(long id, Authentication authentication);
 }

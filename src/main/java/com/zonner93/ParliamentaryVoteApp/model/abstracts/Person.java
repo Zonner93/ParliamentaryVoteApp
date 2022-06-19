@@ -7,13 +7,15 @@ import javax.persistence.*;
 
 @Getter
 @Setter
+//@Entity
 @MappedSuperclass
 public abstract class Person {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private long id;
     private String name;
     private String surname;
     private String email;
     private String password;
+    private String role;
 }

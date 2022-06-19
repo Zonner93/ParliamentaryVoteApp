@@ -10,13 +10,11 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @Table(name = "vote_results")
-public class VoteResults {
+public class VoteResult {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
-    @ManyToOne
-    private User user;
+    private long userId;
     private long candidateId;
     private LocalDateTime timestamp;
 }
