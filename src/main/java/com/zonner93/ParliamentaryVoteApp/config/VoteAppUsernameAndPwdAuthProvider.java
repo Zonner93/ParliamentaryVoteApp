@@ -1,7 +1,7 @@
 package com.zonner93.ParliamentaryVoteApp.config;
 
 import com.zonner93.ParliamentaryVoteApp.model.entity.User;
-import com.zonner93.ParliamentaryVoteApp.model.repository.UserRepository;
+import com.zonner93.ParliamentaryVoteApp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
