@@ -10,6 +10,7 @@ public interface ElectionService {
     void createElection(ElectionDtoInput electionDtoInput);
 
     List<Election> getAllElectionList();
+    List<Election> getActiveElectionList();
 
     List<Election> getElectionListByName(String name);
 

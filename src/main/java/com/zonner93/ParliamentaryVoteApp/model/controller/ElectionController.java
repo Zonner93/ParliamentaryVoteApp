@@ -25,6 +25,11 @@ public class ElectionController {
         return electionService.getElectionById(id);
     }
 
+    @GetMapping("/active")
+    public List<Election> getActiveElectionList() {
+        return electionService.getActiveElectionList();
+    }
+
     @GetMapping("/all")
     public List<Election> getAllElectionList() {
         return electionService.getAllElectionList();

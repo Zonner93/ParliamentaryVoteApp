@@ -45,6 +45,20 @@ public class ElectionServiceImpl implements ElectionService {
     }
 
     @Override
+    public List<Election> getActiveElectionList() {
+        LocalDateTime datetimeNow = LocalDateTime.now();
+        List<Election> electionList = electionRepository.findByEndDateGreaterThan(datetimeNow);
+        List<Election> activeElectionList = new ArrayList<>();
+        for (Election election : electionList) {
+            LocalDateTime startDate = election.getStartDate();
+            if (startDate.isBefore(datetimeNow)) {
+                activeElectionList.add(election);
+            }
+        }
+        return activeElectionList;
+    }
+
+    @Override
     public List<Election> getElectionListByName(String name) {
         return electionRepository.findAllByNameContaining(name);
     }
