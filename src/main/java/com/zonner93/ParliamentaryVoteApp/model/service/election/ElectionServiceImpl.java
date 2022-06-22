@@ -1,5 +1,6 @@
 package com.zonner93.ParliamentaryVoteApp.model.service.election;
 
+import com.zonner93.ParliamentaryVoteApp.model.dto.ElectionDtoInput;
 import com.zonner93.ParliamentaryVoteApp.model.entity.Candidate;
 import com.zonner93.ParliamentaryVoteApp.model.entity.Election;
 import com.zonner93.ParliamentaryVoteApp.model.exception.candidate.CandidateError;
@@ -11,7 +12,12 @@ import com.zonner93.ParliamentaryVoteApp.model.repository.ElectionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -20,7 +26,8 @@ public class ElectionServiceImpl implements ElectionService {
     private final CandidateRepository candidateRepository;
 
     @Override
-    public void createElection(Election election) {
+    public void createElection(ElectionDtoInput electionDtoInput) {
+        Election election = convertElectionDtoOutputToEntity(electionDtoInput);
         Election savedElection = electionRepository.save(election);
         long electionId = savedElection.getId();
         List<Candidate> candidateList = election.getCandidateList();
@@ -35,6 +42,20 @@ public class ElectionServiceImpl implements ElectionService {
     @Override
     public List<Election> getAllElectionList() {
         return electionRepository.findAll();
+    }
+
+    @Override
+    public List<Election> getActiveElectionList() {
+        LocalDateTime datetimeNow = LocalDateTime.now();
+        List<Election> electionList = electionRepository.findByEndDateGreaterThan(datetimeNow);
+        List<Election> activeElectionList = new ArrayList<>();
+        for (Election election : electionList) {
+            LocalDateTime startDate = election.getStartDate();
+            if (startDate.isBefore(datetimeNow)) {
+                activeElectionList.add(election);
+            }
+        }
+        return activeElectionList;
     }
 
     @Override
@@ -54,8 +75,9 @@ public class ElectionServiceImpl implements ElectionService {
     }
 
     @Override
-    public void patchElection(long id, Election election) {
+    public void patchElection(long id, ElectionDtoInput electionDtoInput) {
         validateIfElectionExists(id);
+        Election election = convertElectionDtoOutputToEntity(electionDtoInput);
         election.setId(id);
         String name = election.getName();
         if (Objects.nonNull(name)) {
@@ -65,16 +87,16 @@ public class ElectionServiceImpl implements ElectionService {
         if (Objects.nonNull(description)) {
             election.setDescription(description);
         }
-        String startDate = election.getStartDate();
+        LocalDateTime startDate = election.getStartDate();
         if (Objects.nonNull(startDate)) {
             election.setStartDate(startDate);
         }
-        String endDate = election.getEndDate();
+        LocalDateTime endDate = election.getEndDate();
         if (Objects.nonNull(endDate)) {
             election.setEndDate(endDate);
         }
 
-        List<Candidate>  candidateList = election.getCandidateList();
+        List<Candidate> candidateList = election.getCandidateList();
         if (Objects.nonNull(candidateList) && !candidateList.isEmpty()) {
             List<Candidate> oldCandidatesList = election.getCandidateList();
             if (Objects.nonNull(oldCandidatesList) && !oldCandidatesList.isEmpty()) {
@@ -127,6 +149,32 @@ public class ElectionServiceImpl implements ElectionService {
         election.getCandidateList().remove(candidate);
         candidate.setElectionId(0);
         electionRepository.save(election);
+    }
+
+    protected Election convertElectionDtoOutputToEntity(ElectionDtoInput electionDtoInput) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        Election election = new Election();
+
+        if (Objects.nonNull(electionDtoInput.getName())) {
+            election.setName(electionDtoInput.getName());
+        }
+        if (Objects.nonNull(electionDtoInput.getDescription())) {
+            election.setDescription(electionDtoInput.getDescription());
+        }
+        if (Objects.nonNull(electionDtoInput.getCandidateList())) {
+            election.setCandidateList(electionDtoInput.getCandidateList());
+        }
+        if (Objects.nonNull(electionDtoInput.getStartDate())) {
+            LocalDateTime startDate = LocalDateTime.parse(electionDtoInput.getStartDate(), formatter);
+            election.setStartDate(startDate);
+        }
+        if (Objects.nonNull(electionDtoInput.getEndDate())) {
+            LocalDateTime endDate = LocalDateTime.parse(electionDtoInput.getEndDate(), formatter);
+            election.setEndDate(endDate);
+        }
+        return election;
     }
 
     protected void validateIfElectionExists(long id) {
