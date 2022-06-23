@@ -28,12 +28,23 @@ setNewCandidateData(function(prevValue){
 })
 }
 
+const newC = {
+    "email": "user2@gmail.com",
+    "name": "Jerzy",
+    "surname": "Kowalski",
+    "password": "123456789",
+    "role": "ROLE_USER"
+}
 
 function addCandidate(newCandidateData){
 	axios({
 		method:'post',
-		url:'http://localhost:8080/api/candidates',
-		data: newCandidateData
+		url:'http://localhost:8080/api/users',
+		data: newC,
+		auth: {
+			username: 'admin@gmail.com',
+			password: 'admin123'
+		  },
 	}).then(function(response){
 		NotificationManager.success("Pomyślnie dodano nowego kandydata")
 	}).catch(

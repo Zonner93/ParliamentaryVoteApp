@@ -4,6 +4,7 @@ import axios from "axios"
 import DeleteCandidate from './deleteCandidate.js';
 import './listCandidates.css'
 import {NotificationContainer, NotificationManager} from 'react-notifications';
+import CryptoJS from 'crypto-js';
 
 
 
@@ -15,10 +16,19 @@ const[allCandidates, setAllCandidates] = useState([])
 function getAllCandidates(){
 	axios({
 		method:'get',
-		url: 'http://localhost:8080/api/candidates/all'
+		url: 'http://localhost:8080/api/candidates/all',
+		auth: {
+			username: "admin@gmail.com",
+			password: "admin123"
+		}
+		// url: 'http://localhost:8080/login'
 	}).then(function(response) {
+		debugger
 			setAllCandidates(response.data)
-			console.log(response.data)
+			console.log(CryptoJS.AES.encrypt('haslo', 'token'));
+			console.log(CryptoJS.AES.decrypt(CryptoJS.AES.encrypt('haslo', 'token'), 'token').toString(CryptoJS.enc.Utf8));
+
+			console.log(allCandidates)
 			}
 		);
 }

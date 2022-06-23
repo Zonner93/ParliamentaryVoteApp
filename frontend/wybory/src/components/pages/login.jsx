@@ -14,6 +14,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import LoginInput from "../logininput.jsx"
 import { BrowserRouter as Router, Routes, Route,  Navigate, useNavigate } from "react-router-dom"
+import axios from 'axios';
 
 
 
@@ -36,26 +37,74 @@ export default function Login(props) {
 
     const navigate = useNavigate();
 
+    const users = [
+      {
+        "email": "admin@gmail.com",
+        "name": "admin",
+        "password": "admin123",
+        "surname": "",
+        "role": "ROLE_ADMIN"
+       },
+       {
+      "email": "user@gmail.com",
+      "name": "Karolina",
+      "password": "123456789",
+      "surname": "Krawczyk",
+      "role": "ROLE_USER"
+       },
+      {
+      "email": "user1@gmail.com",
+      "name": "Adam",
+      "surname": "Kot",
+      "password": "123456789",
+      "role": "ROLE_USER"
+  },
+      {
+      "email": "user2@gmail.com",
+      "name": "Jerzy",
+      "surname": "Kowalski",
+      "password": "123456789",
+      "role": "ROLE_USER"
+  }
+  ]
+
 
 
     function login(loginData){
-        if(loginData.login === 'user') {
-          // props.getLogin(true)
-          // props.renderStart("user")
-          navigate('/start/user');
-        } else {
-          navigate('/start/admin');
+      let credential = false;
+      for(const user of users) {
+        if(user.email == loginData.login && user.password == loginData.password){
+          credential = user;
         }
-        props.getLogin(loginData.login)
+      }      
+      
+      if(credential) {
+          props.setUser(credential)
+          renderStart(credential.role)
+        }
+
     }
 
+    function renderStart(role) {
+      debugger
+      if(role === 'ROLE_USER' ){
+        navigate( '/start/user')
+      } else if (role === 'ROLE_ADMIN'){
+        navigate( '/start/admin')
+
+      } else {
+        navigate( '/login')
+
+      }
+    }
+
+
   const handleSubmit = (event) => {
-    event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    // console.log({
+    //   email: data.get('email'),
+    //   password: data.get('password'),
+    // });
   };
 
   return (
