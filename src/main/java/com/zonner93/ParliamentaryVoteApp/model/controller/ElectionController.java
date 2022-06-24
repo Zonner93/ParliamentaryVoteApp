@@ -30,6 +30,12 @@ public class ElectionController {
         return electionService.getActiveElectionList();
     }
 
+    @GetMapping("/finished")
+    public List<Election> getFinishedElectionList() {
+        return electionService.getFinishedElectionList();
+    }
+
+
     @GetMapping("/all")
     public List<Election> getAllElectionList() {
         return electionService.getAllElectionList();

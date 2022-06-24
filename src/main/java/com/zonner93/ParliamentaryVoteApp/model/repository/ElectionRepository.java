@@ -14,4 +14,6 @@ public interface ElectionRepository extends JpaRepository<Election, Long> {
     Election findById(long id);
 
     List<Election> findByEndDateGreaterThan(LocalDateTime dateCompareTo);
+
+    List<Election> findByEndDateLessThan(LocalDateTime dateCompareTo);
 }
