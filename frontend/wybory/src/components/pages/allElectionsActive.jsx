@@ -6,14 +6,14 @@ import Election from "../election.jsx";
 
 
 
-function AllElections(props){
+function AllElectionsActive(props){
 
 const navigate = useNavigate();
 
 function getAllElections(){
     axios({
         method:'get',
-        url:'http://localhost:8080/api/elections/all',
+        url:'http://localhost:8080/api/elections/active',
         auth: {
 			username: sessionStorage.email,
 			password: sessionStorage.password
@@ -59,4 +59,4 @@ function showDetails(electionId){
 }
 
 
-export default AllElections;
+export default AllElectionsActive;

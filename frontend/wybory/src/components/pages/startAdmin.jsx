@@ -5,38 +5,40 @@ import {useNavigate } from "react-router-dom"
 
 const StartAdmin = () => {
 
-const navigate = useNavigate();
+	return <></>
 
-function goToPath(route) {
-	console.log(route)
-	navigate(route);
+// const navigate = useNavigate();
 
-}
+// function goToPath(route) {
+// 	console.log(route)
+// 	navigate(route);
 
-return (
-	<div className="start">
-		<MenuItem
-			name="Wyświetl wszystkich kandydatów"
-			route="/getallcandidates"
-			goTo={goToPath}
-		/>
-		<MenuItem
-			name="Dodaj Kandydata"
-			route="/addcandidate"
-			goTo={goToPath}
-		/>
-		<MenuItem
-			name="Wyświetl wszystkie głosowania"
-			route="/allelections"
-			goTo={goToPath}
-		/>
-		<MenuItem
-			name="Utwórz głosowanie"
-			route="/createelection"
-			goTo={goToPath}
-		/>
-	</div>
-);
+// }
+
+// return (
+// 	<div className="start">
+// 		<MenuItem
+// 			name="Wyświetl wszystkich kandydatów"
+// 			route="/getallcandidates"
+// 			goTo={goToPath}
+// 		/>
+// 		<MenuItem
+// 			name="Dodaj Kandydata"
+// 			route="/addcandidate"
+// 			goTo={goToPath}
+// 		/>
+// 		<MenuItem
+// 			name="Wyświetl wszystkie głosowania"
+// 			route="/allelections"
+// 			goTo={goToPath}
+// 		/>
+// 		<MenuItem
+// 			name="Utwórz głosowanie"
+// 			route="/createelection"
+// 			goTo={goToPath}
+// 		/>
+// 	</div>
+// );
 };
 
 export default StartAdmin;

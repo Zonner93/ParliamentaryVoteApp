@@ -18,9 +18,9 @@ function getAllCandidates(){
 		method:'get',
 		url: 'http://localhost:8080/api/candidates/all',
 		auth: {
-			username: "admin@gmail.com",
-			password: "admin123"
-		}
+			username: sessionStorage.email,
+			password: sessionStorage.password
+		  }
 		// url: 'http://localhost:8080/login'
 	}).then(function(response) {
 		debugger
@@ -40,7 +40,11 @@ useEffect(function(){getAllCandidates()}, [])
 function deleteCandidate(id, candidateProps){
 	axios({
 		method:'delete',
-		url: 'http://localhost:8080/api/candidates/'+id
+		url: 'http://localhost:8080/api/candidates/'+id,
+		auth: {
+			username: sessionStorage.email,
+			password: sessionStorage.password
+		  }
 		}).then(function(response) {
 			console.log("Usunięto kandydata")
 			NotificationManager.success( "Pomyślnie usunięto kandydata")

@@ -33,7 +33,15 @@ function createElection(newElection) {
    axios({
         method:"post",
         url: 'http://localhost:8080/api/elections',
-        data: newElection
+        data: {    
+        "startDate":newElection.startDate + ' 12:00:00',
+        "endDate": newElection.endDate + ' 12:00:00',
+        "name": "",
+        "description": "" },
+        auth: {
+			username: sessionStorage.email,
+			password: sessionStorage.password
+		  }
     }).then(function(response){
         NotificationManager.success("Pomyślnie utworzono głosowanie")
         navigate('/allelections')

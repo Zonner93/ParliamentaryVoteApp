@@ -39,7 +39,11 @@ function AddCandidateModal(props) {
     function getAllCandidates(){
         axios({
             method:'get',
-            url: 'http://localhost:8080/api/candidates/all'
+            url: 'http://localhost:8080/api/candidates/all',
+            auth: {
+              username: sessionStorage.email,
+              password: sessionStorage.password
+              }
         }).then(function(response) {
                 setAllCandidates(response.data)
                 console.log("getAllCandidateswww")
@@ -76,7 +80,11 @@ function AddCandidateModal(props) {
 
     axios({
         method: 'post',
-        url: 'http://localhost:8080/api/elections/'+electionIDD+'/add-candidate?candidateId='+id
+        url: 'http://localhost:8080/api/elections/'+electionIDD+'/add-candidate?candidateId='+id,
+        auth: {
+          username: sessionStorage.email,
+          password: sessionStorage.password
+          }
   }).then(function(response){
     NotificationManager.success(response.status + "Pomyślnie dodano kandydata do głosowania")
 

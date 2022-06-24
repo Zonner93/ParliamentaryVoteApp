@@ -8,6 +8,7 @@ import GetAllCandidates from "./components/pages/getAllCandidates"
 import AddCandidate from "./components/pages/addCandidate"
 import CreateElection from "./components/pages/createElection"
 import AllElections from "./components/pages/allElections"
+import AllElectionsActive from "./components/pages/allElectionsActive"
 import GetOneElection from './components/pages/getOneElection';
 import Header from './components/header';
 import Navbar from './components/navbar'
@@ -16,6 +17,7 @@ import {NotificationContainer, NotificationManager} from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 import CryptoJS from 'crypto-js';
 import HomePage from './components/pages/homepage';
+import VoteResults from './components/pages/voteResults';
 
 
 function App() {
@@ -29,7 +31,7 @@ function App() {
 
   useEffect(() => {
     if(user){
-      debugger
+      
       for(const key in user){
        sessionStorage[key] = user[key];
       }
@@ -45,7 +47,7 @@ function App() {
  
 
   function renderHomePage(){
-    debugger
+    
     if(sessionStorage.role === "ROLE_USER") {
       return <><NavbarUser/><HomePage/></>
 
@@ -68,39 +70,54 @@ function App() {
     <Header/>
       <Routes>
       {/* <Route exact path="/" render={() => (loggedIn ? <Redirect to={renderStart} /> : <Login />)}/>; */}
-        <Route exact 
-        path='/' 
+        <Route exact
+        path='/'
         element={renderHomePage()} />
 
-      <Route exact 
-        path='/login' 
+      <Route exact
+        path='/login'
         element={<Login setUser={setUser}/>} />
 
-        <Route path='/start/user' 
+        <Route path='/start/user'
         element={
-          sessionStorage.role == 'ROLE_USER' ? 
+          sessionStorage.role == 'ROLE_USER' ?
         <><NavbarUser/> <StartUser/></>
         :
         renderHomePage()} />
 
-        <Route path='/start/admin' 
+        <Route path='/start/admin'
         element={
-          sessionStorage.role == 'ROLE_ADMIN' ? 
+          sessionStorage.role == 'ROLE_ADMIN' ?
         <><Navbar/> <StartAdmin/></>
         :
         renderHomePage()} />
-        {/* <Route path='http://localhost:8080/'  element={<><Navbar/> <StartAdmin/></>} /> */}
-        <Route path='/start/admin'  element={<><Navbar/> <StartAdmin/></>} />
-        <Route path='/getallcandidates' element={<><Navbar/><GetAllCandidates editPossibility="true"/></>} />
-        <Route path='/addcandidate' element={<><Navbar/><AddCandidate/></>} />
-        <Route path='/createelection' element={<><Navbar/><CreateElection/></>} />
-        <Route path='/allelections' element={<><Navbar/><AllElections/></>} />
-        <Route path='/user/allelections' element={<><NavbarUser/><AllElections/></>} />
-        <Route path='/elections/:electionID' element={<><Navbar/><GetOneElection/></>} />
+
+       
+        <Route path='/getallcandidates' element={ sessionStorage.role == 'ROLE_ADMIN' ? <><Navbar/><GetAllCandidates editPossibility="true"/></>: renderHomePage()} />
+        <Route path='/addcandidate' element={ sessionStorage.role == 'ROLE_ADMIN' ?<><Navbar/><AddCandidate/></>: renderHomePage()} />
+        <Route path='/createelection' element={ sessionStorage.role == 'ROLE_ADMIN' ?<><Navbar/><CreateElection/></>: renderHomePage()} />
+        <Route path='/allelections' element={ sessionStorage.role == 'ROLE_ADMIN' || 'ROLE_USER' ?<><Navbar/><AllElections/></>: renderHomePage()} />
+        <Route path='/user/allelections' element={sessionStorage.role == 'ROLE_USER' ?<><NavbarUser/><AllElections/></>: renderHomePage()} />
+        <Route path='/user/allelections/active' element={sessionStorage.role == 'ROLE_USER' ?<><NavbarUser/><AllElectionsActive/></>: renderHomePage()} />
+        <Route path='/elections/:electionID' element={sessionStorage.role == 'ROLE_ADMIN' || 'ROLE_USER' ?<><Navbar/><GetOneElection/></>: renderHomePage()} />
+        <Route path='/results' element={sessionStorage.role == 'ROLE_ADMIN' || 'ROLE_USER' ?<><Navbar/><VoteResults/></>: renderHomePage()} />
         <Route path='*' element={renderHomePage()} />
+
       </Routes>
     </Router>
   );
 }
 
 export default App;
+
+
+// <Route path='/getallcandidates' element={<><Navbar/><GetAllCandidates editPossibility="true"/></>} />
+// <Route path='/addcandidate' element={<><Navbar/><AddCandidate/></>} />
+// <Route path='/createelection' element={<><Navbar/><CreateElection/></>} />
+// <Route path='/allelections' element={<><Navbar/><AllElections/></>} />
+// <Route path='/user/allelections' element={<><NavbarUser/><AllElections/></>} />
+// <Route path='/user/allelections/active' element={<><NavbarUser/><AllElectionsActive/></>} />
+// <Route path='/elections/:electionID' element={<><Navbar/><GetOneElection/></>} />
+// <Route path='*' element={renderHomePage()} />
+//   {/* <Route path='http://localhost:8080/'  element={<><Navbar/> <StartAdmin/></>} /> */}
+//    {/* <Route path='/start/admin'  element={<><Navbar/> <StartAdmin/></>} /> */}

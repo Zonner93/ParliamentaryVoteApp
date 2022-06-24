@@ -21,16 +21,17 @@ function NavbarUser(){
             <ul>
 
                  <MenuItem
-                    name="Wyświetl wszystkie głosowania"
-                    route="/user/allelections"
-                    goTo={goToPath}
-                />
-                {/* <MenuItem
-                    name="Wyświetl wszystkich kandydatów"
-                    route="/getallcandidates"
+                    name="Wyświetl aktywne głosowania"
+                    route="/user/allelections/active"
                     goTo={goToPath}
                 />
                 <MenuItem
+                    name="Zobacz wyniki wszystkich głosowań"
+                    route="/allelections"
+                    goTo={goToPath}
+                />
+
+                {/* <MenuItem
                     name="Dodaj Kandydata"
                     route="/addcandidate"
                     goTo={goToPath}

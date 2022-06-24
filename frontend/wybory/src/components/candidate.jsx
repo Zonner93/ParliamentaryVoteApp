@@ -26,8 +26,14 @@ function createEditBtn () {
 }
 
 function displayIcon(){
-   return props.icon === 'bin' ? <DeleteIcon/> : <AddIcon />
+    if(sessionStorage.role === "ROLE_ADMIN"){
+        return props.icon === 'bin' ? <DeleteIcon/> : <AddIcon />
+    } else {
+        return props.icon === 'bin' ? <p>głosuj</p> : null
+    }
+
 }
+const a = true
 
 return (
 
@@ -42,6 +48,7 @@ return (
             }>{displayIcon()}</a>
         {createEditBtn()}
         </div>
+
     </li>
 
 )

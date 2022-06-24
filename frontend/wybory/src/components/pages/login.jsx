@@ -86,14 +86,17 @@ export default function Login(props) {
     }
 
     function renderStart(role) {
-      debugger
+    
       if(role === 'ROLE_USER' ){
         navigate( '/start/user')
+        window.location.reload(false);
       } else if (role === 'ROLE_ADMIN'){
         navigate( '/start/admin')
+        window.location.reload(false);
 
       } else {
         navigate( '/login')
+        window.location.reload(false);
 
       }
     }

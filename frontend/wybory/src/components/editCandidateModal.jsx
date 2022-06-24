@@ -51,7 +51,11 @@ function EditCandidateModal(props){
         axios({
             method:'patch',
             url:'http://localhost:8080/api/candidates/'+id,
-            data: editedCandidate
+            data: editedCandidate,
+            auth: {
+              username: sessionStorage.email,
+              password: sessionStorage.password
+              }
         }).then(
             function(response){
                 candidate.updateCandidate()

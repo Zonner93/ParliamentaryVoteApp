@@ -24,8 +24,8 @@ import {NotificationContainer, NotificationManager} from 'react-notifications';
         boxShadow: 24,
         p: 4,
       };
-      
-      const data = props.electionInfoData
+
+  const data = props.electionInfoData
 
   const[electionInfo, setElectionInfo] = useState(data)
   const[editedElectionInfo, setEditedElectionInfo] = useState(data)
@@ -51,7 +51,11 @@ import {NotificationContainer, NotificationManager} from 'react-notifications';
         axios({
             method:'patch',
             url: 'http://localhost:8080/api/elections/'+id,
-            data: editedElectionInfo
+            data: editedElectionInfo,
+            auth: {
+              username: sessionStorage.email,
+              password: sessionStorage.password
+              }
         }).then(function(response){
             props.updateElectionInfo()
             handleClose()
