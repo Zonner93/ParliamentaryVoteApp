@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
-    protected void validateIfUserAlreadyExistsByEmail(String userEmail) {
+    public void validateIfUserAlreadyExistsByEmail(String userEmail) {
         List<User> userList = userRepository.findByEmail(userEmail);
         if (!userList.isEmpty()) {
             throw new UserException(UserError.USER_WITH_EMAIL_PROVIDED_ALREADY_EXISTS);

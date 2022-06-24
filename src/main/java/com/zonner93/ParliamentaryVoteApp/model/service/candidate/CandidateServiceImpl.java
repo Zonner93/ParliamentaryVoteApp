@@ -98,7 +98,6 @@ public class CandidateServiceImpl implements CandidateService {
         validateId(candidateId);
         validateIfCandidateExists(candidateId);
         Candidate currentCandidate = candidateRepository.findById(candidateId);
-//        TODO: Rzucić wyjątkiem gdy authentication jest nullem
         String userEmail = authentication.getName();
         User user = userRepository.findByEmail(userEmail).get(0);
         validateIfUserAlreadyVotedForGivenCandidate(currentCandidate.getElectionId(), user);
