@@ -9,9 +9,11 @@ import { NotificationManager } from "react-notifications";
 function CreateElection() {
 
 var today = new Date();
-var date = today.toISOString().split('T')[0]
+var date = today.toISOString().replace('Z', '').slice(0,19);
+// date = date.replace('Z', '').replace(/\.*/, '');
 
 
+console.log(today.toISOString())
 const navigate = useNavigate();
 
 const[electionDataInput, setElectionDataInput] = useState({
@@ -23,21 +25,20 @@ const[electionDataInput, setElectionDataInput] = useState({
 
 function handleChange(event){
     setElectionDataInput(function(prevValue){
-        const{name,value} = event.target
+        const {name,value} = event.target;
         return { ...prevValue, [name]:value }
     })
 }
 
 function createElection(newElection) {
-    console.log(newElection)
-   axios({
+    let election = newElection;
+    election.startDate = newElection.startDate.replace('T', ' ');
+    election.endDate = newElection.endDate.replace('T', ' ');
+    console.log(election)
+    axios({
         method:"post",
         url: 'http://localhost:8080/api/elections',
-        data: {    
-        "startDate":newElection.startDate + ' 12:00:00',
-        "endDate": newElection.endDate + ' 12:00:00',
-        "name": newElection.name,
-        "description": newElection.description},
+        data: election,
         auth: {
 			username: sessionStorage.email,
 			password: sessionStorage.password
@@ -53,8 +54,8 @@ function createElection(newElection) {
     return(<>
 
             <TextField name ="name" id="standard-basic" label="Nazwa" variant="standard" value={electionDataInput.name} onChange={handleChange} />
-            <TextField type="date" name ="startDate" id="standard-basic" label="Data rozpoczęcia" variant="standard" value={electionDataInput.startDate} onChange={handleChange}/>
-            <TextField type="date" name ="endDate" id="standard-basic" label="Data zakończenia" variant="standard" value={electionDataInput.endDate} onChange={handleChange}/>
+            <TextField type="datetime-local" name ="startDate" id="standard-basic" label="Data rozpoczęcia" variant="standard" value={electionDataInput.startDate} onChange={handleChange}/>
+            <TextField type="datetime-local" name ="endDate" id="standard-basic" label="Data zakończenia" variant="standard" value={electionDataInput.endDate} onChange={handleChange}/>
             <TextField name ="description" id="standard-basic" label="Opis" variant="standard" value={electionDataInput.description} onChange={handleChange}/>
             <Button onClick={function(event){
                createElection(electionDataInput)

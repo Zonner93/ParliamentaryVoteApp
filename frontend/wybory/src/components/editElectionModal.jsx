@@ -47,11 +47,13 @@ import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 
     function patchElection(id){
-     console.log(id)
+        let election = editedElectionInfo;
+        election.startDate = editedElectionInfo.startDate.replace('T', ' ');
+        election.endDate = editedElectionInfo.endDate.replace('T', ' ');
         axios({
             method:'patch',
             url: 'http://localhost:8080/api/elections/'+id,
-            data: editedElectionInfo,
+            data: election,
             auth: {
               username: sessionStorage.email,
               password: sessionStorage.password
@@ -92,8 +94,8 @@ import {NotificationContainer, NotificationManager} from 'react-notifications';
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
           </Typography>
             <TextField name ="name" id="standard-basic" label="Nazwa" variant="standard" value={editedElectionInfo.name} onChange={handleChange} />
-            <TextField type="date" name ="startDate" id="standard-basic" label="Data rozpoczęcia" variant="standard" value={editedElectionInfo.startDate} onChange={handleChange}/>
-            <TextField type="date" name ="endDate" id="standard-basic" label="Data zakończenia" variant="standard" value={editedElectionInfo.endDate} onChange={handleChange}/>
+            <TextField type="datetime-local" name ="startDate" id="standard-basic" label="Data rozpoczęcia" variant="standard" value={editedElectionInfo.startDate} onChange={handleChange}/>
+            <TextField type="datetime-local" name ="endDate" id="standard-basic" label="Data zakończenia" variant="standard" value={editedElectionInfo.endDate} onChange={handleChange}/>
             <TextField name ="description" id="standard-basic" label="Opis" variant="standard" value={editedElectionInfo.description} onChange={handleChange}/>
 
             <Button variant="text" onClick={function(event){patchElection(props.electionInfoData.id); event.preventDefault()}}>Zapisz zmiany</Button>

@@ -26,10 +26,18 @@ function createEditBtn () {
 }
 
 function displayIcon(){
+    let x;
+    if(props.voteResult != undefined) {
+        x = props.voteResult(props.id);
+    }
     if(sessionStorage.role === "ROLE_ADMIN"){
         return props.icon === 'bin' ? <DeleteIcon/> : <AddIcon />
     } else {
-        return props.icon === 'bin' ? <p>głosuj</p> : null
+        if(x != undefined) {
+            return (<p>{x}</p>)
+        } else {
+            return props.icon === 'bin' ? <p>głosuj</p> : null
+        }
     }
 
 }

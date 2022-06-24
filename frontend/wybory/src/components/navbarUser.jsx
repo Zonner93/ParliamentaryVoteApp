@@ -27,7 +27,7 @@ function NavbarUser(){
                 />
                 <MenuItem
                     name="Zobacz wyniki wszystkich głosowań"
-                    route="/allelections"
+                    route="/user/allelections/finished"
                     goTo={goToPath}
                 />
 

@@ -18,6 +18,7 @@ import 'react-notifications/lib/notifications.css';
 import CryptoJS from 'crypto-js';
 import HomePage from './components/pages/homepage';
 import VoteResults from './components/pages/voteResults';
+import AllFinishedElections from './components/pages/allFinishedElections';
 
 
 function App() {
@@ -101,8 +102,9 @@ function App() {
         {/* <Route path='/allelections' element={ sessionStorage.role == 'ROLE_USER' ?<><NavbarUser/><AllElections/></>: renderHomePage()} /> */}
         <Route path='/user/allelections' element={sessionStorage.role == 'ROLE_USER' ?<><NavbarUser/><AllElections/></>: renderHomePage()} />
         <Route path='/user/allelections/active' element={sessionStorage.role == 'ROLE_USER' ?<><NavbarUser/><AllElectionsActive/></>: renderHomePage()} />
+        <Route path='/user/allelections/finished' element={sessionStorage.role == 'ROLE_USER' ?<><NavbarUser/><AllFinishedElections/></>: renderHomePage()} />
         <Route path='/elections/:electionID' element={sessionStorage.role == 'ROLE_ADMIN' || 'ROLE_USER' ? sessionStorage.role == 'ROLE_ADMIN' ? <><Navbar/><GetOneElection/></>: <><NavbarUser/><GetOneElection/></> : renderHomePage()} />
-        <Route path='/results' element={sessionStorage.role == 'ROLE_ADMIN' || 'ROLE_USER' ? <><Navbar/><VoteResults/></>: renderHomePage()} />
+        <Route path='/results/:electionID' element={sessionStorage.role == 'ROLE_USER' ? <><NavbarUser/><VoteResults/></>: renderHomePage()} />
         <Route path='*' element={renderHomePage()} />
 
       </Routes>

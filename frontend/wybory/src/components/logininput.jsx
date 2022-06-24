@@ -39,6 +39,7 @@ function LoginInput(props) {
               fullWidth 
               id="outlined-basic" label="Login" name="login" value={currentInput.login} onChange={handleChange} placeholder="Wprowadź login" />
         <TextField margin="normal"
+            type="password"
               required
               fullWidth  id="outlined-basic" label="Hasło" name="password" value={currentInput.password} onChange={handleChange} placeholder="Wprowadź hasło"/>
         <Button  type="submit"
