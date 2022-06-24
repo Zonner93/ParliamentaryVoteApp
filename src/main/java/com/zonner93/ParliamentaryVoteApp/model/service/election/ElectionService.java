@@ -13,6 +13,8 @@ public interface ElectionService {
 
     List<Election> getActiveElectionList();
 
+    List<Election> getFinishedElectionList();
+
     List<Election> getElectionListByName(String name);
 
     Election getElectionById(long id);
