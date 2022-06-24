@@ -96,11 +96,13 @@ function App() {
         <Route path='/getallcandidates' element={ sessionStorage.role == 'ROLE_ADMIN' ? <><Navbar/><GetAllCandidates editPossibility="true"/></>: renderHomePage()} />
         <Route path='/addcandidate' element={ sessionStorage.role == 'ROLE_ADMIN' ?<><Navbar/><AddCandidate/></>: renderHomePage()} />
         <Route path='/createelection' element={ sessionStorage.role == 'ROLE_ADMIN' ?<><Navbar/><CreateElection/></>: renderHomePage()} />
-        <Route path='/allelections' element={ sessionStorage.role == 'ROLE_ADMIN' || 'ROLE_USER' ?<><Navbar/><AllElections/></>: renderHomePage()} />
+        {/* <Route path='/allelections' element={ sessionStorage.role == 'ROLE_USER' ?<><NavbarUser/><AllElections/></>: renderHomePage()} /> */}
+        <Route path='/allelections' element={ sessionStorage.role == 'ROLE_ADMIN' || 'ROLE_USER' ? sessionStorage.role == 'ROLE_ADMIN' ? <><Navbar/><AllElections/></> : <><NavbarUser/><AllElections/></> : renderHomePage()} />
+        {/* <Route path='/allelections' element={ sessionStorage.role == 'ROLE_USER' ?<><NavbarUser/><AllElections/></>: renderHomePage()} /> */}
         <Route path='/user/allelections' element={sessionStorage.role == 'ROLE_USER' ?<><NavbarUser/><AllElections/></>: renderHomePage()} />
         <Route path='/user/allelections/active' element={sessionStorage.role == 'ROLE_USER' ?<><NavbarUser/><AllElectionsActive/></>: renderHomePage()} />
-        <Route path='/elections/:electionID' element={sessionStorage.role == 'ROLE_ADMIN' || 'ROLE_USER' ?<><Navbar/><GetOneElection/></>: renderHomePage()} />
-        <Route path='/results' element={sessionStorage.role == 'ROLE_ADMIN' || 'ROLE_USER' ?<><Navbar/><VoteResults/></>: renderHomePage()} />
+        <Route path='/elections/:electionID' element={sessionStorage.role == 'ROLE_ADMIN' || 'ROLE_USER' ? sessionStorage.role == 'ROLE_ADMIN' ? <><Navbar/><GetOneElection/></>: <><NavbarUser/><GetOneElection/></> : renderHomePage()} />
+        <Route path='/results' element={sessionStorage.role == 'ROLE_ADMIN' || 'ROLE_USER' ? <><Navbar/><VoteResults/></>: renderHomePage()} />
         <Route path='*' element={renderHomePage()} />
 
       </Routes>

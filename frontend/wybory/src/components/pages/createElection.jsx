@@ -36,8 +36,8 @@ function createElection(newElection) {
         data: {    
         "startDate":newElection.startDate + ' 12:00:00',
         "endDate": newElection.endDate + ' 12:00:00',
-        "name": "",
-        "description": "" },
+        "name": newElection.name,
+        "description": newElection.description},
         auth: {
 			username: sessionStorage.email,
 			password: sessionStorage.password
