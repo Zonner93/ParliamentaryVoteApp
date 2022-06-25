@@ -3,10 +3,7 @@ package com.zonner93.ParliamentaryVoteApp.model.controller;
 import com.zonner93.ParliamentaryVoteApp.model.entity.User;
 import com.zonner93.ParliamentaryVoteApp.model.service.user.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,5 +16,10 @@ public class UserController {
     public void createUser(@RequestBody User user) {
         user.setRole("ROLE_USER");
         userService.createUser(user);
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public void deleteUserById(@PathVariable long id) {
+        userService.deleteCandidateById(id);
     }
 }
