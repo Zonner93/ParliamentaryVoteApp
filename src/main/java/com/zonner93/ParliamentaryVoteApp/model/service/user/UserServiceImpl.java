@@ -27,6 +27,14 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    @Override
+    public void deleteCandidateById(long id) {
+        if (!userRepository.existsById(id)) {
+            throw new UserException(UserError.USER_DOES_NOT_EXISTS);
+        }
+        userRepository.deleteById(id);
+    }
+
     protected void validateIfUserAlreadyExistsByEmail(String userEmail) {
         List<User> userList = userRepository.findByEmail(userEmail);
         if (!userList.isEmpty()) {
