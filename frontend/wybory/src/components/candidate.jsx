@@ -5,11 +5,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import AddCandidateModal from "./addCandidateModal";
 import EditCandidateModal from "./editCandidateModal";
+import "./candidate.css"
 
 function Candidate(props) {
 
 function createEditBtn () {
-    if (props.editPossibility)
+    if (props.editPossibility) {
         return(
             <>
             <span></span>
@@ -23,6 +24,8 @@ function createEditBtn () {
                     </a>
             </>
         )
+
+    }
 }
 
 function displayIcon(){
@@ -45,12 +48,12 @@ const a = true
 
 return (
 
-    <li class="table-row">
-      <div class="col col-1" data-label="Job Id">{props.id}</div>
-      <div class="col col-2" data-label="Customer Name">{props.firstName}</div>
-      <div class="col col-3" data-label="Amount">{props.lastName}</div>
-      <div class="col col-4" data-label="Payment Status">{props.politicalGroup}</div>
-      <div class="col col-5 button"><a onClick={function(){
+    <li className="table-row">
+      <div className="col col-1" data-label="Job Id" title={props.id}>{props.id}</div>
+      <div className="col col-2" data-label="Customer Name"title={props.firstName}>   {props.firstName}</div>
+      <div className="col col-3" data-label="Amount" title={props.lastName}>{props.lastName}</div>
+      <div className="col col-4" data-label="Payment Status" title={props.politicalGroup}>{props.politicalGroup}</div>
+      <div className="col col-5 button"><a onClick={function(){
                 props.action(props.id, props)
             }
             }>{displayIcon()}</a>

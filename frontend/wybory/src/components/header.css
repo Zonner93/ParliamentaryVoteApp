@@ -1,5 +1,5 @@
 .header {
-    height: 100px;
+    height: 150px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -7,8 +7,9 @@
 }
 
 .mainLogo{
-    height: 80px;
+    height: 130px;
     margin: 10px;
+    cursor: pointer;
 }
 
 .mainTitle{
@@ -17,4 +18,21 @@ color: black;
 
 .userLogin{
     width: 136px;
+    text-align: center;
+    background-color: #ddd;
+}
+
+.userName {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.userLoginBtn {
+    cursor: pointer;
+    padding: 5px 0;
+    
+}
+
+.userLoginBtn:hover {
+    font-weight: bold;
 }

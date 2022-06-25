@@ -15,7 +15,6 @@ import Navbar from './components/navbar'
 import NavbarUser from './components/navbarUser'
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
-import CryptoJS from 'crypto-js';
 import HomePage from './components/pages/homepage';
 import VoteResults from './components/pages/voteResults';
 import AllFinishedElections from './components/pages/allFinishedElections';
@@ -41,11 +40,6 @@ function App() {
   }, [user])
   
 
-  // function getUser(user) {
-  //   setUser(user)
-  // }
-
- 
 
   function renderHomePage(){
     

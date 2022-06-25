@@ -46,7 +46,7 @@ h2 small {
     flex-basis: 25%;
 }
 .responsive-table .col-5 {
-    flex-basis: 15%;
+    flex-basis: 10%;
 }
 
 .responsive-table .col-5.button {

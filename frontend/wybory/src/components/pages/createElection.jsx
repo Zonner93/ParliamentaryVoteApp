@@ -9,8 +9,8 @@ import { NotificationManager } from "react-notifications";
 function CreateElection() {
 
 var today = new Date();
-var date = today.toISOString().replace('Z', '').slice(0,19);
-// date = date.replace('Z', '').replace(/\.*/, '');
+var date = today.toISOString().slice(0,10);
+
 
 
 console.log(today.toISOString())
@@ -25,16 +25,30 @@ const[electionDataInput, setElectionDataInput] = useState({
 
 function handleChange(event){
     setElectionDataInput(function(prevValue){
-        const {name,value} = event.target;
+        let {name,value} = event.target;
+        if(name == 'startDate') {
+            const d1 = new Date(value);
+            const d2 = new Date(prevValue.endDate)
+            if(d1 > d2) {
+                value = prevValue.endDate
+            }
+        } else if(name == 'endDate'){
+            const d1 = new Date(value);
+            const d2 = new Date(prevValue.startDate)
+            if(d1 < d2) {
+                value = prevValue.startDate;
+            }
+        }
         return { ...prevValue, [name]:value }
     })
 }
 
 function createElection(newElection) {
-    let election = newElection;
-    election.startDate = newElection.startDate.replace('T', ' ');
-    election.endDate = newElection.endDate.replace('T', ' ');
-    console.log(election)
+    let election = Object.create(newElection);
+    election.name = newElection.name;
+    election.description = newElection.description;
+    election.startDate = newElection.startDate+" 00:00:00";
+    election.endDate = newElection.endDate+" 23:59:59";
     axios({
         method:"post",
         url: 'http://localhost:8080/api/elections',
@@ -54,8 +68,8 @@ function createElection(newElection) {
     return(<>
 
             <TextField name ="name" id="standard-basic" label="Nazwa" variant="standard" value={electionDataInput.name} onChange={handleChange} />
-            <TextField type="datetime-local" name ="startDate" id="standard-basic" label="Data rozpoczęcia" variant="standard" value={electionDataInput.startDate} onChange={handleChange}/>
-            <TextField type="datetime-local" name ="endDate" id="standard-basic" label="Data zakończenia" variant="standard" value={electionDataInput.endDate} onChange={handleChange}/>
+            <TextField type="date" name ="startDate" id="standard-basic" label="Data rozpoczęcia" variant="standard" value={electionDataInput.startDate} onChange={handleChange}/>
+            <TextField type="date" name ="endDate" id="standard-basic" label="Data zakończenia" variant="standard" value={electionDataInput.endDate} onChange={handleChange}/>
             <TextField name ="description" id="standard-basic" label="Opis" variant="standard" value={electionDataInput.description} onChange={handleChange}/>
             <Button onClick={function(event){
                createElection(electionDataInput)

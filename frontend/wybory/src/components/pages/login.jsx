@@ -88,10 +88,10 @@ export default function Login(props) {
     function renderStart(role) {
     
       if(role === 'ROLE_USER' ){
-        navigate( '/start/user')
+        navigate( '/')
         window.location.reload(false);
       } else if (role === 'ROLE_ADMIN'){
-        navigate( '/start/admin')
+        navigate( '/')
         window.location.reload(false);
 
       } else {

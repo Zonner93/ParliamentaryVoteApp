@@ -25,7 +25,18 @@ import {NotificationContainer, NotificationManager} from 'react-notifications';
         p: 4,
       };
 
-  const data = props.electionInfoData
+      debugger
+  let data = props.electionInfoData
+
+  if(!Array.isArray(data)){
+   data = Object.create(props.electionInfoData);
+   data.id = props.electionInfoData.id;
+   data.name = props.electionInfoData.name;
+   data.description = props.electionInfoData.description;
+   data.candidateList = props.electionInfoData.candidateList;
+   data.startDate = props.electionInfoData.startDate.slice(0,10);
+   data.endDate = props.electionInfoData.endDate.slice(0,10);
+  }
 
   const[electionInfo, setElectionInfo] = useState(data)
   const[editedElectionInfo, setEditedElectionInfo] = useState(data)
@@ -37,7 +48,20 @@ import {NotificationContainer, NotificationManager} from 'react-notifications';
     const{name, value} = event.target
     console.log(name + value)
     setEditedElectionInfo(function(prevValue){
-        console.log()
+      let {name,value} = event.target;
+      if(name == 'startDate') {
+          const d1 = new Date(value);
+          const d2 = new Date(prevValue.endDate)
+          if(d1 > d2) {
+              value = prevValue.endDate
+          }
+      } else if(name == 'endDate') {
+          const d1 = new Date(value);
+          const d2 = new Date(prevValue.startDate)
+          if(d1 < d2) {
+              value = prevValue.startDate;
+          }
+      }
         return {
             ...prevValue,
             [name] : value
@@ -47,9 +71,14 @@ import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 
     function patchElection(id){
-        let election = editedElectionInfo;
-        election.startDate = editedElectionInfo.startDate.replace('T', ' ');
-        election.endDate = editedElectionInfo.endDate.replace('T', ' ');
+      let election = Object.create(editedElectionInfo);
+      election.id = editedElectionInfo.id;
+      election.name = editedElectionInfo.name;
+      election.description = editedElectionInfo.description;
+      election.candidateList = editedElectionInfo.candidateList;
+      election.startDate = editedElectionInfo.startDate+" 00:00:00";
+      election.endDate = editedElectionInfo.endDate+" 23:59:59";
+       console.log(editedElectionInfo)
         axios({
             method:'patch',
             url: 'http://localhost:8080/api/elections/'+id,
@@ -76,7 +105,11 @@ import {NotificationContainer, NotificationManager} from 'react-notifications';
   const handleOpen = () => {setOpen(true)
     setEditedElectionInfo(data)}
 
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+  setOpen(false)
+
+  }
+  ;
 
   return (
     <div>
@@ -94,8 +127,8 @@ import {NotificationContainer, NotificationManager} from 'react-notifications';
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
           </Typography>
             <TextField name ="name" id="standard-basic" label="Nazwa" variant="standard" value={editedElectionInfo.name} onChange={handleChange} />
-            <TextField type="datetime-local" name ="startDate" id="standard-basic" label="Data rozpoczęcia" variant="standard" value={editedElectionInfo.startDate} onChange={handleChange}/>
-            <TextField type="datetime-local" name ="endDate" id="standard-basic" label="Data zakończenia" variant="standard" value={editedElectionInfo.endDate} onChange={handleChange}/>
+            <TextField type="date" name ="startDate" id="standard-basic" label="Data rozpoczęcia" variant="standard" value={editedElectionInfo.startDate} onChange={handleChange}/>
+            <TextField type="date" name ="endDate" id="standard-basic" label="Data zakończenia" variant="standard" value={editedElectionInfo.endDate} onChange={handleChange}/>
             <TextField name ="description" id="standard-basic" label="Opis" variant="standard" value={editedElectionInfo.description} onChange={handleChange}/>
 
             <Button variant="text" onClick={function(event){patchElection(props.electionInfoData.id); event.preventDefault()}}>Zapisz zmiany</Button>

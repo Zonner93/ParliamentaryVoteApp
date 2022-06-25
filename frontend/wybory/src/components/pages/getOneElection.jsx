@@ -33,7 +33,18 @@ function getOneElection(){
 			password: sessionStorage.password
 		  }
     }).then(function(response){
-        setOneElection(response.data)
+        setOneElection(function(){
+            debugger
+            let election = Object.create(response.data);
+            election.id = response.data.id;
+            election.name = response.data.name;
+            election.description = response.data.description;
+            election.candidateList = response.data.candidateList;
+            election.startDate = response.data.startDate.replace("T"," ");
+            election.endDate = response.data.endDate.replace("T"," ");
+            return election
+        })
+        console.log(response.data)
         setCandList(response.data.candidateList)
     }).catch(function(err){
         NotificationManager.error(err.message)
@@ -59,10 +70,12 @@ function getOneElection(){
 
 function changeCandList(candidate) {
     setCandList(function(prevValue) {
-        if(candidate)
-        return [
-            ...prevValue,
-            candidate]
+        if(candidate) {
+            return [
+                ...prevValue,
+                candidate]
+
+        }
     })
 }
 
@@ -114,6 +127,7 @@ function action(){
     }
 }
 
+
     return  (<>
     <p>ID:{oneElection.id}</p>
     <p>Nazwa : {oneElection.name}</p>
@@ -124,13 +138,13 @@ function action(){
 
     { sessionStorage.role === "ROLE_ADMIN" ? <>
 
-    <EditElectionModal electionInfoData ={oneElection} updateElectionInfo={updateElectionInfo}/>
+    <EditElectionModal  electionInfoData ={oneElection} updateElectionInfo={updateElectionInfo}/>
     <Button variant='outlined' onClick={function(event){
         deleteElection(oneElection.id)
         event.preventDefault();
     }
     }> Usuń głosowanie</Button>
-    <AddCandidateModal id={oneElection.id} changeCandList={changeCandList}/>
+    <AddCandidateModal refresh = {getOneElection} id={oneElection.id} changeCandList={changeCandList}/>
     </>
     : null }
 

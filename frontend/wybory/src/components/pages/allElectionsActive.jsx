@@ -46,8 +46,8 @@ function showDetails(electionId){
                 return <Election
                     key={singleElection.id}
                     id={singleElection.id}
-                    startDate={singleElection.startDate.slice(0,10)}
-                    endDate={singleElection.endDate.slice(0,10)}
+                    startDate={singleElection.startDate}
+                    endDate={singleElection.endDate}
                     name={singleElection.name}
                     details={showDetails}
                 />

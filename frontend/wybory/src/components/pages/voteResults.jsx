@@ -79,10 +79,12 @@ function getOneElection(){
 
 function changeCandList(candidate) {
     setCandList(function(prevValue) {
-        if(candidate)
-        return [
-            ...prevValue,
-            candidate]
+        if(candidate) {
+            return [
+                ...prevValue,
+                candidate]
+
+        }
     })
 }
 

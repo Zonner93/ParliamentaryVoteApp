@@ -74,6 +74,7 @@ function AddCandidateModal(props) {
 }
     function handleClose() {
         setOpen(false)
+        props.refresh()
     };
 
   function addCandidateToElection(id, candidateProps) {
@@ -126,7 +127,7 @@ function AddCandidateModal(props) {
 	  </li>
 	{
 		allCandidates.map(function (singleCandidate) {
-            if(singleCandidate.electionId == 0)
+            if(singleCandidate.electionId == 0) {
 		        return (
                 <Candidate
                 key={singleCandidate.id}
@@ -139,6 +140,8 @@ function AddCandidateModal(props) {
                 icon="plus"
                 action={addCandidateToElection}
             />)
+
+            }
         })
 	}
 
