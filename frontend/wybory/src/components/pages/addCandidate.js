@@ -4,6 +4,7 @@ import './addCandidate.css'
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
+import Typography from '@mui/material/Typography';
 
 
 const AddCandidate = () => {
@@ -59,10 +60,15 @@ function addCandidate(newCandidateData){
 return (
 	<div className='wrapper'>
 	<div className='addCandidate'>
-	<h1>Dodaj kandydata</h1>
+	<Typography id="modal-modal-title" variant="h4" component="h2">
+            Dodaj kandydata
+          </Typography>
+	<div className='wrapperInputs'>
 		<TextField  type="text" name ="firstName" id="standard-basic" label="Imię" variant="standard" value={newCandidateData.firstName} onChange={handleChange}/>
 		<TextField  name ="lastName" id="standard-basic" label="Nazwisko" variant="standard" value={newCandidateData.lastName} onChange={handleChange}/>
 		<TextField  name ="politicalGroup" id="standard-basic" label="Partia " variant="standard" value={newCandidateData.politicalGroup} onChange={handleChange}/>
+		</div>
+		<div className='controller'>
 		<Button variant="contained" onClick={function(event){
 			addCandidate(newCandidateData)
 			setNewCandidateData({
@@ -72,6 +78,7 @@ return (
 			})
 			event.preventDefault()
 		}}>Dodaj kandydata </Button>
+		</div>
 
 	</div>
 

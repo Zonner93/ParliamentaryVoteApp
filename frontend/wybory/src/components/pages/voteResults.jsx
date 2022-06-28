@@ -37,7 +37,6 @@ function voteResults(){
 			password: sessionStorage.password
 		  }
     }).then(function(response){
-        console.log(response.data)
         setVoteResults(response.data)
     }).catch(function(err){
         NotificationManager.error(err.message)
@@ -137,40 +136,24 @@ function action(){
 }
 
 function getVoteResult(id) {
-    debugger
+    
     for(const i in allVoteResults){
         if(i == id){
             return allVoteResults[i]
-        } else {
-            return 0
         }
     }
+    return 0
 }
 
     return  (<>
+    <div className="wrapperElection">
+    <h1>{oneElection.name}</h1>
     <p>ID:{oneElection.id}</p>
-    <p>Nazwa : {oneElection.name}</p>
     <p>Data rozpoczęcia : {oneElection.startDate}</p>
     <p>Data zakończenia : {oneElection.endDate}</p>
     <p>Opis : {oneElection.description}</p>
+</div>
 
-
-    { sessionStorage.role === "ROLE_ADMIN" ? <>
-
-    <EditElectionModal electionInfoData ={oneElection} updateElectionInfo={updateElectionInfo}/>
-    <Button variant='outlined' onClick={function(event){
-        deleteElection(oneElection.id)
-        event.preventDefault();
-    }
-    }> Usuń głosowanie</Button>
-    <AddCandidateModal id={oneElection.id} changeCandList={changeCandList}/>
-    </>
-    : null }
-
-
-
-
-    <p>Lista kandydatów:</p>
     <div className="container">
         <ul className="responsive-table">
             <li className="table-header">

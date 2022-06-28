@@ -1,19 +1,9 @@
-.wrapper {
-    height: calc(100vh - 182px);
-    width: 100%;
-    position: relative;
-}
 .addCandidate {
-    position: absolute;
-    top:50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    height: 80%;
     width: 40%;
-    border-radius: 15px;
-    background-color: royalblue;
-
+    border-radius: 20px;
+    background-color: #ddd;
+    padding: 40px;
+    margin: 150px 30%;
     
 }
 

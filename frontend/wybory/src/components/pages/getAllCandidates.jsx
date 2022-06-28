@@ -23,13 +23,9 @@ function getAllCandidates(){
 		  }
 		// url: 'http://localhost:8080/login'
 	}).then(function(response) {
-		debugger
+		
 			setAllCandidates(response.data)
-			console.log(CryptoJS.AES.encrypt('haslo', 'token'));
-			console.log(CryptoJS.AES.decrypt(CryptoJS.AES.encrypt('haslo', 'token'), 'token').toString(CryptoJS.enc.Utf8));
-
-			console.log(allCandidates)
-			}
+	}
 		);
 }
 
@@ -46,7 +42,6 @@ function deleteCandidate(id, candidateProps){
 			password: sessionStorage.password
 		  }
 		}).then(function(response) {
-			console.log("Usunięto kandydata")
 			NotificationManager.success( "Pomyślnie usunięto kandydata")
 			getAllCandidates()
 			}
@@ -54,7 +49,7 @@ function deleteCandidate(id, candidateProps){
 			if(err.response.status === 0){
 			NotificationManager.error("Błąd sieci. " + err.message)
 		} else if(candidateProps.electionId !== 0){
-			NotificationManager.error(err.message +"\nNie można usunąć - kandydat przypisany do elekcji")
+			NotificationManager.error("Nie można usunąć.\n Kandydat przypisany do elekcji.")
 		}else{
 			NotificationManager.error(err.message)
 		}

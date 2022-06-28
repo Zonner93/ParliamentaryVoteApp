@@ -46,8 +46,6 @@ function AddCandidateModal(props) {
               }
         }).then(function(response) {
                 setAllCandidates(response.data)
-                console.log("getAllCandidateswww")
-                console.log(response.data)
                 }
             );
     }
@@ -87,13 +85,12 @@ function AddCandidateModal(props) {
           password: sessionStorage.password
           }
   }).then(function(response){
-    NotificationManager.success(response.status + "Pomyślnie dodano kandydata do głosowania")
+    NotificationManager.success("Pomyślnie dodano kandydata do głosowania.")
 
     changeCandList( allCandidates.find((candidate) => candidate.id == id))
 
     setAllCandidates(function(){
         return allCandidates.filter(function(x){
-            console.log(x.id + "\\" + id);
             return x.id  !== id
         })
     })
@@ -104,7 +101,7 @@ function AddCandidateModal(props) {
 
   return (
     <div>
-      <Button variant = "outlined" onClick={handleOpen}>Dodaj kandata do głosowania</Button>
+      <Button variant = "contained" onClick={handleOpen}>Dodaj kandata do głosowania</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -112,8 +109,8 @@ function AddCandidateModal(props) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Wbierz kandata, którego chcesz dodać do głosowania
+          <Typography id="modal-modal-title" variant="h3" component="h2">
+            Dodaj kandydata do głosowania
           </Typography>
 {/* dodawanie listy kandydatów */}
 <div className="container scroller">

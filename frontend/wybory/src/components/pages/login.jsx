@@ -104,10 +104,6 @@ export default function Login(props) {
 
   const handleSubmit = (event) => {
     const data = new FormData(event.currentTarget);
-    // console.log({
-    //   email: data.get('email'),
-    //   password: data.get('password'),
-    // });
   };
 
   return (
@@ -126,14 +122,14 @@ export default function Login(props) {
             {/* <LockOutlinedIcon /> */}
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Zaloguj się
           </Typography>
           <Box component="div" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
 
           <LoginInput login={login}/>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
+       
       </Container>
     </ThemeProvider>
   );

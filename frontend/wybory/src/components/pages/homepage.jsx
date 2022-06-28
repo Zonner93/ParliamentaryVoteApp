@@ -32,7 +32,7 @@ function HomePage() {
     return(
         <>
         {renderHello()}
-        {!sessionStorage.role
+        {/* {!sessionStorage.role
         ?
         <button onClick={function(event){
             event.preventDefault();
@@ -40,7 +40,7 @@ function HomePage() {
         }}> Login</button>
         : null
         }
-        
+         */}
         </>
     )
 }

@@ -13,7 +13,6 @@ import TextField from '@mui/material/TextField';
 
 
 function EditCandidateModal(props){
-    console.log(props)
     const[open, setOpen] = useState(false);
     const[candidate,setCandidate]= useState(props.candidateData)
     const[editedCandidate, setEditedCandidate] = useState(props.candidateData)
@@ -24,7 +23,7 @@ function EditCandidateModal(props){
         left: '50%',
         transform: 'translate(-50%, -50%)',
         width: 1000,
-        height: 200,
+        height: 150,
         bgcolor: 'background.paper',
         border: '2px solid #000',
         boxShadow: 24,
@@ -85,14 +84,18 @@ return(
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
+          <Typography id="modal-modal-title" variant="h4" component="h2">
             Edycja danych kandydata
           </Typography>
+          <div className='wrapperInputs'>
           <TextField name ="firstName" id="standard-basic" label="Imię" variant="standard" value={editedCandidate.firstName} onChange={handleChange} />
           <TextField name ="lastName" id="standard-basic" label="Nazwisko" variant="standard" value={editedCandidate.lastName} onChange={handleChange}/>
           <TextField name ="politicalGroup" id="standard-basic" label="Partia" variant="standard" value={editedCandidate.politicalGroup} onChange={handleChange}/>
-          <Button variant="text" onClick={function(event){patchCandidate(editedCandidate.id); event.preventDefault()}}>Zapisz zmiany</Button>
-          <Button variant="text" onClick={function(event){cancelChanges(); event.preventDefault()}}>Anuluj</Button>
+          </div>
+          <div className='controller'>
+          <Button variant="contained" onClick={function(event){patchCandidate(editedCandidate.id); event.preventDefault()}}>Zapisz</Button>
+          <Button variant="contained" onClick={function(event){cancelChanges(); event.preventDefault()}}>Anuluj</Button>
+          </div>
         </Box>
        </Modal>
 </>)

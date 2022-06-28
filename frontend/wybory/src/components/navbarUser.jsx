@@ -11,8 +11,9 @@ function NavbarUser(){
  const navigate = useNavigate();
 
     function goToPath(route) {
-        console.log(route)
         navigate(route);
+        window.location.reload(false);
+
 
     }
  

@@ -4,6 +4,7 @@ import {Navigate, useNavigate } from "react-router-dom"
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { NotificationManager } from "react-notifications";
+import Typography from '@mui/material/Typography';
 
 
 function CreateElection() {
@@ -12,8 +13,6 @@ var today = new Date();
 var date = today.toISOString().slice(0,10);
 
 
-
-console.log(today.toISOString())
 const navigate = useNavigate();
 
 const[electionDataInput, setElectionDataInput] = useState({
@@ -67,15 +66,26 @@ function createElection(newElection) {
 
     return(<>
 
+        <div className="wrapperBig">
+        <Typography id="modal-modal-title" variant="h4" component="h2">
+            Dodaj głosowanie
+          </Typography>
+            <div className="wrapperInputs">
             <TextField name ="name" id="standard-basic" label="Nazwa" variant="standard" value={electionDataInput.name} onChange={handleChange} />
             <TextField type="date" name ="startDate" id="standard-basic" label="Data rozpoczęcia" variant="standard" value={electionDataInput.startDate} onChange={handleChange}/>
             <TextField type="date" name ="endDate" id="standard-basic" label="Data zakończenia" variant="standard" value={electionDataInput.endDate} onChange={handleChange}/>
             <TextField name ="description" id="standard-basic" label="Opis" variant="standard" value={electionDataInput.description} onChange={handleChange}/>
-            <Button onClick={function(event){
+                
+            </div>
+            <div className="controller">
+            <Button variant="contained" onClick={function(event){
                createElection(electionDataInput)
                event.preventDefault()
                }
                }> Utwórz głosowanie</Button>
+
+            </div>
+        </div>
         </>
     )
 }

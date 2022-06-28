@@ -18,14 +18,14 @@ import {NotificationContainer, NotificationManager} from 'react-notifications';
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 800,
+        width: 1000,
         bgcolor: 'background.paper',
         border: '2px solid #000',
         boxShadow: 24,
         p: 4,
       };
 
-      debugger
+      
   let data = props.electionInfoData
 
   if(!Array.isArray(data)){
@@ -46,7 +46,6 @@ import {NotificationContainer, NotificationManager} from 'react-notifications';
 
     function handleChange(event){
     const{name, value} = event.target
-    console.log(name + value)
     setEditedElectionInfo(function(prevValue){
       let {name,value} = event.target;
       if(name == 'startDate') {
@@ -78,7 +77,6 @@ import {NotificationContainer, NotificationManager} from 'react-notifications';
       election.candidateList = editedElectionInfo.candidateList;
       election.startDate = editedElectionInfo.startDate+" 00:00:00";
       election.endDate = editedElectionInfo.endDate+" 23:59:59";
-       console.log(editedElectionInfo)
         axios({
             method:'patch',
             url: 'http://localhost:8080/api/elections/'+id,
@@ -97,12 +95,13 @@ import {NotificationContainer, NotificationManager} from 'react-notifications';
     }
 
     function cancelChanges(){
-        console.log(electionInfo)
         setEditedElectionInfo(electionInfo);
         handleClose()
     }
 
-  const handleOpen = () => {setOpen(true)
+  const handleOpen = async () => {setOpen(true)
+    await props.refresh()
+    debugger
     setEditedElectionInfo(data)}
 
   const handleClose = () => {
@@ -113,7 +112,7 @@ import {NotificationContainer, NotificationManager} from 'react-notifications';
 
   return (
     <div>
-      <Button onClick={handleOpen}>Edytuj głosowanie</Button>
+      <Button variant='contained' onClick={handleOpen}>Edytuj głosowanie</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -121,18 +120,21 @@ import {NotificationContainer, NotificationManager} from 'react-notifications';
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
+          <Typography id="modal-modal-title" variant="h4" component="h2">
             Edycja głosowania
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
           </Typography>
+          <div className='wrapperInputs'>
             <TextField name ="name" id="standard-basic" label="Nazwa" variant="standard" value={editedElectionInfo.name} onChange={handleChange} />
             <TextField type="date" name ="startDate" id="standard-basic" label="Data rozpoczęcia" variant="standard" value={editedElectionInfo.startDate} onChange={handleChange}/>
             <TextField type="date" name ="endDate" id="standard-basic" label="Data zakończenia" variant="standard" value={editedElectionInfo.endDate} onChange={handleChange}/>
             <TextField name ="description" id="standard-basic" label="Opis" variant="standard" value={editedElectionInfo.description} onChange={handleChange}/>
-
-            <Button variant="text" onClick={function(event){patchElection(props.electionInfoData.id); event.preventDefault()}}>Zapisz zmiany</Button>
-            <Button variant="text" onClick={function(event){cancelChanges(); event.preventDefault()}}>Anuluj</Button>
+          </div>
+          <div className='controller'>
+            <Button variant="contained" onClick={function(event){patchElection(props.electionInfoData.id); event.preventDefault()}}>Zapisz zmiany</Button>
+            <Button variant="contained" onClick={function(event){cancelChanges(); event.preventDefault()}}>Anuluj</Button>
+            </div>
         </Box>
       </Modal>
     </div>

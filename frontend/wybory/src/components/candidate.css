@@ -2,3 +2,20 @@
     overflow-x: hidden;
     text-overflow: ellipsis;
 }
+
+.col>* {
+    padding: 0 10px;
+}
+
+.col>*:hover {
+    cursor: pointer;
+}
+
+.table-row {
+    background-color: #ddd !important;
+}
+
+.basic {
+    cursor: auto;
+}
+

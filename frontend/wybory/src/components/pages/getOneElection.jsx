@@ -11,6 +11,7 @@ import AddCandidateModal from "../addCandidateModal.jsx";
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 import EditElectionModal from "../editElectionModal.jsx";
+import './getOneElection.css';
 
 
 
@@ -34,7 +35,7 @@ function getOneElection(){
 		  }
     }).then(function(response){
         setOneElection(function(){
-            debugger
+            
             let election = Object.create(response.data);
             election.id = response.data.id;
             election.name = response.data.name;
@@ -44,7 +45,6 @@ function getOneElection(){
             election.endDate = response.data.endDate.replace("T"," ");
             return election
         })
-        console.log(response.data)
         setCandList(response.data.candidateList)
     }).catch(function(err){
         NotificationManager.error(err.message)
@@ -89,7 +89,7 @@ function deleteFromList(id) {
 		  }
     })
    .then(function(response) {
-        NotificationManager.success(response.status + "Pomyślnie usunięto kandydata")
+        NotificationManager.success("Pomyślnie usunięto kandydata z głosowania.")
         getOneElection();
     })
     .catch(function(err){
@@ -103,7 +103,7 @@ function updateElectionInfo(){
 }
 
 function voteForCandidate(id){
-
+    debugger
     axios({
         method: 'POST',
         url: 'http://localhost:8080/api/candidates/vote/'+id,
@@ -112,9 +112,14 @@ function voteForCandidate(id){
 			password: sessionStorage.password
 		  }
     }).then(function(response){
-        NotificationManager.success("Pomyślnie oddano głos")
+        NotificationManager.success("Pomyślnie oddano głos.")
         }).catch(function(err){
-            NotificationManager.error(err.message)
+            if(err.response.status == 400) {
+                NotificationManager.error("W tym głosowaniu oddano już głos.")
+            } else {
+
+                NotificationManager.error(err.message)
+            }
         })
 
 }
@@ -129,29 +134,32 @@ function action(){
 
 
     return  (<>
+    <div className="wrapperElection">
+    <h1>{oneElection.name}</h1>
     <p>ID:{oneElection.id}</p>
-    <p>Nazwa : {oneElection.name}</p>
     <p>Data rozpoczęcia : {oneElection.startDate}</p>
     <p>Data zakończenia : {oneElection.endDate}</p>
     <p>Opis : {oneElection.description}</p>
 
-
+    <div className="controller">
     { sessionStorage.role === "ROLE_ADMIN" ? <>
 
-    <EditElectionModal  electionInfoData ={oneElection} updateElectionInfo={updateElectionInfo}/>
-    <Button variant='outlined' onClick={function(event){
+    <EditElectionModal variant='contained' refresh={getOneElection} electionInfoData ={oneElection} updateElectionInfo={updateElectionInfo}/>
+    <AddCandidateModal refresh = {getOneElection} id={oneElection.id} changeCandList={changeCandList}/>
+    <div>
+    <Button variant='contained' onClick={function(event){
         deleteElection(oneElection.id)
         event.preventDefault();
     }
     }> Usuń głosowanie</Button>
-    <AddCandidateModal refresh = {getOneElection} id={oneElection.id} changeCandList={changeCandList}/>
+    </div>
+    
     </>
     : null }
+    </div>
+    </div>
 
 
-
-
-    <p>Lista kandydatów:</p>
     <div className="container">
         <ul className="responsive-table">
             <li className="table-header">

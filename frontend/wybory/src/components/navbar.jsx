@@ -11,7 +11,6 @@ function Navbar() {
 
     
 function goToPath(route) {
-	console.log(route)
 	navigate(route);
 
 }

@@ -1,0 +1,45 @@
+.wrapperElection {
+    text-align: center;
+    padding: 20px;
+    width: 40%;
+    margin: 0 30%;
+    margin-top: 60px;
+    background-color:  #ddd;
+    border-radius: 20px;
+}
+
+.controller {
+    display: flex;
+    justify-content: center;
+
+}
+
+.controller>* {
+   margin: 0 15px !important;
+}
+
+
+
+.controller>*:hover {
+background-color: #fff;
+cursor: pointer;
+}
+
+.wrapperInputs {
+    display: flex;
+    justify-content: center;
+    margin: 15px 0;
+}
+
+.wrapperInputs>* {
+    margin: 5px 10px !important;
+
+}
+
+.wrapperBig {
+    width: 40%;
+    margin: 150px 30%;
+    background-color: #ddd;
+    padding: 40px;
+    border-radius: 20px;
+}
